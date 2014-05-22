@@ -1,0 +1,31 @@
+{% set sidebar_name = "红包列表" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>奖励设置列表</h2>
+    <a href="/bonus/create"><input class='btn btn-large btn-primary' value="添加红包"></a>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllData(), 
+            'filterModel':model, 
+            'columns':{
+                0:'bonus_id',
+                1:'cp_id',
+                2:'bonus_name',
+                3:{'attribute':'start_date','filter':false,'format':['date','Y-m-d']},
+                4:{'attribute':'end_date','filter':false,'format':['date','Y-m-d']},
+                6:{'attribute':'bonus_threshold','filter':false},
+                8:{'attribute':'bonus_value','filter':false},
+                9:{'attribute':'bonus_date','filter':false,'format':['date','Y-m-d']},
+                12:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{delete}',
+                },
+}})
+
+}}
+{% endblock %}
+</div>

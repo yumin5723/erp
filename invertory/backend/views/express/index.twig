@@ -1,0 +1,32 @@
+{% set sidebar_name = "运费模板" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>模板列表</h2>
+    <a href="/express/create"><input class='btn btn-large btn-primary' value="添加运费模板"></a><br/>
+    <span style="color:red">**注**只能设置一个默认运费模板</span>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllData(), 
+            'columns':{
+                0:'shipping_id',
+                3:{'attribute':'shipping_name','filter':false},
+                5:'address',
+                7:'ifdefault',
+                1:'cp_id',
+                2:'shipping_code',
+                4:{'attribute':'shipping_desc','filter':false},
+                6:{'attribute':'shipping_status','filter':false,'value':model.tplStatus},
+                8:{'attribute':'shipping_status','filter':false,'label':'操作模板状态','value':model.changeStatus,'format':'html'},
+                12:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{adetail}{update}{delete}',
+                },
+}})
+
+}}
+{% endblock %}
+</div>

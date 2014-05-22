@@ -1,0 +1,92 @@
+{% set sidebar_name = "广告添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>广告添加</h2>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.showAdDetail(label_id), 
+            'columns':{
+                0:'label_detail_id',
+                1:{'attribute':'detail_picture','value':model.showImg,'format':'html'},
+                3:{'attribute':'detail_value'},
+                4:'detail_count',
+                6:'detail_order',
+                8:'detail_status',
+                7:{
+                    'attribute':'detail_time',
+                    'format':['date', 'Y-m-d'],
+                }, 
+                15:{
+                    'attribute':'detail_update_time',
+                    'format':['date', 'Y-m-d'],
+                }, 
+                18:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{updetail}{deldetail}',
+                },
+}})
+
+}}
+<div class="container">
+    <div class="row">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            <input type="hidden" name="AdDetail[label_id]" value="{{ label_id }}" />
+            <div style="position:static;height:30px"></div>
+            {% if isNew  == true %}
+            <input type="hidden" name="AdDetail[detail_picture]" value="" id="addetail-detail_picture"/>
+            <input type="hidden" name="AdDetail[detail_thumb]" value="" id="addetail-detail_thumb"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="100px" src="" />
+                    </div>
+            </div>
+
+            {% else %}
+            <input type="hidden" name="AdDetail[detail_picture]" value="{{ model.detail_picture }}" id="addetail-detail_picture"/>
+            <input type="hidden" name="AdDetail[detail_thumb]" value="{{ model.detail_thumb }}" id="addetail-detail_thumb"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="100px" src="{{ staticUrl }}{{ model.detail_picture }}" />
+                    </div>
+            </div>
+            {% endif %}
+            {{ form.field(model,'detail_value')|raw }}
+            {{ form.field(model,'detail_count')|raw }}
+            {{ form.field(model,'detail_order')|raw }}
+            {{ form.field(model,'detail_status').radioList({'0':'隐藏','1':'显示'})|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+            <div class="frm" style="position:absolute;top:320px;left:250px;padding-bottom:20px;padding-top:80px;">
+                <label class="control-label" for="brandback-brand_logo">LOGO图片</label>
+                <form name="upload" id="uploadFrom" action="/ad/uploadfile" method="post"  target="tarframe" enctype="multipart/form-data">
+                    <input type="file" id="upload_file" name="upload">
+                </form>
+                <iframe src=""  width="0" height="0" style="display:none;" name="tarframe"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function(){
+     $("#upload_file").change(function(){
+       $("#uploadFrom").submit();
+     });
+    });
+
+    function stopSend(img,url,thumb){
+        $("#addetail-detail_picture").val(url);
+        $("#addetail-detail_thumb").val(thumb);
+        $(".top_image").attr("src",img);
+    }
+</script>
+{% endblock %}
+</div>

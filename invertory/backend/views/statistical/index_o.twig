@@ -1,0 +1,25 @@
+{% set menu_name="statistical"%}
+{% set sidebar_name = "运营相关统计" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h3>运营相关统计</h3>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            'id':'app-grid', 
+            'dataProvider':data, 
+            'columns':{
+                0:'id',
+                1:'statistics_date',
+                2:'register_nums',
+                3:'lottery_nums',
+                4:'auction_nums',
+                5:'posts',
+                6:'ask_nums',
+                7:'health_nums',
+                8:'create_date',
+                
+}})
+
+}}
+{% endblock %}
+</div>

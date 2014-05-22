@@ -1,0 +1,20 @@
+{% set sidebar_name = "页面TDK" %}
+{% set menu_name = "seo" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>TDK添加</h2>
+{% block content %}
+            
+            {% set form = activeform.begin({'id':'create-form','layout':'horizontal'}) %}
+            {{ form.field(model,'tdk_name')|raw }}
+            {{ form.field(model,'title')|raw }}
+            {{ form.field(model,'keywords').textArea({'row':2})|raw }}
+            {{ form.field(model,'description').textArea({'row':2})|raw }}
+            {{ form.field(model,'scenarios').textArea({'row':2})|raw }}
+            <div class="form-group"><label for="seo-scenarios" class="control-label col-sm-3"></label>
+                <div class="col-sm-6">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div></div>
+            {{ void(form.end()) }}
+{% endblock %}
+</div>

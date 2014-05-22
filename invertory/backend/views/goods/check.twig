@@ -1,0 +1,74 @@
+{% set sidebar_name = "商品状态" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>商品状态</h2>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllStatus(), 
+            'filterModel':model, 
+            'columns':{
+                22:{
+                    'class' : '\\yii\\grid\\CheckboxColumn',
+                    'options':{'width':'40px'},
+                    'footer' : '<button type="button" onclick="GetCheckbox();" style="width:76px">批量删除</button>',
+                    'name':'selection[]',
+                    'checkboxOptions':{'name':'selection[]',},
+                },
+                0:'goods_status_id',
+                1:'goods_id',
+                3:{'attribute':'is_on_sale'},
+                4:'is_best',
+                6:'is_new',
+                8:{'attribute':'is_hot','value':model.isHot("is_hot"),},
+                9:'is_promote',
+                10:'activity_id',
+                12:{
+                    'attribute':'update_date',
+                    'format':['date', 'Y-m-d'],
+                }, 
+                13:'is_delete',
+                18:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{updatest}{delete}',
+                },
+}})
+
+}}
+
+<button type="button" onclick="GetCheckbox('del');" style="width:76px">批量删除</button>
+<button type="button" onclick="GetCheckbox('up');" style="width:76px">批量上架</button>
+<button type="button" onclick="GetCheckbox('down');" style="width:76px">批量下架</button>
+<script type="text/javascript"> 
+/*<![CDATA[*/ 
+function GetCheckbox(act){
+    var data=[]; 
+    $("input[name='selection[]']:checkbox").each(function (){ 
+        // alert($(this).attr("checked"));
+        if($(this).prop("checked")){ //after jquery 1.6v new property
+            data.push($(this).val()); 
+        } 
+    }); 
+    if(data.length > 0){ 
+        if(act == 'del'){
+            url = '/goods/checkall?act=del';
+        }else if(act =='up'){
+            url = '/goods/checkall?act=up';
+        }else{
+            url = '/goods/checkall?act=down';
+        }
+        $.post(url,{'selection[]':data}, function (data) { 
+            alert("有"+data+"件商品操作成功！");
+            window.location.reload();
+        }); 
+    }else{ 
+        alert("请选择要上架的商品ID!"); 
+    } 
+}
+/*]]>*/ 
+</script> 
+{% endblock %}
+</div>

@@ -1,0 +1,33 @@
+{% set menu_name="seo"%}
+{% set sidebar_name = "论坛标签TDK" %}
+{% include "../layouts/header.twig" %}
+  {% block content %}
+<div class="content"> 
+    <div class="container-fluid">
+    <div class="row-fluid">
+      {{ 
+
+        widget('\\yii\\grid\\GridView', {         
+            'id':'app-grid', 
+            'dataProvider':model.getAllData(id),
+            'columns':{
+                0:{
+                  'attribute':'typeid',
+                },
+                1:{
+                  'attribute':"name",
+                },
+                7:
+                {
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{addmore}',
+                    'buttons':{},
+                }
+}})
+
+}}
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

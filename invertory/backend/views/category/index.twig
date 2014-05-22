@@ -1,0 +1,26 @@
+{% set sidebar_name = "分类列表" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>分类列表</h2>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            'id':'app-grid', 
+            'dataProvider':model.getAllRoots(), 
+            'columns':{
+                0:'id',
+                1:'root',
+                2:'name',
+                3:'short_name',
+                4:{'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{view}{show}',
+                    },
+                5:{
+                    'label':'操作',
+                    'value':model.getUrl,
+                },
+}})
+
+}}
+{% endblock %}
+</div>

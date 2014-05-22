@@ -1,0 +1,50 @@
+{% set sidebar_name = "红包添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h3>红包添加</h3>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'bonus_name')|raw }}
+            {{ form.field(model,'cp_id')|raw }}
+            {{ form.field(model,'start_date').widget('\\yii\\jui\\DatePicker',{'name' : 'start_date',
+                'attribute' : 'start_date', 
+                'model':model,
+                'options':{'class':'form-control'},
+                'clientOptions' : 
+                {
+                    'dateFormat' : 'yy-mm-dd',
+                    'changeMonth':true,
+                    'changeYear':true,
+                    'yearRange':'-1:+25',   
+                },
+                })|raw
+            }}
+            {{ form.field(model,'end_date').widget('\\yii\\jui\\DatePicker',{'name' : 'end_date',
+                'attribute' : 'end_date',
+                'model' : model,
+                'options':{'class':'form-control'},
+                'clientOptions' : 
+                {
+                    'dateFormat' : 'yy-mm-dd', 
+                       'changeMonth':true,
+                    'changeYear':true,
+                    'yearRange':'-1:+25',
+                }})|raw
+            }}
+            {{ form.field(model,'bonus_threshold')|raw }}
+            {{ form.field(model,'bonus_value')|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+</div>

@@ -1,0 +1,48 @@
+{% set sidebar_name = "品牌列表" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>品牌列表</h2>
+    <a href="/brand/create"><input class='btn btn-large btn-primary' value="添加品牌"></a>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllData(), 
+            'filterModel':model, 
+            'columns':{
+                0:'brand_id',
+                1:'cat_id',
+                2:'brand_name',
+                3:{
+                    'attribute':'brand_logo',
+                    'filter':false,
+                    'value':model.logoUrl,
+                    'format':'html',
+                },
+                6:{'attribute':'brand_desc','filter':false},
+                8:{'attribute':'brand_url','filter':false},
+                9:{'attribute':'brand_word','filter':false},
+                10:{
+                    'attribute':'show_nav',
+                    'filter':false,
+                    'value':'if($model->show_nav ==1){return "是";}else{return "否";}'|value_callback,
+                    'format':'html'
+                },
+                11:{
+                    'attribute':'is_show',
+                    'filter':false,
+                    'value':'if($model->is_show ==1){return "是";}else{return "否";}'|value_callback
+                }, 
+                13:'is_delete',
+                12:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{view}{delete}',
+                    'header':'操作',
+                },
+}})
+
+}}
+{% endblock %}
+</div>

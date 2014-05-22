@@ -1,0 +1,87 @@
+{% set sidebar_name = "商品列表" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>商品列表</h2>
+    <input type="button" onclick="javascript:window.location.href='/goods/create'" value="添加新商品" class="btn btn-primary add_btn">
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':dataProvider, 
+            'filterModel':model, 
+            'columns':{
+                22:{
+                    'class' : '\\yii\\grid\\CheckboxColumn',
+                    'options':{'width':'40px'},
+                    'footer' : '<button type="button" onclick="GetCheckbox();" style="width:76px">批量删除</button>',
+                    'name':'selection[]',
+                    'checkboxOptions':{'name':'selection[]',},
+                },
+                0:'goods_id',
+                1:'goods_name',
+                2:'cp_id',
+                3:{
+                    'attribute':'cat_id',
+                    'value':'cat_id',
+                },
+                4:{'attribute':'brand_id','value':model.getBrandName,},
+                6:'goods_brief',
+                8:{'attribute':'goods_img','value':model.showImg,'format':'html'},
+                10:{
+                    'attribute':'is_real',
+                    'format':'html',
+                    'value':'if($model->is_real == 1){return "是";}else{return "否";}'|value_callback,
+                },
+                11:{'attribute':'shipping_type','value':model.getExpType,},
+                12:{'attribute':'shipping_type_parameter','value':model.getExpressName,},
+                13:'integral',
+                14:'give_integral',
+                17:'depot',
+                15:{
+                    'attribute':'add_time',
+                    'format':['date', 'Y-m-d'],
+                }, 
+                18:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{check} {add-attribute-value} {update-attribute-value} {update} {view} {add-sku-value} {update-sku-value}',
+                    'buttons':{},
+                    'header':'操作',
+                },
+}})|raw
+
+}}
+<button type="button" onclick="GetCheckbox('del');" style="width:76px">批量删除</button>
+<button type="button" onclick="GetCheckbox('up');" style="width:76px">批量上架</button>
+<button type="button" onclick="GetCheckbox('down');" style="width:76px">批量下架</button>
+<script type="text/javascript"> 
+/*<![CDATA[*/ 
+function GetCheckbox(act){
+    var data=[]; 
+    $("input[name='selection[]']:checkbox").each(function (){ 
+        // alert($(this).attr("checked"));
+        if($(this).prop("checked")){ //after jquery 1.6v new property
+            data.push($(this).val()); 
+        } 
+    }); 
+    if(data.length > 0){ 
+        if(act == 'del'){
+            url = '/goods/checkall?act=del';
+        }else if(act =='up'){
+            url = '/goods/checkall?act=up';
+        }else{
+            url = '/goods/checkall?act=down';
+        }
+        $.post(url,{'selection[]':data}, function (data) { 
+            alert("有"+data+"件商品操作成功！");
+            window.location.reload();
+        }); 
+    }else{ 
+        alert("请选择要上架的商品ID!"); 
+    } 
+}
+/*]]>*/ 
+</script> 
+{% endblock %}
+</div>

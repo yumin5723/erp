@@ -1,0 +1,24 @@
+{% set sidebar_name = "关键词添加" %}
+{% set menu_name = "species" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h3>关键词添加</h3>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'spe_id')|raw }}
+            {{ form.field(model,'spe_title')|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+</div>

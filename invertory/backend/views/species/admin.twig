@@ -1,0 +1,24 @@
+{% set menu_name="species"%}
+{% set sidebar_name = "关键词列表" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h3>关键词列表</h3>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            'id':'app-grid', 
+            'dataProvider':model.getAllData(), 
+            'filterModel':model, 
+            'columns':{
+                0:'id',
+                1:'spe_id',
+                2:'spe_title',
+                3:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{delete}',
+                },
+                
+}})
+
+}}
+{% endblock %}
+</div>

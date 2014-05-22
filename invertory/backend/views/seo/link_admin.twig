@@ -1,0 +1,41 @@
+{% set menu_name="seo"%}
+{% set sidebar_name = "友情链接" %}
+{% include "../layouts/header.twig" %}
+{% block content %}
+<div class="content">
+    {% for name,role in App.authManager.getRolesByUser(App.user.id) %}
+        {% if name == "superadmin" %}
+         <h4>链接块添加</h4>
+        <div class="container">
+            <div class="row">
+                <div class="form">
+                {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+                {{ form.field(model,'name')|raw }}
+                <div class="form-group">
+                            <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+                </div>
+                {{ void(form.end()) }}
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <h4>友情链接块</h4>
+      {{
+  widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllDatas(), 
+            'columns':{
+                0:'id',
+                1:'name',
+                4:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{updatelinkblock}{addlink}',
+                },
+}})
+
+}}
+</div>
+{% endblock %}

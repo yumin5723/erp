@@ -1,0 +1,28 @@
+{% set sidebar_name = "分类添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<style type="text/css">
+#ke_demo{ width:700px; height:200px;}
+</style>
+<div class="content">
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            分类添加
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal form-horizontal'}}) %}
+                {{ form.field(model, "name")|raw }}
+                {{ form.field(model, "short_name")|raw }}
+                {{ form.field(model, "description")|raw }}
+                    <div class="control-group">
+                      <div class="controls">
+                        <button type="submit" class="btn btn-large btn-primary">submit</button>
+                      </div>
+                    </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+</div>

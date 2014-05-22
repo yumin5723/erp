@@ -1,0 +1,29 @@
+{% set sidebar_name = "运费模板添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>运费模板设置</h2>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            <span style="color:red">**注**只能设置一个默认运费模板</span>
+            {% set form = activeform.begin({'id':'create-form','layout':'horizontal','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'shipping_name')|raw }}
+            {{ form.field(model,'address')|raw }}
+            {{ form.field(model,'ifdefault').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'cp_id')|raw }}
+            {{ form.field(model,'shipping_code')|raw }}
+            {{ form.field(model,'shipping_desc')|raw }}
+            {{ form.field(model,'shipping_status').radioList({'0':'关闭','1':'开启','2':'删除'})|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+</div>

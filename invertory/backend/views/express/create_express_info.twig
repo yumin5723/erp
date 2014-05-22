@@ -1,0 +1,192 @@
+{% set sidebar_name = "运费模板添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<style type="text/css">
+    #cities{
+        border:1px solid #C4D5DF;
+        width: 661px;
+        height:450px;
+        background: #fff;
+        position: absolute;
+        display: none;
+    }
+    #cities .title{
+        background: #E9F1F4;
+        border-width: 1px;
+        border-style: solid;
+        border-color: white white #C4D5DF;
+    }
+    #button{
+        float: right;
+        text-decoration: none;
+        margin-right: 5px;
+    }
+    #cities .contents{
+        border:1px solid #C4D5DF;
+        width: 660px;
+        height:380px;
+        overflow-y:auto;}
+    #cities .rows{
+        padding: 5px;
+    }
+    #cities .rows .headers,
+    #cities .rows .detail{
+        display: inline-block;
+    }
+    #cities .rows .headers{
+        width: 80px;
+    }
+    #cities .rows .detail{
+        width: 550px;
+    }
+    .tbl-except .input-text {
+        text-align: right;
+        width: 4em;
+    }
+</style>
+<div class="content">
+    <h2>添加</h2>
+    <input type="button" class="btn btn-primary add_btn" value="运费添加" onclick="javascript:window.location.href='/express/adetail/{{ shipping_id }}'">
+    <span style="color:red">如果一些城市未被设置默认走全国（全国必须设置）！</span>
+    {{
+    widget('\\yii\\grid\\GridView', {
+    'id':'app-grid',
+    'class':'grid-view',
+    'dataProvider':model.getAllConfigData(shipping_id),
+    'columns':{
+        0:'config_id',
+        1:'shipping_id',
+        2:{'attribute':'area_id','value':model.getCityName},
+        3:{'attribute':'first_weight'},
+        4:'first_weight_price',
+        5:'continued_weight',
+        6:'continued_weight_price',
+        7:{
+            'attribute':'no_first_weight',
+            'value':model.noFirstWeightStatus(),
+        },
+        8:'basic_fee',
+        9:'no_shipping_price',
+        10:{
+        'class':'\\common\\extensions\\Grid\\GridActionColumn',
+        'template':'{updetail}{deldetail}',
+        },
+    }})
+    }}
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="form">
+                {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            <input type="hidden" name="ExpressArea[shipping_id]" value="{{ shipping_id }}" />
+                <input type="hidden" name="ExpressArea[area_id]" value="{% if area_id is defined %}{{ area_id }}{% endif %}" class="sel_ID">
+                <div class="form-group field-expressarea-area_id required">
+                    <label for="expressarea-area_id" class="control-label">地区</label>
+                    <div id="expressarea-area_id">{% if cityNames is defined %}{{ cityNames }}{% endif %}</div>
+                </div>
+                <a title="edit" onclick="return show();" href="javascript:;" class="edit">请选择</a><span class="area-group"></span>
+                <div class="cities" id="cities" style="display:none;">
+                    <div class="title"><a id="button" href="javascript:;" onclick="return show();">X</a>
+                        <a onclick='$("#cities .content").html(area_content);$(\"#areaCss\").css(\"color\",\"red\");$(\"#cityCss\").removeAttr(\"style\");' id='areaCss'>选择区域</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick='$(\"#cities .content\").html(city_content);$(\"#cityCss\").css(\"color\",\"red\");$(\"#areaCss\").removeAttr(\"style\");' id='cityCss'>选择城市</a></div>
+                    <div class="contents">
+                        {% for k,v in areas %}
+                            <div class="rows" {% if k % 2 == 0 %}style="background-color:#E9F1F4"{% endif %}>
+                                <label class="headers"><input type="checkbox" value="{{ v.id }}" class="leader">{{ v.name }}</label>
+                                {% if v.city is defined %}
+                                    <div class="detail">
+                                        {% for ck,cv in v.city %}
+                                            <label>
+                                                <input type="hidden" class="area_class_{{ ck }}" value="1">
+                                                <input type="hidden" class="city_exid_{{ ck }}" id="city_exid" value="{{ cv }}">
+                                                <input type="checkbox" class="city" value="{{ ck }}">{{ cv }}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="tool-bar"><input type="button" id="apply" value="应用"/><input type="button" id="button" onmousedown="javascript:;" onclick="return show();" value="取消"/></div>
+                </div>
+                {{ form.field(model,'first_weight')|raw }}
+                {{ form.field(model,'first_weight_price')|raw }}
+                {{ form.field(model,'continued_weight')|raw }}
+                {{ form.field(model,'continued_weight_price')|raw }}
+                {{ form.field(model,'no_first_weight').radioList({'0':'否','1':'是'})|raw }}
+                {{ form.field(model,'basic_fee')|raw }}
+                {{ form.field(model,'no_shipping_price')|raw }}
+                <div class="form-group">
+                    <input type='submit' value='提交' class='btn btn-large btn-primary' />
+                </div>
+                {{ void(form.end()) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        function show(){
+            $(".cities").toggle();
+        }
+        function buttonClick(){
+            $(".cities").toggle();
+        }
+        var delimiter = ',';
+        $('#apply').live('click',function(){
+            var string = new Array();
+            var string_id =new Array();
+            var string_cl = new Array();
+            checkedLeaders = $("#cities").find('.leader:checked');
+            $.each(checkedLeaders, function(i,item){
+                $.each($(item).parent().next().find('.city:enabled:checked'),function(i,subitem){
+                    string.push( $(subitem).val());
+                    $.each($(item).parent().next().find('.city_exid_'+$(subitem).val()),function(i,subitemid){
+                        string_id.push( $(subitemid).val());
+                    });
+                });
+
+            });
+
+            uncheckedLeaders = $("#cities").find('.leader').not(':checked');
+            $.each(uncheckedLeaders, function(i,item){
+                $.each($(item).parent().next().find('.city:enabled:checked'),function(i,subitem){
+                    string.push( $(subitem).val());
+                    if( $(subitem).val() )
+                    {
+                        $.each($(item).parent().next().find('.city_exid_'+$(subitem).val()),function(i,subitemid){
+                            string_id.push( $(subitemid).val());
+                        });
+                    }
+
+                });
+            });
+            if(string.length>=0){
+                $("#cities").parent().find('.sel_ID').val(string.join(delimiter));
+            }
+            if(string_id.length>=0){
+                $("#cities").parent().find('#expressarea-area_id').text(string_id.join(delimiter));
+            }
+            $("#button").click();
+        });
+
+        $('#cities .city').live('click',function(){
+            checkLeader(this);
+        });
+        function checkLeader(city){
+            leader = $(city).parent().parent().prev().find('.leader');
+            all_length = $(city).parent().parent().find('.city:enabled').length;
+            checked_length = $(city).parent().parent().find('.city:checked').length;
+            if(checked_length<all_length)
+                leader.prop('checked',false);
+            else
+                leader.prop('checked',true);
+        }
+        $("#cities .leader").live('click',function(){
+            if($(this).prop('checked'))
+                $(this).parent().next().find('.city').prop('checked',true);
+            else
+                $(this).parent().next().find('.city').prop('checked',false);
+        });
+    </script>
+{% endblock %}
+</div>

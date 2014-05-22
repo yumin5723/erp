@@ -1,0 +1,37 @@
+{% set menu_name="bbsad"%}
+{% set sidebar_name = "关键词白名单" %}
+{% include "../layouts/header.twig" %}
+{% block content %}
+<div class="content">
+    <h4>链接块添加</h4>
+    <div class="container">
+        <div class="row">
+            <div class="form">
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'keyword')|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+
+            </div>
+        </div>
+    </div>
+    <h4>友情链接块</h4>
+      {{
+  widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllDatas(), 
+            'columns':{
+                0:'id',
+                1:'keyword',
+                4:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{updatekey}{deletekey}',
+                },
+}})
+
+}}
+</div>
+{% endblock %}

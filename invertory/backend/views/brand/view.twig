@@ -1,0 +1,33 @@
+{% set sidebar_name = "品牌详情" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>品牌详情</h2>
+{% block content %}
+{{  widget('\\yii\\widgets\\DetailView', {           
+            'id':'app-grid', 
+            'model':model, 
+            'attributes':{
+                0:'cat_id',
+                1:'brand_name',
+                2:'brand_logo',
+                3:'brand_thumbs',
+                4:'brand_desc',
+                6:'brand_url',
+                8:'brand_word',
+                9:{
+                    'attribute':'show_nav',
+                    'value':model.show_nav?'是':'否',
+                },
+                10:{
+                    'attribute':'is_show',
+                    'value':model.is_show?'是':'否',
+                },
+                11:{
+                    'attribute':'is_delete',
+                    'value':model.is_delete?'是':'否',
+                },
+        }})
+}}
+{% endblock %}
+</div>

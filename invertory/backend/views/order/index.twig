@@ -1,0 +1,49 @@
+{% set menu_name="mall"%}
+{% set sidebar_name = "订单列表" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h3>订单列表</h3>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView',
+            {
+            'id':'app-grid',
+            'dataProvider':model.selectOrder(),
+            'filterModel':model, 
+            'columns':{
+                0:'order_id',
+                1:'order_sn',
+                2:'uid',
+                3:'order_price',
+                4:'pay_price',
+                5:'ship_price',
+                6:'bonus_price',
+                7:'integral',
+                8:'money_paid',
+                9:'weight',
+                10:'kdgs',
+                11:{
+                    'attribute':'order_status',
+                    'value':model.orderStatus(),
+                },
+                12:{
+                    'attribute' : 'order_date',
+                    'format' :['date', 'Y-m-d H:i:s'],
+                },
+                13:{
+                    'label':'操作订单状态',
+                    'value':model.getOrderStatus(),
+                    'format':'html'
+                },
+                14:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{view}{viewdetail}',
+                    'header':'操作',
+                },
+            }
+            }
+    )
+
+}}
+{% endblock %}
+</div>

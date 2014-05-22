@@ -1,0 +1,26 @@
+{% set sidebar_name = "广告添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>标签添加</h2>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'label_type').dropDownList({'1':'汪星人','2':'喵星人','3':'品牌'})|raw }}
+            {{ form.field(model,'label_name')|raw }}
+            {{ form.field(model,'label_order')|raw }}
+            {{ form.field(model,'label_status').radioList({'0':'隐藏','1':'显示'})|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+</div>

@@ -1,0 +1,42 @@
+{% set menu_name="apk"%}
+{% set sidebar_name = "apk管理" %}
+{% include "../layouts/header.twig" %}
+  {% block content %}
+<div class="content"> 
+    <div class="container-fluid">
+    <div class="row-fluid">
+      {{ 
+
+        widget('\\yii\\grid\\GridView', {         
+            'id':'app-grid', 
+            'dataProvider':dataProvider,
+            'filterModel':searchModel,
+            'columns':{
+                0:{
+                  'attribute':'id',
+                },
+                1:{
+                  'attribute':"name",
+                },
+                2:{
+                  'attribute':'path',
+                },
+                3:{
+                  "attribute":"version",
+                },
+                4:'created',
+                5:'modified',
+                7:
+                {
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}',
+                    'buttons':{},
+                }
+}})
+
+}}
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

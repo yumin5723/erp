@@ -1,0 +1,94 @@
+{% set sidebar_name = "商品添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+
+<script type="text/javascript" src='/js/jquery.prettyPhoto.js'></script>
+<script type="text/javascript" src='/js/jquery.contextMenu.js'></script>
+<script type="text/javascript" src='/js/jquery.ui.position.js'></script>
+
+
+
+<style type="text/css">
+#ke_demo{ width:700px; height:200px;}
+</style>
+<div class="content">
+    <h2>商品添加</h2>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'goods_name')|raw }}
+            {{ form.field(model,'brand_id')|raw }}
+            {{ form.field(model,'cp_id')|raw }}
+            {{ form.field(model,'cat_id').dropDownList(category)|raw }}
+            <!-- {{ form.field(model,'goods_img').fileInput()|raw }}  -->
+            <div class="form-group ">
+                <label for="Game_upload" class="control-label">商品大图上传</label>
+                    <div class="controls">
+                        <span></span>      
+                            <img valign="top" alt="Image" width="30" height="30" title="Image" onClick="insertFileToContent('image','game_image');"  src="/images/insert_image.png" />
+                            <input type="file" name="image" class="hidden" value="" />
+                    </div>
+            </div>
+            {% if isNew  == "false" %}
+            <div class="form-group ">
+                    <div class="controls">
+                        <img class="game_image" src="" />
+                    </div>
+            </div>
+
+            {% else %}
+            <div class="form-group ">
+                    <div class="controls">
+                        <img class="game_image" src="{{ model.image }}" />
+                    </div>
+            </div>
+            {% endif %}
+            {{ form.field(model,'goods_brief').textArea({'row':6})|raw }}
+            {{ form.field(model,'goods_desc').textArea({'row':12,'id':'ke_demo'})|raw }}
+            {{ form.field(model,'is_real').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'shipping_type').radioList({'1':'包邮','2':'不包邮','3':'满金额包','4':'满数量包'})|raw }}
+            {{ form.field(model,'shipping_type_parameter')|raw }}
+            {{ form.field(model,'integral')|raw }}
+            {{ form.field(model,'give_integral')|raw }}
+            {{ form.field(model,'depot')|raw }}
+            {{ form.field(modelStatus,'is_on_sale').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(modelStatus,'is_best').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(modelStatus,'is_new').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(modelStatus,'is_hot').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(modelStatus,'is_promote').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(modelStatus,'activity_id').dropDownList(activity)|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+           $("a[rel^='prettyPhoto']").prettyPhoto({show_title: true,social_tools: '',deeplinking: false});
+      });
+    function insertFileToContent(file_type,id){    
+        $.prettyPhoto.open('../goods/upload?image_id='+ id +'&parent_call=true&ckeditor='+file_type+'&iframe=true&height=400','upload','');        
+    }
+    function afterUploadResourceWithGame(resource_path,image_id){
+        $("#"+image_id).val(resource_path);
+        $("."+image_id).attr("src",resource_path);
+        $.prettyPhoto.close();
+    }
+</script>
+
+<script>
+KindEditor.ready(function(K) {
+    K.create('#ke_demo', {
+        allowFileManager : true
+    });
+});
+</script>
+{% endblock %}
+</div>

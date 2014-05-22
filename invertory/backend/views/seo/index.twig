@@ -1,0 +1,28 @@
+{% set menu_name="seo"%}
+{% set sidebar_name = "页面TDK" %}
+{% include "../layouts/header.twig" %}
+{% block content %}
+<div class="content">
+    <br/>
+    <a href="/seo/create"><input class='btn btn-large btn-primary' value="添加SEO-TDK"></a>
+      {{
+  widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllTdkDatas(), 
+            'columns':{
+                0:'id',
+                1:'tdk_name',
+                2:{'attribute':'title'},
+                3:{'attribute':'keywords'},
+                5:{'attribute':'description'},
+                6:'scenarios',
+                4:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}',
+                },
+}})
+
+}}
+</div>
+{% endblock %}

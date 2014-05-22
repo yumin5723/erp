@@ -1,0 +1,20 @@
+{% set sidebar_name = "添加敏感词" %}
+{% set menu_name = "keyword" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+	{% block content %}
+<div class="site-signup">
+	<h1>添加敏感词</h1>
+	<div class="row">
+		<div class="col-lg-5">
+			 {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            敏感词:<input type="text" name="keyword">
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+		</div>
+	</div>
+</div>
+{% endblock %}
+</div>

@@ -1,0 +1,26 @@
+{% set menu_name = "mall" %}
+{% set sidebar_name = "属性添加" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h5>商品属性添加</h5>
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            {% if hint is defined  %} <span style="color:red"> {{ hint }} </span>{% endif %} {# 如有提示则显示提示 #}
+            <div class="form">
+                {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+                <input type="hidden" name="AttributesBack[cp_id]" value="1" />
+                {{ form.field(model,'attr_name').label(null,{'class':'col-sm-1 control-label'})|raw }}
+                {{ form.field(model,'type_id').label(null,{'class':'col-sm-1 control-label'}).dropDownList(attributeCategory)|raw }}
+                {{ form.field(model,'attr_type').label(null,{'class':'col-sm-1 control-label'}).dropDownList(attributeType)|raw }}
+                {{ form.field(model,'sort_order').label(null,{'class':'col-sm-1 control-label'})|raw }}
+                <div class="form-group">
+                    <input type='submit' value='提交' class='btn btn-large btn-primary' />
+                </div>
+                {{ void(form.end()) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</div>

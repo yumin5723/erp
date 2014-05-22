@@ -1,0 +1,40 @@
+{% set menu_name="mall"%}
+{% set sidebar_name = "类型列表" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h4>商品类型列表</h4>
+    {% block content %}
+        {{widget('\\yii\\grid\\GridView',{
+                'id':'app-grid',
+                'dataProvider':model.selectGoodsType(),
+                'filterModel':model,
+                'columns':{
+                    0:'type_id',
+                    1:{
+                        'attribute':'cp_id',
+                        'value':model.returnCp(),
+                    },
+                    2:'type_name',
+                    3:{
+                        'attribute':'type_group',
+                        'value':model.groupName(),
+                    },
+                    4:{
+                        'attribute':'is_show',
+                        'value':model.typeStatus(),
+                    },
+                    5:{
+                        'label':'操作类型状态',
+                        'value':model.returnTypeStatus(),
+                        'format':'html'
+                    },
+                    6:{
+                        'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                        'template':'{addattribute}{update}',
+                        'header':'操作',
+                    },
+                }
+            })
+        }}
+    {% endblock %}
+</div>

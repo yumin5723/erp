@@ -1,0 +1,8 @@
+include:
+    - frontend
+    - common
+paths:
+    log: log
+settings:
+    colors: true
+    log: true

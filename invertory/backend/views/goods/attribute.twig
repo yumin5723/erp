@@ -1,0 +1,75 @@
+{% set sidebar_name = "商品添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h5>商品属性添加</h5>
+{% block content %}
+<div class="container">
+{{
+    widget('\\yii\\grid\\GridView',
+        {
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.findAttribute(),
+            'filterModel':model,
+            'columns':{
+                0:'attr_id',
+                1:'attr_name',
+                2:'attr_type',
+                3:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{addmore}{update}{view}{delete}',
+                },
+            }
+        })
+
+}}
+	<div class="row">
+		<div class="form">
+			{% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+			<input type="hidden" name="AttributesBack[goods_id]" value="{{ goods_id }}" />
+			<a href='javascript:;' onClick="return add();">添加属性</a>
+            <div id="attr"></div>
+			{{ form.field(model,'attr_name')|raw }}
+			{{ form.field(model,'attr_type')|raw }}
+			{{ form.field(model,'attr_status')|raw }}
+			{# { form.field(model,'goods_type_id').dropDownList(attribute)|raw } #}
+			{{ form.field(model,'sort_order')|raw }}
+			<div class="form-group">
+						<input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+			</div>
+			{{ void(form.end()) }}
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+    var i=$(".picCount").length;
+    function add(){
+        i++;
+        var str = '<div class="picCount" id="pic_'+i+'">';
+            str+='属性:'+i+'<input type="text" value="" name="block[]" />' +
+                '<a onClick="return addAttr(\'pic_'+i+'\');">添加属性值</a>' +
+                '<a onclick="return del(\'pic_'+i+'\');">删除属性值</a>' +
+                '<div class="addA_'+i+'"></div></div>';
+        $("#attr").append(str);
+    }
+    function del(id){
+        $("#"+id).html("");
+    }
+    var j=$(".addAttr").length;
+    function addAttr(id){
+        j++;
+        var str = '<div class="addAttr" id="attr_'+j+'">';
+        str+='<input type="text" class="attr_'+j+'" value="" name="addAttr['+id+'][]" />' +
+             '<a onclick="return delAttr(\'attr_'+j+'\');">删除属性值</a></div>';
+        $(".addA_"+i).append(str);
+    }
+    function delAttr(id){
+        $("#"+id).html("");
+    }
+</script>
+{% endblock %}
+</div>
+
+

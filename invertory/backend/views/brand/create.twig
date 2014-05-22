@@ -1,0 +1,69 @@
+{% set sidebar_name = "品牌添加" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>品牌添加</h2>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'brand_name')|raw }}
+            <div style="position:static;height:80px"></div>
+            {% if isNew  == true %}
+            <input type="hidden" name="BrandBack[brand_logo]" value="" id="brandback-brand_logo"/>
+            <input type="hidden" name="BrandBack[brand_thumbs]" value="" id="brandback-brand_thumbs"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="100px" src="" />
+                    </div>
+            </div>
+
+            {% else %}
+            <input type="hidden" name="BrandBack[brand_logo]" value="{{ model.brand_logo }}" id="brandback-brand_logo"/>
+            <input type="hidden" name="BrandBack[brand_thumbs]" value="{{ model.brand_thumbs }}" id="brandback-brand_thumbs"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="100px" src="{{ staticUrl }}{{ model.brand_logo }}" />
+                    </div>
+            </div>
+            {% endif %}
+            {{ form.field(model,'cat_id').dropDownList(category)|raw }}
+            {{ form.field(model,'brand_desc').textArea({'row':6})|raw }}
+            {{ form.field(model,'brand_url')|raw }}
+            {{ form.field(model,'brand_word')|raw }}
+            {{ form.field(model,'show_nav').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'is_show').radioList({'0':'否','1':'是'})|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+            <div class="frm" style="position:absolute;top:140px;left:250px">
+                <label class="control-label" for="brandback-brand_logo">LOGO图片</label>
+                  <form name="upload" id="uploadFrom" action="/brand/uploadfile" method="post"  target="tarframe" enctype="multipart/form-data">
+                       <input type="file" id="upload_file" name="upload">
+                  </form>
+                  <iframe src=""  width="0" height="0" style="display:none;" name="tarframe"></iframe>
+             </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+     $("#upload_file").change(function(){
+       $("#uploadFrom").submit();
+     });
+    });
+
+    function stopSend(img,url,thumb){
+         $("#brandback-brand_logo").val(url);
+         $("#brandback-brand_thumbs").val(thumb);
+        $(".top_image").attr("src",img);
+    }
+</script>
+{% endblock %}
+</div>

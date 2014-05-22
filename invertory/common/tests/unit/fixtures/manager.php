@@ -1,0 +1,48 @@
+<?php
+
+return array(
+    'manager_demo' => array(
+        'id' => 2,
+        'username' => 'admin',
+        'auth_key' => 'D179fKcB3pJbImNK4Oy279FszUfU7jbS',
+        'password_hash' => '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG',
+        'email'  => 'admin@goumin.com',
+        'role' => 10,
+        'status' => 10,
+        'create_time' => 1389956399,
+        'update_time' => 1389956399,
+    ),
+    'manager_demo3' => array(
+        'id' => 3,
+        'username' => 'testing3',
+        'auth_key' => 'D179fKcB3pJbImNK4Oy279FszUfU7jbS',
+        'password_hash' => '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG',
+        'email'  => 'admin@goumin.com',
+        'role' => 10,
+        'status' => 10,
+        'create_time' => 1389956399,
+        'update_time' => 1389956399,
+    ),
+    'manager_demo4' => array(
+        'id' => 4,
+        'username' => 'testing4',
+        'auth_key' => 'D179fKcB3pJbImNK4Oy279FszUfU7jbS',
+        'password_hash' => '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG',
+        'email'  => 'admin@goumin.com',
+        'role' => 10,
+        'status' => 10,
+        'create_time' => 1389956399,
+        'update_time' => 1389956399,
+    ),
+    'manager_demo5' => array(
+        'id' => 5,
+        'username' => 'testing5',
+        'auth_key' => 'D179fKcB3pJbImNK4Oy279FszUfU7jbS',
+        'password_hash' => '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG',
+        'email'  => 'admin@goumin.com',
+        'role' => 10,
+        'status' => 10,
+        'create_time' => 1389956399,
+        'update_time' => 1389956399,
+    ),
+);

@@ -1,0 +1,37 @@
+{% set sidebar_name = "广告列表" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>广告列表</h2>
+    <a href="/ad/create"><input class='btn btn-large btn-primary' value="添加广告"></a>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllData(), 
+            'filterModel':model, 
+            'columns':{
+                0:'label_id',
+                1:{'attribute':'label_type','value':model.getAdType},
+                2:'label_name',
+                3:{'attribute':'label_order'},
+                4:{'attribute':'label_status','value':model.showStatus},
+                6:{'attribute':'label_status','label':'操作标签状态','value':model.getStatus,'format':'html'},
+                7:{
+                    'attribute':'label_time',
+                    'format':['date', 'Y-m-d'],
+                }, 
+                15:{
+                    'attribute':'label_update_time',
+                    'format':['date', 'Y-m-d'],
+                }, 
+                18:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{adetail}{delete}',
+                },
+}})
+
+}}
+{% endblock %}
+</div>

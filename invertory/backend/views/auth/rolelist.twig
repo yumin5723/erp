@@ -1,0 +1,51 @@
+{% set menu_name = "managers" %}
+{% set sidebar_name = "角色列表" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h3>角色列表</h3>
+{% block content %}
+<a href="/auth/flushperms">create</a>
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllItems(), 
+            'filterModel':model, 
+            'columns':{
+                0:'name',
+                1:{
+                    'attribute':'type',
+                    'format':'html',
+                    'value':'if($model->type == 1){return "Role";}else{return "Operation";}'|value_callback,
+                },
+                3:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{delete}{assign}',
+                    'header':'Actions'
+                },
+}})
+
+}}
+<h4>创建角色Create New Item*</h4>
+    {% if show_error is not empty %}
+        <div class="alert alert-error message">
+            <button data-dismiss="alert" class="close" type="button">×</button>
+            <strong>{{ show_error }}</strong>
+        </div>
+    {% endif %}
+{% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data'}}) %}
+            {{ form.field(model,'name').label(null,{"class":'col-sm-2 control-label'})|raw }}
+            {% if isNew == true %}
+                {{ form.field(model,'type').dropDownList({'1':'Role'}).label(null,{"class":'col-sm-2 control-label'})|raw }}
+            {% else %}
+                {{ form.field(model,'type').dropDownList({'1':'Role'},{'disabled':'disabled'}).label(null,{"class":'col-sm-2 control-label'})|raw }}
+            {% endif %}
+            {{ form.field(model,'description').textArea({'row':2}).label(null,{"class":'col-sm-2 control-label'})|raw }}
+            <!-- {{ form.field(model,'rule_name').label(null,{"class":'col-sm-2 control-label'})|raw }} -->
+            {{ form.field(model,'data').textArea({'row':2}).label(null,{"class":'col-sm-2 control-label'})|raw }}
+            <div class="form-group">
+                    <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+        {{ void(form.end()) }}
+{% endblock %}
+</div>

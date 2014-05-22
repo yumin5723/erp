@@ -1,0 +1,14 @@
+{% set sidebar_name = "商品列表" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>商品列表</h2>
+{% block content %}
+
+{% for k,v in allDatas %}
+    {{ loop.index }}{{ k }}{{ v.goods_name }}
+{% endfor %} 
+
+{{ page|raw }}
+{% endblock %}
+</div>

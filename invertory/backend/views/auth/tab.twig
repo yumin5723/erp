@@ -1,0 +1,53 @@
+<style>
+*{margin:0;padding:0;}
+body{margin:50px;font-size:12px;color:#666;}
+li{list-style:none;}
+div{width:210px;}
+.tab1 ,.tab2{width:398px;height:34px;border:1px #cfedff solid;border-bottom:0;background:url(/jzxy/UploadFiles_333/201008/20100817155557621.gif) repeat-x;}
+.tab1 ul ,.tab2 ul{margin:0;padding:0;}
+.tab1 li,.tab2 li{float:left;padding:0 30px;height:34px;line-height:34px;text-align:center;border-right:1px #ebf7ff solid;cursor:pointer;}
+.tab1 li.now,.tab2 li.now{color:#5299c4;background:#fff;font-weight:bold;}
+.tablist{width:378px;height:100px;padding:10px;font-size:14px;line-height:24px;border:1px #cfedff solid;border-top:0;display:none;}
+.block{display:block;}
+.red{color:#BD0A01;}
+fieldset{width:378px;border:1px #B0C0D1 solid;padding:10px;}
+legend{background:#B0C0D1;padding:4px 10px;color:#fff;}
+#c{margin-top:10px;}
+.c1,.c2{width:378px;line-height:20px;}
+.c1{color:#014CC9;}
+.c2{color:#7E6095;display:none;}
+h3{font-size:16px;padding:5px 0;}
+</style>
+<script  src="/js/tab.js"></script>
+<div class="tab2">
+<ul id="test2_li_now_">
+<li class="now">阴阳家</li>
+<li>杂家</li>
+<li>兵家</li>
+<li>纵横家</li>
+</ul>
+</div>
+<div>
+<div id="test2_1" class="tablist block">
+<span>阴阳家，代表人物邹衍，代表作《邹子》。</span>
+</div>
+<div id="test2_2" class="tablist">
+<span>杂家，代表人物吕不韦，代表作《吕氏春秋》。</span>
+</div>
+<div id="test2_3" class="tablist">
+<span>兵家，代表人物孙武、孙膑，代表作《孙子》、《孙膑兵法》。</span>
+</div>
+<div id="test2_4" class="tablist">
+<span>纵横家，代表人物苏秦、张仪，代表作《战国纵横家书》。</span>
+</div>
+</div>
+<br /><br /><br />
+
+<script type="text/javascript">
+window.onload = function(){
+new tab('test2_li_now_');
+}
+</script>
+</body>
+</html>
+

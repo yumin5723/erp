@@ -1,0 +1,29 @@
+{% set sidebar_name = "商品状态" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>商品状态</h2>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            <label class="control-label">{{ goods_name }}</label>
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            <input type="hidden" name="GoodStatus[goods_id]" value={{ goods_id }}>
+            {{ form.field(model,'is_on_sale').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'is_best').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'is_new').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'is_hot').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'is_promote').radioList({'0':'否','1':'是'})|raw }}
+            {{ form.field(model,'activity_id').dropDownList(activity)|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+</div>

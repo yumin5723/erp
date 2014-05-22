@@ -1,0 +1,41 @@
+{% set sidebar_name = "友情链接" %}
+{% set menu_name = "seo" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <a href="/seo/addlink/{{ block_id }}">添加链接</a>
+<div class="container">
+    <div class="row">
+        <div class="form">
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'link_text')|raw }}
+            {{ form.field(model,'link_url')|raw }}
+            <input type="hidden" name="FriendLink[link_type]" value="{{ block_id }}" />
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+<h4>链接列表</h4>
+{% block content %}
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllLinkDatas(block_id), 
+            'columns':{
+                0:'link_id',
+                2:'link_text',
+                3:'link_url',
+                4:'link_type', 
+                5:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update-link}{delete-link}',
+                },
+}})
+
+}}
+</div>
+{% endblock %}
+</div>

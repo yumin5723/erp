@@ -1,0 +1,99 @@
+{% set sidebar_name = "添加商品" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<style type="text/css">
+#ke_demo{ width:700px; height:200px;}
+</style>
+<div class="content">
+    <h2>商品添加修改</h2>
+{% block content %}
+<div class="container">
+
+    <div class="row-fluid">
+        <div class="form ">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            <!-- {{ form.errorSummary(model)|raw }} -->
+            {{ form.field(model,'goods_name')|raw }}
+            {{ form.field(model,'cp_id')|raw }}
+            {{ form.field(model,'cat_id').dropDownList(category)|raw }}
+            {{ form.field(model,'type_id').dropDownList(types)|raw }}
+            {{ form.field(model,'brand_id').dropDownList(brands)|raw }}
+            <div style="position:static;height:80px"></div>
+            {% if isNew  == true %}
+            <input type="hidden" name="GoodsBack[goods_img]" value="" id="goodsback-goods_img"/>
+            <input type="hidden" name="GoodsBack[goods_thumb]" value="" id="goodsback-goods_thumb"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="200px" src="" />
+                    </div>
+            </div>
+
+            {% else %}
+            <input type="hidden" name="GoodsBack[goods_img]" value="{{ model.goods_img }}" id="goodsback-goods_img"/>
+            <input type="hidden" name="GoodsBack[goods_thumb]" value="{{ model.goods_thumb }}" id="goodsback-goods_thumb"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="200px" src="{{ staticUrl }}{{ model.goods_img }}" />
+                    </div>
+            </div>
+            {% endif %}
+            
+            {{ form.field(model,'goods_brief').textArea({'row':2})|raw }}
+            {{ form.field(model,'goods_desc').widget('\\mihaildev\\ckeditor\\CKEditor',
+                    {'name':'goods_desc','editorOptions':{'preset':'base','inline':false}})|raw }}
+            {{ form.field(model,'is_real').radioList({'0':'否','1':'是'})|raw}}
+            {{ form.field(model,'shipping_type').radioList({'1':'包邮','2':'不包邮','3':'满金额包','4':'满数量包'})|raw }}
+            {{ form.field(model,'shipping_type_parameter').dropDownList(express)|raw }}
+            {{ form.field(model,'integral')|raw }}
+            {{ form.field(model,'give_integral')|raw }}
+            {{ form.field(model,'depot')|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+
+            <div class="frm" style="position:absolute;top:450px;left:260px">
+                <label class="control-label" for="goodsback-goods_img">商品图片</label>
+                  <form name="upload" id="uploadFrom" action="/goods/uploadfile" method="post"  target="tarframe" enctype="multipart/form-data">
+                       <input type="file" id="upload_file" name="upload">
+                  </form>
+                  <iframe src=""  width="0" height="0" style="display:none;" name="tarframe"></iframe>
+             </div>
+             
+
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function(){
+     $("#upload_file").change(function(){
+       $("#uploadFrom").submit();
+     });
+    });
+
+    function stopSend(img,url,thumb){
+         $("#goodsback-goods_img").val(url);
+         $("#goodsback-goods_thumb").val(thumb);
+        $(".top_image").attr("src",img);
+    }
+</script>
+
+<script>
+var str = $("#goodsback-shipping_type input[type='radio']:checked").val();
+if(str ==1){
+    $(".field-goodsback-shipping_type_parameter").attr("style","display:none");
+}
+$("#goodsback-shipping_type input[type='radio']:checked").live('click',function(){
+    var type= $(this).val();
+    if(type == 1){
+        $(".field-goodsback-shipping_type_parameter").attr("style","display:none");
+    }else{
+        $(".field-goodsback-shipping_type_parameter").attr("style","display:block");
+    }
+
+});
+</script>
+{% endblock %}
+</div>

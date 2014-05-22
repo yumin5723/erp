@@ -1,0 +1,49 @@
+{% set sidebar_name = "商品详情" %}
+{% set menu_name = "mall" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h2>商品详情</h2>
+{% block content %}
+{{  widget('\\yii\\widgets\\DetailView', {           
+            'id':'app-grid', 
+            'model':model, 
+            'attributes':{
+                0:'goods_id',
+                1:'cp_id',
+                2:'goods_name',
+                3:{
+                    'attribute':'cat_id',
+                    'value':model.getCatName(model.cat_id),
+                },
+                4:{
+                    'attribute':'brand_id',
+                    'value':model.getBrand(model.brand_id),
+                },
+                5:{
+                    'attribute':'goods_img',
+                    'value':model.getGoodImg(model.goods_img),
+                    'format':'html',
+                },
+                6:'goods_brief',
+                8:{
+                    'attribute':'goods_desc',
+                    'format':'html',
+                },
+                11:{
+                    'attribute':'is_real',
+                    'value':model.is_real?'是':'否',
+                },
+                12:'shipping_type',
+                13:'shipping_type_parameter',
+                14:'integral',
+                15:'give_integral',
+                16:{
+                    'attribute':'add_time',
+                    'format':['date', 'Y-m-d H:i:s'],
+                },
+                17:'depot',
+                
+        }})|raw
+}}
+{% endblock %}
+</div>

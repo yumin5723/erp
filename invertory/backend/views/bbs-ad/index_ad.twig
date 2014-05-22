@@ -1,0 +1,77 @@
+{% set menu_name="bbsad"%}
+{% set sidebar_name = "首页轮播广告列表" %}
+{% include "../layouts/header.twig" %}
+{% block content %}
+<div class="content">
+{% include "../layouts/notice.twig" %}
+    <div class="container">
+    <div class="row">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            <input type="hidden" name="BbsAd[type]" value="{{ type }}" id="BbsAd-type"/>
+            <div style="position:static;height:80px"></div>
+            {% if isNew  == true %}
+            <input type="hidden" name="BbsAd[ad_image]" value="" id="BbsAd-ad_image"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="100px" src="" />
+                    </div>
+            </div>
+
+            {% else %}
+            <input type="hidden" name="BbsAd[ad_image]" value="{{ model.ad_image }}" id="BbsAd-ad_image"/>
+            <div class="control-group ">
+                    <div class="controls">
+                        <img class="top_image" width="100px" src="{{ staticUrl }}{{ model.ad_image }}" />
+                    </div>
+            </div>
+            {% endif %}
+            {{ form.field(model,'ad_url')|raw }}
+            {{ form.field(model,'ad_order')|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+            <div class="frm" style="position:absolute;top:30px;left:250px">
+                <label class="control-label" for="BbsAd-ad_image">广告图片</label>
+                  <form name="upload" id="uploadFrom" action="/bbs-ad/uploadfile" method="post"  target="tarframe" enctype="multipart/form-data">
+                       <input type="file" id="upload_file" name="upload">
+                  </form>
+                  <iframe src=""  width="0" height="0" style="display:none;" name="tarframe"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+      {{
+  widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'class':'grid-view',
+            'dataProvider':model.getAllAdDatas(type), 
+            'columns':{
+                0:'ad_id',
+                1:{'attribute':'ad_image','value':model.showImage,'format':'html'},
+                2:'ad_url',
+                3:'ad_order',
+                4:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{delete}',
+                },
+}})
+}}
+</div>
+<script type="text/javascript">
+    $(function(){
+     $("#upload_file").change(function(){
+       $("#uploadFrom").submit();
+     });
+    });
+
+    function stopSend(img,url){
+        $(".top_image").attr("src",img);
+        $("#BbsAd-ad_image").val(url);
+    }
+</script>
+    <br/>
+</div>
+{% endblock %}

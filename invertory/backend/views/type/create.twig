@@ -1,0 +1,24 @@
+{% set menu_name = "mall" %}
+{% set sidebar_name = "类型添加" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h4>类型添加</h4>
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="form">
+                {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+                {{ form.field(model,'type_name').label(null,{'class':'col-sm-1 control-label'})|raw }}
+                {{ form.field(model,'type_group').label(null,{'class':'col-sm-1 control-label'}).dropDownList(groupList)|raw }}
+                {{ form.field(model,'cp_id').label(null,{'class':'col-sm-1 control-label'}).dropDownList(cpList)|raw }}
+                {{ form.field(model,'is_show').label(null,{'class':'col-sm-1 control-label'}).radioList({'0':'隐藏','1':'开启'},{'class':'checkbox-inline'})|raw }}
+                <div class="form-group">
+                    <input type='submit' value='提交' class='btn btn-large btn-primary' />
+                </div>
+                {{ void(form.end()) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</div>
