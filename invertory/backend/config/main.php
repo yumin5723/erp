@@ -14,6 +14,7 @@ return [
 	'vendorPath' => $rootDir . '/vendor',
 	'controllerNamespace' => 'backend\controllers',
 	'layout'=>'top',
+  'language'=>'zh-CN',
 	'modules'=>[
 		'gii' => 'yii\gii\Module',
 	],

@@ -52,9 +52,24 @@
                     <hr />
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}     
-                            {{ form.field(model,'name',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-4'})|raw}}
                             
-
+                            <div class="form-group">
+                              <label class="col-lg-4 control-label">Name</label>
+                              <div class="col-lg-8">
+                                {{ 
+                                widget('\\kartik\\widgets\\Select2',{
+                                    'model':model,
+                                    'attribute':'name',
+                                    'data':{
+                                        0:'yes',1:'no',
+                                    },
+                                    'options':{'placeholder':'Select a state ...'},
+                                    'pluginOptions':{'allowClear':true},
+                                 })
+                             }}
+                              </div>
+                            </div>
+                            
                                     <hr />
                                 <div class="form-group">
                                   <div class="col-lg-offset-1 col-lg-9">

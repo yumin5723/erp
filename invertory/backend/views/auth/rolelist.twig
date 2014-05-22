@@ -1,16 +1,52 @@
 {% set menu_name = "managers" %}
 {% set sidebar_name = "角色列表" %}
-{% include "../layouts/header.twig" %}
-<div class="content">
-    <h3>角色列表</h3>
-{% block content %}
-<a href="/auth/flushperms">create</a>
-{{
-    widget('\\yii\\grid\\GridView', {            
+{% extends "../layouts/header.twig" %}
+  {% block content %}
+      <!-- Page heading -->
+      <div class="page-head">
+        <h2 class="pull-left"><i class="icon-file-alt"></i> Manager</h2>
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="/"><i class="icon-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!-- Page heading ends -->
+
+      <!-- Matter -->
+
+         <div class="matter">
+        <div class="container">
+
+          <!-- Table -->
+
+            <div class="row">
+
+              <div class="col-md-12">
+
+                <div class="widget">
+
+                <div class="widget-head">
+                  <div class="pull-left">Tables</div>
+                  <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
+                    <a href="#" class="wclose"><i class="icon-remove"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content">
+                          {{ widget('\\yii\\grid\\GridView', {
+            'layout':'\n{items}\n{pager}',         
             'id':'app-grid', 
-            'class':'grid-view',
+            'tableOptions':{'class':'table table-striped table-bordered table-hover'},
             'dataProvider':model.getAllItems(), 
             'filterModel':model, 
+            'pager':{
+                'class':'\\common\\extensions\\Page\\CPageLink',
+            },
             'columns':{
                 0:'name',
                 1:{
@@ -23,17 +59,42 @@
                     'template':'{update}{delete}{assign}',
                     'header':'Actions'
                 },
-}})
+        }})
+    }}
 
-}}
-<h4>创建角色Create New Item*</h4>
-    {% if show_error is not empty %}
-        <div class="alert alert-error message">
-            <button data-dismiss="alert" class="close" type="button">×</button>
-            <strong>{{ show_error }}</strong>
-        </div>
-    {% endif %}
-{% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data'}}) %}
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+
+              <div class="widget wgreen">
+                
+                <div class="widget-head">
+                  <div class="pull-left">Forms</div>
+                  <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
+                    <a href="#" class="wclose"><i class="icon-remove"></i></a>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="widget-content">
+                  <div class="padd">
+
+                    <hr />
+                    <!-- Form starts.  -->
+                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}  
             {{ form.field(model,'name').label(null,{"class":'col-sm-2 control-label'})|raw }}
             {% if isNew == true %}
                 {{ form.field(model,'type').dropDownList({'1':'Role'}).label(null,{"class":'col-sm-2 control-label'})|raw }}
@@ -44,8 +105,24 @@
             <!-- {{ form.field(model,'rule_name').label(null,{"class":'col-sm-2 control-label'})|raw }} -->
             {{ form.field(model,'data').textArea({'row':2}).label(null,{"class":'col-sm-2 control-label'})|raw }}
             <div class="form-group">
-                    <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
-            </div>
+                                  <div class="col-lg-offset-1 col-lg-9">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                  </div>
+                                </div>
         {{ void(form.end()) }}
+                  </div>
+                </div>
+                  <div class="widget-foot">
+                    <div class="clearfix"></div>
+                  </div>
+              </div>  
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
 {% endblock %}
-</div>

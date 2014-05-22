@@ -11,16 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="">
   <!-- Stylesheets -->
-  <link href="/style/bootstrap.css" rel="stylesheet">
+  <!-- <link href="/style/bootstrap.css" rel="stylesheet"> -->
   <link rel="stylesheet" href="/style/font-awesome.css">
-  <link href="/style/style.css" rel="stylesheet">
   <script src="/js/jquery.js"></script>
-  {{ this.head() }}
   <!-- HTML5 Support for IE -->
   <!--[if lt IE 9]>
   <script src="/js/html5shim.js"></script>
   <![endif]-->
-
+  {{ this.head() }}
   <!-- Favicon -->
   <link rel="shortcut icon" href="/img/favicon/favicon.png">
   <!-- Favicon -->
@@ -35,6 +33,18 @@
     {{ content|raw }}
 
 
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+            <!-- Copyright info -->
+            <p class="copy">Copyright &copy; 2012 | <a href="#">Your Site</a> </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<span class="totop"><a href="#"><i class="icon-chevron-up"></i></a></span> 
+<!-- Scroll to top -->
     <!-- <?php $this->endBody() ?> -->
      {{ this.endBody() }} 
     <script src="/js/bootstrap.js"></script>
