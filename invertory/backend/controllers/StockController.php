@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Stock;
-use backend\models\search\ProjectSearch;
+use backend\models\search\StockSearch;
 use backend\components\BackendController;
 use backend\models\Upload;
 
@@ -32,7 +32,7 @@ class StockController extends BackendController {
      * Displays the page list
      */
     public function actionList() {
-        $searchModel = new ProjectSearch;
+        $searchModel = new StockSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('list', [

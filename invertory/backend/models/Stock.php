@@ -115,4 +115,10 @@ class Stock extends ActiveRecord {
             @$this->image = unserialize($this->image);
         }
     }
+    public function getProjects(){
+        return $this->hasOne(Project::className(),['id'=>'project_id']);
+    }
+    public function getOwners(){
+        return $this->hasOne(Owner::className(),['id'=>'owner_id']);
+    }
 }
