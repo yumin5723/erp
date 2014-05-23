@@ -76,4 +76,19 @@ return [
                 ],
             ],
         ],
+        'stock'=>[
+            'name'=>'库存',
+            'route'=>'',
+            'icon'=>'cloud-upload',
+            'subs' => [
+                [
+                    'name' => '库存明细',
+                    'route' => 'stock/list',
+                ],
+                [
+                    'name' => '入库',
+                    'route' => 'stock/create',
+                ],
+            ],
+        ],
 ];
