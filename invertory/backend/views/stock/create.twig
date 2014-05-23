@@ -98,7 +98,7 @@ cursor:hand;
                   </div>
                   <div class="clearfix"></div>
                 </div>
-
+                {% include "../layouts/notice.twig" %}
                 <div class="widget-content">
                   <div class="padd">
 
@@ -142,7 +142,7 @@ cursor:hand;
                           {{ form.field(model,'delivery',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                           <div id="uploads">
                           {% if isNew == true %}
-                          <div class="form-group" id="pic_0">
+                          <div class="form-group img_count" id="pic_0">
                               <label class="col-lg-2 control-label">upload image </label>
                               <div class="col-lg-5">
                                   <a class="btn btn-info" data-toggle="modal" onclick="uploadFile(0);">Upload</a><br />
@@ -151,21 +151,21 @@ cursor:hand;
                               </div>
                               <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
                             </div>
-                          </div>
                           {% else %}
                             {% for key,value in model.image %}
-                                <div class="form-group" id="pic_{{ loop.index }}">
+                                <div class="form-group img_count" id="pic_{{ loop.index }}">
                               <label class="col-lg-2 control-label">upload image </label>
                               <div class="col-lg-5">
                                   <a class="btn btn-info" data-toggle="modal" onclick="uploadFile({{ loop.index }});">Upload</a><br />
-                                  <input type="hidden" id="img_image{{ loop.index }}" name="Stock[image][{{ loop.index }}]">
+                                  <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Stock[image][{{ loop.index }}]">
                                   <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image{{ loop.index }}" src="{{ value }}"></a>
                               </div>
                               <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
+                              <a class="btn btn-xs btn-danger pull-left" onclick="return deletePic('pic_{{loop.index}}');">删除</a>
                             </div>
-                          </div>
                             {% endfor %}
                           {% endif %}
+                          </div>
                                     <hr />
                                 <div class="form-group">
                                   <div class="col-lg-offset-2 col-lg-6">
@@ -189,10 +189,10 @@ cursor:hand;
 <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
 <script src="/js/jquery.js"></script>
 <script type="text/javascript">
-var i=$(".uploads").length;
+var i=$(".form-group img_count").length;
 function showUpload(){
   i++;
-  var str='<div class="form-group" id="pic_'+i+'">';
+  var str='<div class="form-group img_count" id="pic_'+i+'">';
   str+='<label class="col-lg-2 control-label">upload image</label>';
   str+='<div class="col-lg-5">';
   str+='<a class="btn btn-info" data-toggle="modal" onclick="uploadFile('+ i +');">Upload</a><br />';
