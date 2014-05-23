@@ -33,17 +33,17 @@ class GridActionColumn extends ActionColumn
         }
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url, $model) {
-                return Html::a('<i class="icon-pencil"></i>', $url, [
+                return Html::a('<i class="fa fa-pencil"></i>', $url, [
                     'title' => Yii::t('yii', 'update'),
                 ]);
             };
         }
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url, $model) {
-                return Html::a('<i class="icon-remove"></i>', "#myModal", [
+                return Html::a('<i class="glyphicon glyphicon-trash"></i>', $url, [
                     'title' => Yii::t('yii', 'delete'),
-                    'data-toggle'=>"modal",
-                    'role'=>"button"
+                    'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
+                    'data-method' => 'post',
                 ]);
             };
         }

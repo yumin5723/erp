@@ -4,15 +4,13 @@
 {% block content %}
         <div class="page-head">
         <!-- Page heading -->
-          <h2 class="pull-left">Projects
-          <!-- page meta -->
-          <span class="page-meta"></span>
+        <h2 class="pull-left"><i class="fa fa-file-o"></i> Projects</h2>
         </h2>
 
 
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
-          <a href="index.html"><i class="icon-home"></i> Home</a> 
+          <a href="index.html"><i class="fa fa-home"></i> Home</a> 
           <!-- Divider -->
           <span class="divider">/</span> 
           <a href="#" class="bread-current">Forms</a>
@@ -20,14 +18,13 @@
 
         <div class="clearfix"></div>
 
-        </div>
+      </div>
         <!-- Page heading ends -->
 
 
 
         <!-- Matter -->
-
-        <div class="matter">
+         <div class="matter">
         <div class="container">
 
           <div class="row">
@@ -40,8 +37,7 @@
                 <div class="widget-head">
                   <div class="pull-left">Forms</div>
                   <div class="widget-icons pull-right">
-                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
-                    <a href="#" class="wclose"><i class="icon-remove"></i></a>
+                    <a href="forms.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -49,12 +45,12 @@
                 <div class="widget-content">
                   <div class="padd">
 
-                    <hr />
+                    <br />
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}     
                             
                             <div class="form-group">
-                              <label class="col-lg-4 control-label">Name</label>
+                              <label class="col-lg-2 control-label">Name</label>
                               <div class="col-lg-8">
                                 {{ 
                                 widget('\\kartik\\widgets\\Select2',{
@@ -72,7 +68,7 @@
                             
                                     <hr />
                                 <div class="form-group">
-                                  <div class="col-lg-offset-1 col-lg-9">
+                                  <div class="col-lg-offset-2 col-lg-6">
                                     <button type="submit" class="btn btn-primary">Save</button>
                                   </div>
                                 </div>
@@ -80,7 +76,7 @@
                   </div>
                 </div>
                   <div class="widget-foot">
-                    <div class="clearfix"></div>
+                    <!-- Footer goes here -->
                   </div>
               </div>  
 
@@ -89,5 +85,5 @@
           </div>
 
         </div>
-          </div>
+      </div>
 {% endblock %}

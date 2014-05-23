@@ -52,14 +52,14 @@
                     <hr />
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}     
-                            {{ form.field(model,'username',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-4'})|raw}}
-                            {{ form.field(model,'password',{inputOptions:{'class':'form-control'}}).passwordInput().label(null,{'class':'control-label col-lg-4'})|raw}}
-                            {{ form.field(model,'email',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-4'})|raw}}
+                            {{ form.field(model,'username',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'password',{inputOptions:{'class':'form-control'}}).passwordInput().label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'email',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             
 
                                     <hr />
                                 <div class="form-group">
-                                  <div class="col-lg-offset-1 col-lg-9">
+                                  <div class="col-lg-offset-2 col-lg-6">
                                     <button type="submit" class="btn btn-primary">Save</button>
                                   </div>
                                 </div>

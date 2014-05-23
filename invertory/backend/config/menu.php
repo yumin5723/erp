@@ -47,7 +47,7 @@ return [
         'storeroom'=>[
             'name'=>'仓库',
             'route'=>'',
-            'icon'=>'hdd',
+            'icon'=>'key',
             'style'=>'',
             'subs' => [
                 [

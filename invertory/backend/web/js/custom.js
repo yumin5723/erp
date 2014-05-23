@@ -14,29 +14,48 @@ $(document).ready(function(){
       $(".sidebar #nav").slideUp(350); 
     }
   });
+  
+   $(".has_sub > a").click(function(e){
+    e.preventDefault();
+    var menu_li = $(this).parent("li");
+    var menu_ul = $(this).next("ul");
 
+    if(menu_li.hasClass("open")){
+      menu_ul.slideUp(350);
+      menu_li.removeClass("open")
+    }
+    else{
+      $("#nav > li > ul").slideUp(350);
+      $("#nav > li").removeClass("open");
+      menu_ul.slideDown(350);
+      menu_li.addClass("open");
+    }
+  });
+
+/* Old Code 
 
   $("#nav > li > a").on('click',function(e){
       if($(this).parent().hasClass("has_sub")) {
-        e.preventDefault();
-      }   
+       
+		  e.preventDefault();
 
-      if(!$(this).hasClass("subdrop")) {
-        // hide any open menus and remove all other classes
-        $("#nav li ul").slideUp(350);
-        $("#nav li a").removeClass("subdrop");
-        
-        // open our new menu and add the open class
-        $(this).next("ul").slideDown(350);
-        $(this).addClass("subdrop");
-      }
+		  if(!$(this).hasClass("subdrop")) {
+			// hide any open menus and remove all other classes
+			$("#nav li ul").slideUp(350);
+			$("#nav li a").removeClass("subdrop");
+			
+			// open our new menu and add the open class
+			$(this).next("ul").slideDown(350);
+			$(this).addClass("subdrop");
+		  }
+		  
+		  else if($(this).hasClass("subdrop")) {
+			$(this).removeClass("subdrop");
+			$(this).next("ul").slideUp(350);
+		  } 
+      }   
       
-      else if($(this).hasClass("subdrop")) {
-        $(this).removeClass("subdrop");
-        $(this).next("ul").slideUp(350);
-      } 
-      
-  });
+  }); */
 });
 
 $(document).ready(function(){
@@ -71,25 +90,25 @@ $('.wclose').click(function(e){
 
 /* Widget minimize */
 
-  $('.wminimize').click(function(e){
-    e.preventDefault();
-    var $wcontent = $(this).parent().parent().next('.widget-content');
-    if($wcontent.is(':visible')) 
-    {
-      $(this).children('i').removeClass('icon-chevron-up');
-      $(this).children('i').addClass('icon-chevron-down');
-    }
-    else 
-    {
-      $(this).children('i').removeClass('icon-chevron-down');
-      $(this).children('i').addClass('icon-chevron-up');
-    }            
-    $wcontent.toggle(500);
-  }); 
+$('.wminimize').click(function(e){
+	e.preventDefault();
+	var $wcontent = $(this).parent().parent().next('.widget-content');
+	if($wcontent.is(':visible')) 
+	{
+	  $(this).children('i').removeClass('fa fa-chevron-up');
+	  $(this).children('i').addClass('fa fa-chevron-down');
+	}
+	else 
+	{
+	  $(this).children('i').removeClass('fa fa-chevron-down');
+	  $(this).children('i').addClass('fa fa-chevron-up');
+	}            
+	$wcontent.toggle(500);
+}); 
 
 /* Calendar */
 
-  $(document).ready(function() {
+$(document).ready(function() {
   
     var date = new Date();
     var d = date.getDate();
@@ -151,77 +170,77 @@ $('.wclose').click(function(e){
       ]
     });
     
-  });
+});
 
 /* Progressbar animation */
 
-    setTimeout(function(){
+setTimeout(function(){
 
-        $('.progress-animated .progress-bar').each(function() {
-            var me = $(this);
-            var perc = me.attr("data-percentage");
+	$('.progress-animated .progress-bar').each(function() {
+		var me = $(this);
+		var perc = me.attr("data-percentage");
 
-            //TODO: left and right text handling
+		//TODO: left and right text handling
 
-            var current_perc = 0;
+		var current_perc = 0;
 
-            var progress = setInterval(function() {
-                if (current_perc>=perc) {
-                    clearInterval(progress);
-                } else {
-                    current_perc +=1;
-                    me.css('width', (current_perc)+'%');
-                }
+		var progress = setInterval(function() {
+			if (current_perc>=perc) {
+				clearInterval(progress);
+			} else {
+				current_perc +=1;
+				me.css('width', (current_perc)+'%');
+			}
 
-                me.text((current_perc)+'%');
+			me.text((current_perc)+'%');
 
-            }, 600);
+		}, 200);
 
-        });
+	});
 
-    },600);
+},1200);
 
 /* Slider */
 
-    $(function() {
-        // Horizontal slider
-        $( "#master1, #master2" ).slider({
-            value: 60,
-            orientation: "horizontal",
-            range: "min",
-            animate: true
-        });
+$(function() {
+	// Horizontal slider
+	$( "#master1, #master2" ).slider({
+		value: 60,
+		orientation: "horizontal",
+		range: "min",
+		animate: true
+	});
 
-        $( "#master4, #master3" ).slider({
-            value: 80,
-            orientation: "horizontal",
-            range: "min",
-            animate: true
-        });        
+	$( "#master4, #master3" ).slider({
+		value: 80,
+		orientation: "horizontal",
+		range: "min",
+		animate: true
+	});        
 
-        $("#master5, #master6").slider({
-            range: true,
-            min: 0,
-            max: 400,
-            values: [ 75, 200 ],
-            slide: function( event, ui ) {
-                $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-            }
-        });
+	$("#master5, #master6").slider({
+		range: true,
+		min: 0,
+		max: 400,
+		values: [ 75, 200 ],
+		slide: function( event, ui ) {
+			$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+		}
+	});
 
 
-        // Vertical slider 
-        $( "#eq > span" ).each(function() {
-            // read initial values from markup and remove that
-            var value = parseInt( $( this ).text(), 10 );
-            $( this ).empty().slider({
-                value: value,
-                range: "min",
-                animate: true,
-                orientation: "vertical"
-            });
-        });
-    });
+	// Vertical slider 
+	$( "#eq > span" ).each(function() {
+		// read initial values from markup and remove that
+		var value = parseInt( $( this ).text(), 10 );
+		$( this ).empty().slider({
+			value: value,
+			range: "min",
+			animate: true,
+			orientation: "vertical"
+		});
+	});
+});
 
 
 
@@ -237,38 +256,28 @@ $(document).ready(function(){
 /* Scroll to Top */
 
 
-  $(".totop").hide();
+$(".totop").hide();
 
-  $(function(){
-    $(window).scroll(function(){
-      if ($(this).scrollTop()>300)
-      {
-        $('.totop').slideDown();
-      } 
-      else
-      {
-        $('.totop').slideUp();
-      }
-    });
+$(function(){
+	$(window).scroll(function(){
+	  if ($(this).scrollTop()>300)
+	  {
+		$('.totop').fadeIn();
+	  } 
+	  else
+	  {
+		$('.totop').fadeOut();
+	  }
+	});
 
-    $('.totop a').click(function (e) {
-      e.preventDefault();
-      $('body,html').animate({scrollTop: 0}, 500);
-    });
-
-  });
-
-/* jQuery Notification */
-
-$(document).ready(function(){
-
-  //setTimeout(function() {noty({text: '<strong>Howdy! Hope you are doing good...</strong>',layout:'topRight',type:'information',timeout:15000});}, 7000);
-
-  //setTimeout(function() {noty({text: 'This is an all in one theme which includes Front End, Admin & E-Commerce. Dont miss it. Grab it now',layout:'topRight',type:'alert',timeout:13000});}, 9000);
+	$('.totop a').click(function (e) {
+	  e.preventDefault();
+	  $('body,html').animate({scrollTop: 0}, 500);
+	});
 
 });
 
-
+/* jQuery Notification */
 $(document).ready(function() {
 
   $('.noty-alert').click(function (e) {
@@ -301,19 +310,23 @@ $(document).ready(function() {
 
 /* Date picker */
 
-  $(function() {
+$(function() {
     $('#datetimepicker1').datetimepicker({
       pickTime: false
     });
-  });
+});
 
-   $(function() {
+$(function() {
     $('#datetimepicker2').datetimepicker({
       pickDate: false
     });
-  });
+});
 
-
+/* On Off pllugin */  
+  
+$(document).ready(function() {
+  $('.toggleBtn').onoff();
+});
 
 
 /* CL Editor */
@@ -331,4 +344,22 @@ $('.modal').appendTo($('body'));
 
 jQuery("a[class^='prettyPhoto']").prettyPhoto({
 overlay_gallery: false, social_tools: false
+});
+
+/* Slim Scroll */
+
+/* Slim scroll for chat widget */
+
+$('.scroll-chat').slimscroll({
+  height: '350px',
+  color: 'rgba(0,0,0,0.3)',
+  size: '5px'
+});
+
+/* Data tables */
+
+$(document).ready(function() {
+	$('#data-table').dataTable({
+	   "sPaginationType": "full_numbers"
+	});
 });
