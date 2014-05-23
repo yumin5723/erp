@@ -22,7 +22,7 @@
         <!-- Page heading ends -->
 
 
-
+        {% include "../layouts/notice.twig" %}
         <!-- Matter -->
          <div class="matter">
         <div class="container">
@@ -49,23 +49,7 @@
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}     
                             
-                            <div class="form-group">
-                              <label class="col-lg-2 control-label">Name</label>
-                              <div class="col-lg-8">
-                                {{ 
-                                widget('\\kartik\\widgets\\Select2',{
-                                    'model':model,
-                                    'attribute':'name',
-                                    'data':{
-                                        0:'yes',1:'no',
-                                    },
-                                    'options':{'placeholder':'Select a state ...'},
-                                    'pluginOptions':{'allowClear':true},
-                                 })
-                             }}
-                              </div>
-                            </div>
-                            
+                            {{ form.field(model,'name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                                     <hr />
                                 <div class="form-group">
                                   <div class="col-lg-offset-2 col-lg-6">

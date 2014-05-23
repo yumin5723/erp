@@ -5,10 +5,10 @@
   </div>
   {% endif %}
   {% if App.session.hasFlash('success') %}
-  <div class="alert alert-info">
+  <div class="alert alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong>Well done! </strong>  {{ App.session.getFlash('success')|raw }}
-    </div>
+        Well done!{{ App.session.getFlash('success')|raw }}
+  </div>
   {% endif %}
   {% if App.session.hasFlash('warning') %}
   <div class="alert message">
