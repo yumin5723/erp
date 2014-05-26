@@ -29,7 +29,7 @@ class StockSearch extends Stock
 
     public function search($params)
     {
-        $query = Stock::find();
+        $query = Stock::find()->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

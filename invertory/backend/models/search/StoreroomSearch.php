@@ -28,7 +28,7 @@ class StoreroomSearch extends Storeroom
 
     public function search($params)
     {
-        $query = Storeroom::find();
+        $query = Storeroom::find()->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

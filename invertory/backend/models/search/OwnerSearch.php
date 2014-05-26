@@ -28,7 +28,7 @@ class OwnerSearch extends Owner
 
     public function search($params)
     {
-        $query = Owner::find();
+        $query = Owner::find()->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

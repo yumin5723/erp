@@ -28,7 +28,7 @@ class ProjectSearch extends Project
 
     public function search($params)
     {
-        $query = Project::find();
+        $query = Project::find()->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
