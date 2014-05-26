@@ -4,8 +4,9 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use yii\helpers\BaseArrayHelper;
+use backend\components\BackendActiveRecord;
 
-class Project extends ActiveRecord {
+class Project extends BackendActiveRecord {
     /**
      * function_description
      *
@@ -25,6 +26,7 @@ class Project extends ActiveRecord {
     public function rules() {
         return [
             ['name','required'],
+            [['created_uid','modified_uid'],'safe']
         ];
     }
     public function behaviors()
@@ -40,6 +42,16 @@ class Project extends ActiveRecord {
                     ],
                     'value' => function (){ return date("Y-m-d H:i:s");}
                 ],
+                'attributeStamp' => [
+                      'class' => 'yii\behaviors\AttributeBehavior',
+                      'attributes' => [
+                          ActiveRecord::EVENT_BEFORE_INSERT => ['created_uid','modified_uid'],
+                          ActiveRecord::EVENT_BEFORE_UPDATE => 'modified_uid',
+                      ],
+                      'value' => function () {
+                          return Yii::$app->user->id;
+                      },
+                  ],
            ]
         );
     }

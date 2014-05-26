@@ -46,7 +46,7 @@
             'id':'app-grid', 
             'tableOptions':{'class':'table table-striped table-bordered table-hover'},
             'dataProvider':dataProvider,
-            'filterModel':searchModel,
+            'filterModel':model,
             'pager':{
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
@@ -56,10 +56,13 @@
                 },
                 1:{
                   'attribute':"name",
+                  'value':'return $model->name;'|value_callback,
                 },
                 2:'created',
                 3:'modified',
-                4:{
+                4:{'attribute':'创建人','value':'return $model->createduser->username;'|value_callback},
+                5:{'attribute':'修改人','value':'return $model->modifieduser->username;'|value_callback},
+                6:{
                     'class':'\\common\\extensions\\Grid\\GridActionColumn',
                     'template':'{update}',
                 },

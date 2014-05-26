@@ -7,29 +7,6 @@ use backend\models\Project;
 use backend\models\search\ProjectSearch;
 use backend\components\BackendController;
 
-/**
-/**
-* if you want to use autocomplete in select dropdown list
-* you can use :
-* * <!--                            <div class="form-group">
-                              <label class="col-lg-4 control-label">Name</label>
-                              <div class="col-lg-8">
-                                {{ 
-                                widget('\\kartik\\widgets\\Select2',{
-                                    'model':model,
-                                    'attribute':'name',
-                                    'data':{
-                                        0:'yes',1:'no',
-                                    },
-                                    'options':{'placeholder':'Select a state ...'},
-                                    'pluginOptions':{'allowClear':true},
-                                 })
-                             }}
-                              </div>
-                            </div> -->
-*
-*/
-
 class ProjectController extends BackendController {
     /**
      * This is the default 'index' action that is invoked
@@ -58,7 +35,7 @@ class ProjectController extends BackendController {
 
         return $this->render('list', [
             'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+            'model' => $searchModel,
         ]);
     }
     /**
@@ -70,6 +47,7 @@ class ProjectController extends BackendController {
         if (isset($_POST['Project'])) {
             $model->load($_POST);
             if ($model->validate()) {
+                // $model->created_uid = 100;
                 $model->save();
                 Yii::$app->session->setFlash('success', '新建成功！');
                 $this->redirect("/project/list");

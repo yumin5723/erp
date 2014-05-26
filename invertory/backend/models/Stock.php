@@ -4,8 +4,9 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use yii\helpers\BaseArrayHelper;
+use backend\components\BackendActiveRecord;
 
-class Stock extends ActiveRecord {
+class Stock extends BackendActiveRecord {
     public $upload;
     /**
      * function_description
