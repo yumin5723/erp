@@ -145,7 +145,7 @@ cursor:hand;
                           <div class="form-group img_count" id="pic_0">
                               <label class="col-lg-2 control-label">upload image </label>
                               <div class="col-lg-5">
-                                  <a class="btn btn-info" data-toggle="modal" onclick="uploadFile(0);">Upload</a><br />
+                                  <a href="#myModal" onclick="uploadFile(0);" class="btn btn-info" data-toggle="modal">Upload</a><br />
                                   <input type="hidden" id="img_image0" name="Stock[image][0]">
                                   <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image0" src=""></a>
                               </div>
@@ -156,7 +156,7 @@ cursor:hand;
                                 <div class="form-group img_count" id="pic_{{ loop.index }}">
                               <label class="col-lg-2 control-label">upload image </label>
                               <div class="col-lg-5">
-                                  <a class="btn btn-info" data-toggle="modal" onclick="uploadFile({{ loop.index }});">Upload</a><br />
+                                  <a href="#myModal" onclick="uploadFile({{ loop.index }});" class="btn btn-info" data-toggle="modal">Upload</a><br />
                                   <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Stock[image][{{ loop.index }}]">
                                   <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image{{ loop.index }}" src="{{ value }}"></a>
                               </div>
@@ -186,16 +186,38 @@ cursor:hand;
 
         </div>
       </div>
-<div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title">Modal title</h4>
+            </div>
+            <form id="uploadimageForm" action="/stock/uploadfile" method="post" target="tarframe" enctype="multipart/form-data">
+            <div class="modal-body">
+              <p>
+                    <input type="hidden" name="num" id="image_num" />
+                    <input type="file" id="upload_file" name="upload" />
+                  <iframe src='' width='0' height='0' style='display:none;' name="tarframe"></iframe>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+              <button type="button" onclick="submitImg();" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Save</button>
+            </div>
+            </form>
+          </div>
+</div>
+</div>
 <script src="/js/jquery.js"></script>
 <script type="text/javascript">
-var i=$(".form-group img_count").length;
+var i=$(".img_count").length;
 function showUpload(){
   i++;
   var str='<div class="form-group img_count" id="pic_'+i+'">';
   str+='<label class="col-lg-2 control-label">upload image</label>';
   str+='<div class="col-lg-5">';
-  str+='<a class="btn btn-info" data-toggle="modal" onclick="uploadFile('+ i +');">Upload</a><br />';
+  str+='<a href="#myModal" class="btn btn-info" data-toggle="modal" onclick="uploadFile('+ i +');">Upload</a><br />';
   str+= '<a class="prettyPhoto[pp_gal]" href="img/photos/s1.jpg"><img width="240px" height="180px" alt="" class="img_image'+i+'" src=""></a>';
   str+='</div>';
   str+='<input type="hidden" id="img_image'+i+'" name="Stock[image]['+ i +']">';
@@ -209,12 +231,11 @@ function deletePic(id){
 }
 
 function uploadFile(num){
-    $(".content").append("<div id='newlayer' class=\"overlay\"></div>");
-    $(".content").append("<div id='newwindow' class=\"newwindow\"><div id='close' class='close'>close</div><div class='caption'>选择上传的图片<form id=\"uploadFrom\" action=\"/stock/uploadfile\" method=\"post\" target=\"tarframe\" enctype=\"multipart/form-data\"><input type=\"file\" id=\"upload_file\" name=\"upload\"><input type='hidden' name='num' value='"+num+"' ><br><input type='submit' id='submitId' value='上传' ></form><iframe src='' width='0' height='0' style=\"display:none;\" name=\"tarframe\"></iframe></div></div>");
-    $("#close").click(function(){
-        $("#newlayer").remove();
-        $("#newwindow").remove();
-    });
+    $('#image_num').val(num);
+    window.location.href="#myModal";
+}
+function submitImg(){
+    $('#uploadimageForm').submit();
 }
 function stopSend(num,img){
         $("#img_image"+num).val(img);
