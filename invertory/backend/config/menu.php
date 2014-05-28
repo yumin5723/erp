@@ -91,4 +91,19 @@ return [
                 ],
             ],
         ],
+        'order'=>[
+            'name'=>'订单',
+            'route'=>'',
+            'icon'=>'truck',
+            'subs' => [
+                [
+                    'name' => '订单列表',
+                    'route' => 'order/list',
+                ],
+                [
+                    'name' => '下订单',
+                    'route' => 'order/create',
+                ],
+            ],
+        ],
 ];

@@ -106,7 +106,8 @@ cursor:hand;
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}     
                           {{ form.field(model,'code',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}      
+                          {{ form.field(model,'name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}  
+                          {{ form.field(model,'active',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}    
                           {{ form.field(model,'english_name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                           {{ form.field(model,'project_id').dropDownList(model.getCanUseProjects()).label(null,{'class':'control-label col-lg-2'})|raw }}  
                           {{ form.field(model,'storeroom_id').dropDownList(model.getCanUseStorerooms()).label(null,{'class':'control-label col-lg-2'})|raw }} 
