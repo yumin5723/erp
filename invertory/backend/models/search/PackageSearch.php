@@ -5,18 +5,18 @@ namespace backend\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Order;
+use backend\models\Package;
 
 /**
  * PostSearch represents the model behind the search form about `backend\models\Post`.
  */
-class OrderSearch extends Order
+class PackageSearch extends Package
 {
     public function rules()
     {
         return [
             [['id'], 'integer'],
-            [['goods_code', 'goods_quantity','goods_active','storeroom_id','recipients','recipients_address','recipients_contact','status'], 'safe'],
+            [['num', 'actual_weight','throw_weight','volume','method','trunk','delivery','price'], 'safe'],
         ];
     }
 
@@ -28,7 +28,7 @@ class OrderSearch extends Order
 
     public function search($params)
     {
-        $query = Order::find()->orderBy(['id'=>SORT_DESC]);
+        $query = Package::find()->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -40,7 +40,6 @@ class OrderSearch extends Order
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'goods_code' => $this->goods_code,
         ]);
 
         // $query->andFilterWhere(['like', 'name', $this->name]);

@@ -118,4 +118,15 @@ return [
                 ],
             ],
         ],
+        'package'=>[
+            'name'=>'包装及发货',
+            'route'=>'',
+            'icon'=>'gift',
+            'subs' => [
+                [
+                    'name' => '包装明细',
+                    'route' => 'package/list',
+                ],
+            ],
+        ],
 ];

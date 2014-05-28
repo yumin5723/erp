@@ -1,17 +1,17 @@
-{% set menu_name = "order" %}
-{% set sidebar_name = "订单列表" %}
+{% set menu_name = "package" %}
+{% set sidebar_name = "包装明细" %}
 {% extends "../layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
       <div class="page-head">
-        <h2 class="pull-left"><i class="fa fa-table"></i> Order</h2>
+        <h2 class="pull-left"><i class="fa fa-table"></i> Package</h2>
 
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="/"><i class="fa fa-home"></i> Home</a> 
           <!-- Divider -->
           <span class="divider">/</span> 
-          <a href="/order/list" class="bread-current">Order</a>
+          <a href="/package/list" class="bread-current">Package</a>
         </div>
 
         <div class="clearfix"></div>
@@ -55,23 +55,20 @@
                   'attribute':'id',
                 },
                 1:{
-                  'attribute':"goods_code",
+                  'attribute':"num",
                 },
                 2:{
-                  'attribute':'goods_quantity',
+                  'attribute':'actual_weight',
                 },
                 3:{
-                  'attribute':'goods_active',
+                  'attribute':'throw_weight',
                 },
                 4:{
-                  'attribute':'storeroom_id',
-                  'value':'return $model->storeroom->name;'|value_callback,
+                  'attribute':'trunk',
                 },
-                5:{
-                  'attribute':'recipients',
-                },
-                6:'recipients_address',
-                7:'recipients_contact',
+                5:'delivery',
+                6:'volume',
+                7:{'attribute':'method','value':searchModel.getMethodText()|value_callback},
                 8:'created',
                 9:{
                   'attribute':'创建人',
@@ -85,11 +82,6 @@
                     'class':'\\common\\extensions\\Grid\\GridActionColumn',
                     'template':'{update}{view}',
                 },
-                12:{
-                    'attribute':'处理订单',
-                    'format':'raw',
-                    'value':searchModel.getOptLink|value_callback,
-                }
         }})
     }}
                     

@@ -102,7 +102,7 @@ class Order extends BackendActiveRecord {
     }
     public function getOptLink(){
         return '
-            return \yii\helpers\Html::a("操作","/package/operate?id=$model->id",["target"=>"_blank"]);
+            return \yii\helpers\Html::a("操作","/package/operate?id=$model->id");
         ';
     }
     public function getPackageInfo(){

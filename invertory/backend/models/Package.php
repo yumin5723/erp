@@ -30,7 +30,7 @@ class Package extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['num','actual_weight','throw_weight','volume','method','trunk','delivery','price'],'required'],
+            [['num','actual_weight','throw_weight','volume','method','trunk','delivery'],'required'],
             [['box','info','order_ids'],'safe'],
         ];
     }
@@ -117,5 +117,24 @@ class Package extends BackendActiveRecord {
 
         }
         return $arr;
+    }
+    public function getMethodText(){
+        return '
+            $methods = (new \backend\models\Package())->getMethod();
+            if(isset($methods[$model->method])){
+                return $methods[$model->method];
+            }
+            return "undefined";
+        ';
+    }
+    public function getViewMethod(){
+        $methods = (new Package())->getMethod();
+        if(isset($methods[$this->method])){
+            return $methods[$this->method];
+        }
+        return "undefined";
+    }
+    public function getOrders(){
+        return $this->hasMany(OrderPackage::className(),['package_id'=>'id']);
     }
 }

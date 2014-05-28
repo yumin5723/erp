@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Package;
+use backend\models\search\PackageSearch;
 use backend\models\Order;
 use backend\components\BackendController;
 
@@ -26,6 +27,22 @@ class PackageController extends BackendController {
             else $this->render('error', $error);
         }
     }
+    /**
+     * Displays the page list
+     */
+    public function actionList() {
+        $searchModel = new PackageSearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        return $this->render('list', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
+    /**
+     * [actionOperate description]
+     * @return [type] [description]
+     */
     public function actionOperate(){
         $id = isset($_GET['id']) ? $_GET['id'] : "";
         if($id){
@@ -62,6 +79,7 @@ class PackageController extends BackendController {
      */
     public function actionView($id)
     {
+
         return $this->render('view', [
             'model' => $this->loadModel($id),
         ]);
