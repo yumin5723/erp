@@ -51,9 +51,12 @@
           4:'recipients_address',
           5:'recipients_contact',
           6:'goods_active',
-          7:'storeroom_id',
+          7:{'attribute':'storeroom_id','value':model.storeroom.name},
           8:'info',
-          9:'status',
+          9:{
+            'attribute':'状态',
+            'value':model.getOrderStatus(),
+          }
       }
 
 } )

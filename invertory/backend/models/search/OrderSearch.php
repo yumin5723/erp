@@ -41,8 +41,8 @@ class OrderSearch extends Order
         $query->andFilterWhere([
             'id' => $this->id,
             'goods_code' => $this->goods_code,
+            'status'=>$this->status,
         ]);
-
         // $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;

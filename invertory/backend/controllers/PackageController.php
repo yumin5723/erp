@@ -26,9 +26,12 @@ class PackageController extends BackendController {
             else $this->render('error', $error);
         }
     }
-    public function actionOperate($id){
-        $order = Order::findOne($id);
-        if ($order === null) throw new CHttpException(404, 'The requested page does not exist.');
+    public function actionOperate(){
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
+        if($id){
+            $order = Order::findOne($id);
+            if ($order === null) throw new CHttpException(404, 'The requested page does not exist.');
+        }
         //todo if order status
         $model = new Package;
         // collect user input data

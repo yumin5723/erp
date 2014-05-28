@@ -98,7 +98,19 @@ return [
             'subs' => [
                 [
                     'name' => '未处理订单',
-                    'route' => 'order/list?Order[status]=0',
+                    'route' => 'order/list?OrderSearch[status]=0',
+                ],
+                [
+                    'name' => '已包装订单',
+                    'route' => 'order/list?OrderSearch[status]=1',
+                ],
+                [
+                    'name' => '已发货订单',
+                    'route' => 'order/list?OrderSearch[status]=2',
+                ],
+                [
+                    'name' => '已签收订单',
+                    'route' => 'order/list?OrderSearch[status]=3',
                 ],
                 [
                     'name' => '下订单',

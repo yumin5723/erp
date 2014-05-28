@@ -9,6 +9,9 @@ use backend\models\Stock;
 
 class Order extends BackendActiveRecord {
     const NEW_ORDER = 0;
+    const PACKAGE_ORDER = 1;
+    const SHIPPING_ORDER = 2;
+    const SIGN_ORDER = 3;
     /**
      * function_description
      *
@@ -115,5 +118,23 @@ class Order extends BackendActiveRecord {
             return $methods[$this->packageInfo->method];
         }
         return "undefined";
+    }
+    /**
+     * [getOrderStatus description]
+     * @return [type] [description]
+     */
+    public function getOrderStatus(){
+        if($this->status == self::NEW_ORDER){
+            return "未处理";
+        }
+        if($this->status == self::PACKAGE_ORDER){
+            return "已包装";
+        }
+        if($this->status == self::SHIPPING_ORDER){
+            return "已发货";
+        }
+        if($this->status == self::SIGN_ORDER){
+            return "已签收";
+        }
     }
 }
