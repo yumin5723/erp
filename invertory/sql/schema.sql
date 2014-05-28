@@ -104,3 +104,35 @@ CREATE TABLE `order` (
   `modified_uid` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `package`;
+CREATE TABLE `package` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `num` int(11) NOT NULL,
+  `actual_weight` int(11) NOT NULL,
+  `throw_weight` int(11) NOT NULL,
+  `volume` int(11) NOT NULL,
+  `box` varchar(255) NOT NULL DEFAULT '',
+  `method` tinyint(4) NOT NULL DEFAULT '1',
+  `trunk` varchar(64) NOT NULL DEFAULT '',
+  `delivery` varchar(64) NOT NULL DEFAULT '',
+  `price` decimal(32,2) NOT NULL, 
+  `info` text NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `order_package`;
+CREATE TABLE `order_package` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `package_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

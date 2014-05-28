@@ -3,11 +3,11 @@
 namespace backend\controllers;
 
 use Yii;
+use backend\models\Package;
 use backend\models\Order;
-use backend\models\search\OrderSearch;
 use backend\components\BackendController;
 
-class OrderController extends BackendController {
+class PackageController extends BackendController {
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
@@ -26,53 +26,31 @@ class OrderController extends BackendController {
             else $this->render('error', $error);
         }
     }
-    /**
-     * Displays the page list
-     */
-    public function actionList() {
-        $searchModel = new OrderSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
-        return $this->render('list', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ]);
-    }
-    /**
-     * Displays the create page
-     */
-    public function actionCreate() {
-        $model = new Order;
+    public function actionOperate($id){
+        $order = Order::findOne($id);
+        if ($order === null) throw new CHttpException(404, 'The requested page does not exist.');
+        //todo if order status
+        $model = new Package;
         // collect user input data
-        if (isset($_POST['Order'])) {
+        if (isset($_POST['Package'])) {
             $model->load($_POST);
-            if ($model->validate()) {
-                $model->status = Order::NEW_ORDER;
-                $model->save();
+            if ($model->validate() && $model->save()) {
+                $model->saveOrderPackage();
                 Yii::$app->session->setFlash('success', '新建成功！');
-                $this->redirect("/order/list");
+                $this->redirect("/package/view?id=".$model->id);
             }
         }
         return $this->render('create', array(
-            'model' => $model,'isNew'=>true,
+            'model' => $model,'isNew'=>true,'order'=>[$id],
         )); 
     }
-    /**
-     * Displays the create page
-     */
-    public function actionUpdate($id) {
-        $model = new Order;
-        $id = $_GET['id'];
-        if($id){
-            $model = $this->loadModel($id);
-            if (!empty($_POST)) {
-                if ($model->load($_POST) && $model->save()) {
-                    Yii::$app->session->setFlash('success', '修改成功!');
-                    return $this->redirect(Yii::$app->request->getReferrer());
-                }
-            }
+    public function actionMultiple(){
+        if(Yii::$app->request->isPost){
+            $orders = $_POST['selection'];
+            return $this->render('create', array(
+                'model' => new Package,'isNew'=>true,'order'=>$orders
+            ));  
         }
-        return $this->render('create',['model'=>$model,'isNew'=>false]);
     }
     /**
      * Displays a single Order model.
@@ -82,7 +60,7 @@ class OrderController extends BackendController {
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => Order::findOne($id),
+            'model' => $this->loadModel($id),
         ]);
     }
     /**
@@ -91,7 +69,7 @@ class OrderController extends BackendController {
      * @param integer the ID of the model to be loaded
      */
     public function loadModel($id) {
-        $model = Order::findOne($id);
+        $model = Package::findOne($id);
         if ($model === null) throw new CHttpException(404, 'The requested page does not exist.');
         
         return $model;

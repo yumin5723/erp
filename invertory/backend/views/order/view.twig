@@ -27,7 +27,124 @@
 
             <div class="row">
 
-              <div class="col-md-12">
+              <div class="col-md-4">
+
+                <div class="widget">
+
+                <div class="widget-head">
+                  <div class="pull-left">订单详情</div>
+                  <div class="widget-icons pull-right">
+                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content">
+{{ widget('\\yii\\widgets\\DetailView', {
+      'model':model,
+      'attributes':{
+          0:'id',
+          1:'goods_code',
+          2:'goods_quantity',
+          3:'recipients',
+          4:'recipients_address',
+          5:'recipients_contact',
+          6:'goods_active',
+          7:'storeroom_id',
+          8:'info',
+          9:'status',
+      }
+
+} )
+  
+}}
+                    
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+                            <div class="col-md-4">
+
+                <div class="widget">
+
+                <div class="widget-head">
+                  <div class="pull-left">包装情况</div>
+                  <div class="widget-icons pull-right">
+                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content">
+{{ widget('\\yii\\widgets\\DetailView', {
+      'model':model,
+      'attributes':{
+          0:{
+            'label':'包装数量',
+            'value':model.packageInfo.num,
+          },
+          1:{
+            'label':'包装实重(KG)',
+            'value':model.packageInfo.actual_weight|join('KG'),
+          },
+          2:{
+            'label':'包装抛重(KG)',
+            'value':model.packageInfo.throw_weight|join("KG"),
+          },
+          3:{
+            'label':'体积(立方米)',
+            'value':model.packageInfo.volume|join("立方米"),
+          },
+          4:{
+            'label':'运输方式',
+            'value':model.getMethodText(),
+          },
+          5:{
+            'label':'干线',
+            'value':model.packageInfo.trunk,
+          },
+          6:{
+            'label':'派送',
+            'value':model.packageInfo.delivery,
+          },
+          7:{
+            'label':'单价',
+            'value':model.packageInfo.price,
+          },
+          8:{
+            'label':'包装箱',
+            'value':model.packageInfo.box,
+          },
+          9:{
+            'label':'备注',
+            'value':model.packageInfo.info,
+          }
+      }
+
+} )
+  
+}}
+                    
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+                            <div class="col-md-4">
 
                 <div class="widget">
 
@@ -61,6 +178,9 @@
                   </div>
                 </div>
               </div>
+
+
+
             </div>
         </div>
       </div>

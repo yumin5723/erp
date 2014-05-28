@@ -29,8 +29,6 @@
 
               <div class="col-md-12">
 
-{% set form = activeform.begin({'id':'create-form','action':'/package/multiple','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
-<button class="btn btn-sm btn-info" type="submit">合并包装</button>
                 <div class="widget">
 
                 <div class="widget-head">
@@ -54,48 +52,47 @@
             },
             'columns':{
                 0:{
-                  'class':'\\yii\\grid\\CheckboxColumn',
+                  'attribute':'id',
                 },
-                1:'id',
-                2:{
+                1:{
                   'attribute':"goods_code",
                 },
-                3:{
+                2:{
                   'attribute':'goods_quantity',
                 },
-                4:{
+                3:{
                   'attribute':'goods_active',
                 },
-                5:{
+                4:{
                   'attribute':'storeroom_id',
                   'value':'return $model->storeroom->name;'|value_callback,
                 },
-                6:{
+                5:{
                   'attribute':'recipients',
                 },
-                7:'recipients_address',
-                8:'recipients_contact',
-                9:'created',
-                10:{
+                6:'recipients_address',
+                7:'recipients_contact',
+                8:'created',
+                9:{
                   'attribute':'创建人',
                   'value':'return $model->createduser->username;'|value_callback,
                 },
-                11:{
+                10:{
                   'attribute':'修改人',
                   'value':'return $model->modifieduser->username;'|value_callback,
                 },
-                12:{
+                11:{
                     'class':'\\common\\extensions\\Grid\\GridActionColumn',
                     'template':'{update}{view}',
                 },
-                13:{
+                12:{
                     'attribute':'处理订单',
                     'format':'raw',
                     'value':searchModel.getOptLink|value_callback,
                 }
         }})
     }}
-{{ void(form.end()) }}
+                    
 
                     <div class="widget-foot">
                       <div class="clearfix"></div> 

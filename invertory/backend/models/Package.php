@@ -5,10 +5,13 @@ use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use yii\helpers\BaseArrayHelper;
 use backend\components\BackendActiveRecord;
-use backend\models\Stock;
 
-class Order extends BackendActiveRecord {
-    const NEW_ORDER = 0;
+class Package extends BackendActiveRecord {
+    const METHOD_HIGHWAY = 1;
+    const METHOD_RAILWAY = 2;
+    const METHOD_AIR = 3;
+    const METHOD_EXPRESS = 4;
+    public $order_ids = [];
     /**
      * function_description
      *
@@ -16,7 +19,7 @@ class Order extends BackendActiveRecord {
      * @return
      */
     public static function tableName() {
-        return 'order';
+        return 'package';
     }
 
     /**
@@ -27,11 +30,8 @@ class Order extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['goods_code','goods_quantity','recipients','recipients_address','recipients_contact'],'required'],
-            [['goods_active','storeroom_id','info','status'],'safe'],
-            ['goods_quantity','integer'],
-            ['goods_quantity','checkQuantity']
-            // ['goods_quantity',]/
+            [['num','actual_weight','throw_weight','volume','method','trunk','delivery','price'],'required'],
+            [['box','info','order_ids'],'safe'],
         ];
     }
     public function behaviors()
@@ -49,6 +49,23 @@ class Order extends BackendActiveRecord {
                 ],
            ]
         );
+    }
+    public function getMethod(){
+        return [
+            self::METHOD_EXPRESS=>'快递',
+            self::METHOD_AIR=>'航空',
+            self::METHOD_RAILWAY=>'铁路',
+            self::METHOD_HIGHWAY=>'公路',
+        ];
+    }
+    public function saveOrderPackage(){
+        $orders = $this->order_ids;
+        foreach($orders as $order){
+            $orderPackage = new OrderPackage;
+            $orderPackage->order_id = $order;
+            $orderPackage->package_id = $this->id;
+            $orderPackage->save();
+        }
     }
     /**
     * Validates the password.
@@ -96,24 +113,5 @@ class Order extends BackendActiveRecord {
 
         }
         return $arr;
-    }
-    public function getOptLink(){
-        return '
-            return \yii\helpers\Html::a("操作","/package/operate?id=$model->id",["target"=>"_blank"]);
-        ';
-    }
-    public function getPackageInfo(){
-        return $this->hasOne(Package::className(),['id'=>'package_id'])
-                    ->via('orderPackage',['order_id'=>'id']);
-    }
-    public function getOrderPackage(){
-        return $this->hasMany(OrderPackage::className(),['order_id'=>'id']);
-    }
-    public function getMethodText(){
-        $methods = (new Package())->getMethod();
-        if(isset($methods[$this->packageInfo->method])){
-            return $methods[$this->packageInfo->method];
-        }
-        return "undefined";
     }
 }
