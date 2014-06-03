@@ -129,4 +129,19 @@ return [
                 ],
             ],
         ],
+        'channel'=>[
+            'name'=>'订单与渠道',
+            'route'=>'',
+            'icon'=>'plane',
+            'subs' => [
+                [
+                    'name' => '渠道订单',
+                    'route' => 'channel/list',
+                ],
+                [
+                    'name' => '新建渠道订单',
+                    'route' => 'channel/create',
+                ],
+            ],
+        ],
 ];

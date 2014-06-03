@@ -152,7 +152,7 @@
                 <div class="widget">
 
                 <div class="widget-head">
-                  <div class="pull-left">Detail</div>
+                  <div class="pull-left">渠道明细</div>
                   <div class="widget-icons pull-right">
                     <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
                     <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
@@ -164,8 +164,58 @@
 {{ widget('\\yii\\widgets\\DetailView', {
       'model':model,
       'attributes':{
-          0:'id',
-          1:'goods_code',
+          1:{
+            'label':'交接单号',
+            'value':model.channel.connect_number,
+          },
+          2:{
+            'label':'渠道订单号',
+            'value':model.channel.channel_number,
+          },
+          3:{
+            'label':'货品名称',
+            'value':model.channel.goods_name
+          },
+          4:{
+            'label':'货品数量',
+            'value':model.channel.goods_quantity,
+          },
+          5:{
+            'label':'货品重量',
+            'value':model.channel.goods_weight,
+          },
+          6:{
+            'label':'货品体积',
+            'value':model.channel.goods_volume,
+          },
+          7:{
+            'label':'预计签收时间',
+            'value':model.channel.expected_time,
+          },
+          8:{
+            'label':'实际签收时间',
+            'value':model.channel.actual_time,
+          },
+          9:{
+            'label':'签收人',
+            'value':model.channel.receiver,
+          },
+          10:{
+            'label':'订单签收人',
+            'value':model.channel.order_receiver,
+          },
+          11:{
+            'label':'签收单图片',
+            'value':model.channel.image,
+          },
+          12:{
+            'label':'包装明细',
+            'value':model.channel.packing_details,
+          },
+          13:{
+            'label':'备注',
+            'value':model.channel.info,
+          }
       }
 
 } )

@@ -136,3 +136,39 @@ CREATE TABLE `order_package` (
   `modified_uid` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `channel`;
+CREATE TABLE `channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `connect_number` varchar(64) NOT NULL DEFAULT '',
+  `channel_number` varchar(64) NOT NULL DEFAULT '',
+  `goods_name` varchar(255) NOT NULL DEFAULT '',
+  `goods_quantity` int(11) NOT NULL DEFAULT '0',
+  `goods_weight` int(11) NOT NULL DEFAULT '0',
+  `goods_volume` int(11) NOT NULL DEFAULT '0',
+  `expected_time` datetime NOT NULL,
+  `actual_time` datetime NOT NULL,
+  `receiver` varchar(64) NOT NULL DEFAULT '',
+  `order_receiver` varchar(64) NOT NULL DEFAULT '',
+  `image` varchar(255) NOT NULL DEFAULT '',
+  `packing_details` text,
+  `info` text,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `order_channel`;
+CREATE TABLE `order_channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `connect_number` varchar(64) NOT NULL DEFAULT '',
+  `order_id` text,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

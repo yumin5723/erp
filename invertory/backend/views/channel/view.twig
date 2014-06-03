@@ -1,0 +1,86 @@
+{% set menu_name = "channel" %}
+{% set sidebar_name = "渠道订单" %}
+{% extends "../layouts/header.twig" %}
+  {% block content %}
+      <!-- Page heading -->
+      <div class="page-head">
+        <h2 class="pull-left"><i class="fa fa-table"></i> Channel</h2>
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="/"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="/channel/list" class="bread-current">Channel</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+      <!-- Page heading ends -->
+
+      <!-- Matter -->
+      <div class="matter">
+        <div class="container">
+          <div class="alert alert-info">
+                本渠道订单内容为订单
+                {% for o in model.orders %}
+                {{ o.order_id }}
+                {% endfor %}
+                 所含物品
+
+          </div>
+          <!-- Table -->
+
+            <div class="row">
+
+              <div class="col-md-4">
+
+                <div class="widget">
+
+                <div class="widget-head">
+                  <div class="pull-left">Detail</div>
+                  <div class="widget-icons pull-right">
+                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content">
+{{ widget('\\yii\\widgets\\DetailView', {
+      'model':model,
+      'attributes':{
+          0:'id',
+          1:'connect_number',
+          2:'channel_number',
+          3:'goods_name',
+          4:'goods_weight',
+          5:'goods_quantity',
+          6:'goods_volume',
+          7:'expected_time',
+          8:'actual_time',
+          9:'receiver',
+          10:'order_receiver',
+          11:'image',
+          12:'packing_details',
+          13:'info',
+      }
+
+} )
+  
+}}
+                    
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+{% endblock %}

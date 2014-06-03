@@ -6,6 +6,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\BaseArrayHelper;
 use backend\components\BackendActiveRecord;
 use backend\models\Stock;
+use backend\models\OrderChannel;
 
 class Order extends BackendActiveRecord {
     const NEW_ORDER = 0;
@@ -107,17 +108,21 @@ class Order extends BackendActiveRecord {
     }
     public function getPackageInfo(){
         return $this->hasOne(Package::className(),['id'=>'package_id'])
-                    ->via('orderPackage',['order_id'=>'id']);
+                    ->viaTable('order_package',['order_id'=>'id']);
     }
-    public function getOrderPackage(){
-        return $this->hasMany(OrderPackage::className(),['order_id'=>'id']);
-    }
+    // public function getOrderPackage(){
+    //     return $this->hasMany(OrderPackage::className(),['order_id'=>'id']);
+    // }
     public function getMethodText(){
         $methods = (new Package())->getMethod();
         if(isset($methods[$this->packageInfo->method])){
             return $methods[$this->packageInfo->method];
         }
         return "undefined";
+    }
+    public function getChannel(){
+        return $this->hasOne(Channel::className(),['connect_number'=>'connect_number'])
+                    ->viaTable('order_channel',['order_id'=>'id']);
     }
     /**
      * [getOrderStatus description]
