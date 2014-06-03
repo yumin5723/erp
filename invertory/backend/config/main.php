@@ -37,6 +37,7 @@ return [
                         'html' => '\yii\helpers\Html',
                         'pos_begin' => \yii\web\View::POS_BEGIN,
                         'activeform' =>'\yii\bootstrap\ActiveForm',
+                        'kactiveform'=>'\kartik\widgets\ActiveForm',
                         'dialog' =>'\yii\jui\Dialog',
                         'appasset' =>'backend\assets\AppAsset',
                     ],

@@ -172,3 +172,17 @@ CREATE TABLE `order_channel` (
   `modified_uid` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+Logistics information
+
+DROP TABLE IF EXISTS `order_channel`;
+CREATE TABLE `order_channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `connect_number` varchar(64) NOT NULL DEFAULT '',
+  `order_id` text,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
