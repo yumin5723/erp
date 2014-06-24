@@ -3,12 +3,12 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Stock;
-use backend\models\search\StockSearch;
+use backend\models\Material;
+use backend\models\search\MaterialSearch;
 use backend\components\BackendController;
 use backend\models\Upload;
 
-class StockController extends BackendController {
+class MaterialController extends BackendController {
     public $enableCsrfValidation;
     /**
      * This is the default 'index' action that is invoked
@@ -32,7 +32,7 @@ class StockController extends BackendController {
      * Displays the page list
      */
     public function actionList() {
-        $searchModel = new StockSearch;
+        $searchModel = new MaterialSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('list', [
@@ -44,14 +44,14 @@ class StockController extends BackendController {
      * Displays the create page
      */
     public function actionCreate() {
-        $model = new Stock;
+        $model = new Material;
         // collect user input data
-        if (isset($_POST['Stock'])) {
+        if (isset($_POST['Material'])) {
             $model->load($_POST);
             if ($model->validate()) {
                 $model->save();
                 Yii::$app->session->setFlash('success', '新建成功！');
-                $this->redirect("/stock/list");
+                $this->redirect("/material/list");
             }
         }
         return $this->render('create', array(
@@ -62,7 +62,7 @@ class StockController extends BackendController {
      * Displays the create page
      */
     public function actionUpdate($id) {
-        $model = new Stock;
+        $model = new Material;
         $id = $_GET['id'];
         if($id){
             $model = $this->loadModel($id);
@@ -81,7 +81,7 @@ class StockController extends BackendController {
      * @param integer the ID of the model to be loaded
      */
     public function loadModel($id) {
-        $model = Stock::findOne($id);
+        $model = Material::findOne($id);
         if ($model === null) throw new CHttpException(404, 'The requested page does not exist.');
         
         return $model;

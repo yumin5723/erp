@@ -1,0 +1,231 @@
+{% set sidebar_name = "添加物料" %}
+{% set menu_name = "material" %}
+{% extends "../layouts/header.twig" %}
+{% block content %}
+<style type="text/css">
+.help
+{
+color:red;
+}
+.overlay
+{
+ position: fixed;
+z-index:100;
+top: 0px;
+left: 0px;
+height:100%;
+width:100%;
+color:red;
+background-color:#666666;
+filter:alpha(opacity=75);
+-moz-opacity: 0.75;
+opacity: 0.75;
+text-align:center;
+
+}
+.newwindow
+{
+background-color:#ffffff;
+position:fixed;
+z-index:102;
+border:#d8d8d8 2px solid;
+width:400px;
+height:200px;
+top:50%;
+left:50%;
+margin-left:-100px;
+margin-top:-100px;
+color:red;
+}
+.caption{
+height:25px;
+width:280px;
+padding:20px 80px 10px 25px;
+float:left;
+}
+.close{
+height:25px;
+padding-top:5px;
+padding-right:5px;
+float:right;
+color:block;
+cursor:hand;
+}
+.picCount{
+  margin-top:10px;padding:10px 0;border-top:1px solid #ccc;
+}
+.fl{float:left;}
+.form-control{width:350px;}
+.controls li{clear:both;padding:2px 0;line-height:34px;}
+.controls li span.dt{font-size:14px;float:left;text-align:right;width:60px;padding-right:8px;}
+.clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
+.clearfix{zoom:1;}
+.control-group{width:500px;}
+</style>
+        <div class="page-head">
+        <!-- Page heading -->
+        <h2 class="pull-left"><i class="fa fa-file-o"></i> Material</h2>
+        </h2>
+
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="index.html"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="#" class="bread-current">Forms</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+        <!-- Page heading ends -->
+        <!-- Matter -->
+         <div class="matter">
+        <div class="container">
+
+          <div class="row">
+
+            <div class="col-md-12">
+
+
+              <div class="widget wgreen">
+                
+                <div class="widget-head">
+                  <div class="pull-left">Forms</div>
+                  <div class="widget-icons pull-right">
+                    <a href="forms.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                {% include "../layouts/notice.twig" %}
+                <div class="widget-content">
+                  <div class="padd">
+
+                    <br />
+                    <!-- Form starts.  -->
+                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}     
+                          {{ form.field(model,'code',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}  
+                          {{ form.field(model,'english_name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'project_id').dropDownList(model.getCanUseProjects()).label(null,{'class':'control-label col-lg-2'})|raw }}  
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">Owner</label>
+                              <div class="col-lg-5">
+                                {{ 
+                                widget('\\kartik\\widgets\\Select2',{
+                                    'model':model,
+                                    'attribute':'owner_id',
+                                    'data':model.getCanUseOwners(),
+                                    'options':{'placeholder':'Select a owner ...'},
+                                    'pluginOptions':{'allowClear':true},
+                                 })
+                             }}
+                              </div>
+                            </div>
+                          <div id="uploads">
+                          {% if isNew == true %}
+                          <div class="form-group img_count" id="pic_0">
+                              <label class="col-lg-2 control-label">upload image </label>
+                              <div class="col-lg-5">
+                                  <a href="#myModal" onclick="uploadFile(0);" class="btn btn-info" data-toggle="modal">Upload</a><br />
+                                  <input type="hidden" id="img_image0" name="Stock[image][0]">
+                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image0" src=""></a>
+                              </div>
+                              <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
+                            </div>
+                          {% else %}
+                            {% for key,value in model.image %}
+                                <div class="form-group img_count" id="pic_{{ loop.index }}">
+                              <label class="col-lg-2 control-label">upload image </label>
+                              <div class="col-lg-5">
+                                  <a href="#myModal" onclick="uploadFile({{ loop.index }});" class="btn btn-info" data-toggle="modal">Upload</a><br />
+                                  <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Stock[image][{{ loop.index }}]">
+                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image{{ loop.index }}" src="{{ value }}"></a>
+                              </div>
+                              <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
+                              <a class="btn btn-xs btn-danger pull-left" onclick="return deletePic('pic_{{loop.index}}');">删除</a>
+                            </div>
+                            {% endfor %}
+                          {% endif %}
+                          </div>
+                                    <hr />
+                                <div class="form-group">
+                                  <div class="col-lg-offset-2 col-lg-6">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                  </div>
+                                </div>
+                               {{ void(form.end()) }}
+                  </div>
+                </div>
+                  <div class="widget-foot">
+                    <!-- Footer goes here -->
+                  </div>
+              </div>  
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title">please select a image file</h4>
+            </div>
+            <form id="uploadimageForm" action="/stock/uploadfile" method="post" target="tarframe" enctype="multipart/form-data">
+            <div class="modal-body">
+              <p>
+                    <input type="hidden" name="num" id="image_num" />
+                    <input type="file" id="upload_file" name="upload" />
+                  <iframe src='' width='0' height='0' style='display:none;' name="tarframe"></iframe>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+              <button type="button" onclick="submitImg();" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Save</button>
+            </div>
+            </form>
+          </div>
+</div>
+</div>
+<script src="/js/jquery.js"></script>
+<script type="text/javascript">
+var i=$(".img_count").length;
+function showUpload(){
+  i++;
+  var str='<div class="form-group img_count" id="pic_'+i+'">';
+  str+='<label class="col-lg-2 control-label">upload image</label>';
+  str+='<div class="col-lg-5">';
+  str+='<a href="#myModal" class="btn btn-info" data-toggle="modal" onclick="uploadFile('+ i +');">Upload</a><br />';
+  str+= '<a class="prettyPhoto[pp_gal]" href="img/photos/s1.jpg"><img width="240px" height="180px" alt="" class="img_image'+i+'" src=""></a>';
+  str+='</div>';
+  str+='<input type="hidden" id="img_image'+i+'" name="Stock[image]['+ i +']">';
+  str+= '<a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>';
+  str+= '<a class="btn btn-xs btn-danger pull-left" onclick="return deletePic(\'pic_'+i+'\');">删除</a>';
+  str+= '</div>'
+  $("#uploads").append(str);
+}
+function deletePic(id){
+    $("#"+id).html("");
+}
+
+function uploadFile(num){
+    $('#image_num').val(num);
+    this.click();
+}
+function submitImg(){
+    $('#uploadimageForm').submit();
+}
+function stopSend(num,img){
+        $("#img_image"+num).val(img);
+        $(".img_image"+num).attr("src",img);
+        $("#openlink").attr("href",img);
+        $("#newlayer").remove();
+        $("#newwindow").remove();
+    }
+</script>
+{% endblock %}
