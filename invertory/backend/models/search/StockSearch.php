@@ -17,7 +17,7 @@ class StockSearch extends Stock
     {
         return [
             [['id'], 'integer'],
-            [['code', 'name','english_name','project_id','owner_id'], 'safe'],
+            [['material_id','project_id'], 'safe'],
         ];
     }
 
@@ -46,12 +46,8 @@ class StockSearch extends Stock
         }
         $query->andFilterWhere([
             'id' => $this->id,
-            'code' => $this->code,
-            'name' => $this->name,
-            'english_name' => $this->english_name,
+            'material_id' => $this->material_id,
         ]);
-
-        $query->andFilterWhere(['owner_id'=>$this->owner_id]);
 
         return $dataProvider;
     }

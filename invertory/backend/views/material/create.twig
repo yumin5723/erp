@@ -123,13 +123,14 @@ cursor:hand;
                              }}
                               </div>
                             </div>
+                          {{ form.field(model,'desc').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
                           <div id="uploads">
                           {% if isNew == true %}
                           <div class="form-group img_count" id="pic_0">
                               <label class="col-lg-2 control-label">upload image </label>
                               <div class="col-lg-5">
                                   <a href="#myModal" onclick="uploadFile(0);" class="btn btn-info" data-toggle="modal">Upload</a><br />
-                                  <input type="hidden" id="img_image0" name="Stock[image][0]">
+                                  <input type="hidden" id="img_image0" name="Material[image][0]">
                                   <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image0" src=""></a>
                               </div>
                               <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
@@ -140,7 +141,7 @@ cursor:hand;
                               <label class="col-lg-2 control-label">upload image </label>
                               <div class="col-lg-5">
                                   <a href="#myModal" onclick="uploadFile({{ loop.index }});" class="btn btn-info" data-toggle="modal">Upload</a><br />
-                                  <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Stock[image][{{ loop.index }}]">
+                                  <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Material[image][{{ loop.index }}]">
                                   <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image{{ loop.index }}" src="{{ value }}"></a>
                               </div>
                               <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
@@ -176,7 +177,7 @@ cursor:hand;
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h4 class="modal-title">please select a image file</h4>
             </div>
-            <form id="uploadimageForm" action="/stock/uploadfile" method="post" target="tarframe" enctype="multipart/form-data">
+            <form id="uploadimageForm" action="/material/uploadfile" method="post" target="tarframe" enctype="multipart/form-data">
             <div class="modal-body">
               <p>
                     <input type="hidden" name="num" id="image_num" />
@@ -203,7 +204,7 @@ function showUpload(){
   str+='<a href="#myModal" class="btn btn-info" data-toggle="modal" onclick="uploadFile('+ i +');">Upload</a><br />';
   str+= '<a class="prettyPhoto[pp_gal]" href="img/photos/s1.jpg"><img width="240px" height="180px" alt="" class="img_image'+i+'" src=""></a>';
   str+='</div>';
-  str+='<input type="hidden" id="img_image'+i+'" name="Stock[image]['+ i +']">';
+  str+='<input type="hidden" id="img_image'+i+'" name="Material[image]['+ i +']">';
   str+= '<a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>';
   str+= '<a class="btn btn-xs btn-danger pull-left" onclick="return deletePic(\'pic_'+i+'\');">删除</a>';
   str+= '</div>'

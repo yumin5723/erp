@@ -54,22 +54,13 @@
                 0:{
                   'attribute':'id',
                 },
-                1:{
-                  'attribute':"code",
-                },
                 2:{
-                  'attribute':'english_name',
-                },
-                3:{
-                  'attribute':'name',
+                  'attribute':'material_id',
+                  'value':'return $model->material->name;'|value_callback,
                 },
                 4:{
                   'attribute':'project_id',
                   'value':'return $model->projects->name;'|value_callback,
-                },
-                5:{
-                  'attribute':'owner_id',
-                  'value':'return $model->owners->english_name;'|value_callback,
                 },
                 6:'created',
                 7:'modified',
