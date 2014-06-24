@@ -76,6 +76,22 @@ return [
                 ],
             ],
         ],
+        'material'=>[
+            'name'=>'物料',
+            'route'=>'',
+            'icon'=>'tasks',
+            'style'=>'tasks',
+            'subs' => [
+                [
+                    'name' => '物料列表',
+                    'route' => 'material/list',
+                ],
+                [
+                    'name' => '添加物料',
+                    'route' => 'material/create',
+                ],
+            ],
+        ],
         'stock'=>[
             'name'=>'库存',
             'route'=>'',

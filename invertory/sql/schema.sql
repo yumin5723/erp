@@ -64,6 +64,25 @@ CREATE TABLE `owner` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `material`;
+CREATE TABLE `material` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `english_name` varchar(255) NOT NULL DEFAULT '',
+  `owner_id` int(11) NOT NULL, 
+  `forecast_quantity` int(11) NOT NULL DEFAULT '1',
+  `actual_quantity` int(11) NOT NULL DEFAULT '1',
+  `stock_time` datetime NOT NULL,
+  `delivery` varchar(64) NOT NULL DEFAULT '',
+  `image` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `stock`;
 CREATE TABLE `stock` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -184,5 +203,17 @@ CREATE TABLE `order_channel` (
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',
   `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `apk`;
+CREATE TABLE `apk` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL DEFAULT '',
+  `version` varchar(64) NOT NULL DEFAULT '',
+  `message` varchar(255) NOT NULL DEFAULT '',
+  `path` varchar(255) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
