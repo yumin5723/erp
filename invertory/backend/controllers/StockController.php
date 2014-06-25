@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Stock;
+use backend\models\StockTotal;
 use backend\models\search\StockSearch;
 use backend\components\BackendController;
 use backend\models\Upload;
@@ -50,6 +51,8 @@ class StockController extends BackendController {
             $model->load($_POST);
             if ($model->validate()) {
                 $model->save();
+                //create a data in stock total
+                StockTotal::updateTotal($model->material_id,$model->actual_quantity);
                 Yii::$app->session->setFlash('success', '新建成功！');
                 $this->redirect("/stock/list");
             }
@@ -66,7 +69,16 @@ class StockController extends BackendController {
         $id = $_GET['id'];
         if($id){
             $model = $this->loadModel($id);
+            //update StockTotal
             if (!empty($_POST)) {
+                //update StockTotal
+                if($model->actual_quantity != $_POST['Stock']['actual_quantity']){
+                    if($model->actual_quantity > $_POST['Stock']['actual_quantity']){
+                        StockTotal::updateTotal($model->material_id,($_POST['Stock']['actual_quantity'] - $model->actual_quantity));
+                    }else{
+                        StockTotal::updateTotal($model->material_id,($model->actual_quantity - $_POST['Stock']['actual_quantity']));
+                    }
+                }
                 if ($model->load($_POST) && $model->save()) {
                     Yii::$app->session->setFlash('success', '修改成功!');
                     return $this->redirect(Yii::$app->request->getReferrer());

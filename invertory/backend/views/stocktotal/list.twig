@@ -1,5 +1,5 @@
 {% set menu_name = "stock" %}
-{% set sidebar_name = "库存明细" %}
+{% set sidebar_name = "库存总览" %}
 {% extends "../layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
@@ -51,39 +51,18 @@
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
             'columns':{
-                0:{
-                  'attribute':'id',
-                },
                 2:{
                   'attribute':'material_id',
                   'value':'return $model->material->name;'|value_callback,
                 },
-                3:{
-                  'attribute':'storeroom_id',
-                  'value':'return $model->storeroom->name;'|value_callback,
-                },
                 4:{
-                  'attribute':'project_id',
-                  'value':'return $model->projects->name;'|value_callback,
+                  'attribute':'total',
                 },
                 5:{
-                  'attribute':'owner_id',
-                  'value':'return $model->owners->english_name;'|value_callback,
-                },
-                6:'created',
-                7:'modified',
-                8:{
-                  'attribute':'创建人',
-                  'value':'return $model->createduser->username;'|value_callback,
-                },
-                9:{
-                  'attribute':'修改人',
-                  'value':'return $model->modifieduser->username;'|value_callback,
-                },
-                10:{
-                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
-                    'template':'{update}{delete}{assignment}',
-                },
+                  'attribute':'明细',
+                  'format':'raw',
+                  'value':searchModel.getLink|value_callback,
+                }
         }})
     }}
                     

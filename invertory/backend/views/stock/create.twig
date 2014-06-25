@@ -75,20 +75,6 @@
                              }}
                               </div>
                             </div>
-                            <div class="form-group">
-                              <label class="col-lg-2 control-label">Goods</label>
-                              <div class="col-lg-5">
-                                {{ 
-                                widget('\\kartik\\widgets\\Select2',{
-                                    'model':model,
-                                    'attribute':'goods_code',
-                                    'data':model.getCanUseOwner(),
-                                    'options':{'placeholder':'Select a owner ...'},
-                                    'pluginOptions':{'allowClear':true},
-                                 })
-                             }}
-                              </div>
-                            </div>
                           {{ form.field(model,'stock_time').widget('\\yii\\jui\\DatePicker',{'name' : 'stock_time',
                               'attribute' : 'stock_time', 
                               'model':model,

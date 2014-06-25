@@ -99,19 +99,43 @@ CREATE TABLE `stock` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `stock_total`;
+CREATE TABLE `stock_total` (
+  `material_id` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`material_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_code` varchar(255) NOT NULL DEFAULT '',
-  `goods_quantity` int(11) NOT NULL,
   `goods_active` varchar(255) NOT NULL DEFAULT '',
   `storeroom_id` int(11) NOT NULL DEFAULT '0',
   `owner_id` int(11) NOT NULL DEFAULT '0',
+  `to_city` varchar(64) NOT NULL DEFAULT '',
   `recipients` varchar(64) NOT NULL DEFAULT '',
   `recipients_address` varchar(255) NOT NULL DEFAULT '',
   `recipients_contact` varchar(255) NOT NULL DEFAULT '',
   `info` text NOT NULL DEFAULT '',
+  `limitday` varchar(64) NOT NULL DEFAULT '',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `order_detail`;
+CREATE TABLE `order_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL DEFAULT '0',
+  `goods_code` varchar(128) NOT NULL DEFAULT '',
+  `goods_quantity` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',

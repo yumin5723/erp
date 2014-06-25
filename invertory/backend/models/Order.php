@@ -13,6 +13,8 @@ class Order extends BackendActiveRecord {
     const PACKAGE_ORDER = 1;
     const SHIPPING_ORDER = 2;
     const SIGN_ORDER = 3;
+    public $goods_code;
+    public $goods_quantity;
     /**
      * function_description
      *
@@ -92,7 +94,7 @@ class Order extends BackendActiveRecord {
         $arr = [];
         if($rs){
             foreach($rs as $key=>$v){
-                $arr[$v->material['code']]=$v->material['code']."  ".$v->material['name'];
+                $arr[$v->material['code']]="物料编号:  ".$v->material['code']."  ".$v->material['name']."  现有库存:".$v->stocktotal->total;
             }
 
         }

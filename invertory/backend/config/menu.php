@@ -99,6 +99,10 @@ return [
             'icon'=>'cloud-upload',
             'subs' => [
                 [
+                    'name' => '库存总览',
+                    'route' => 'stocktotal/list',
+                ],
+                [
                     'name' => '库存明细',
                     'route' => 'stock/list',
                 ],

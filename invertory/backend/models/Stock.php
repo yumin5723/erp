@@ -109,10 +109,16 @@ class Stock extends BackendActiveRecord {
     public function getProjects(){
         return $this->hasOne(Project::className(),['id'=>'project_id']);
     }
+    public function getStoreroom(){
+        return $this->hasOne(Storeroom::className(),['id'=>'storeroom_id']);
+    }
     public function getMaterial(){
         return $this->hasOne(Material::className(),['id'=>'material_id']);
     }
     public function getOwners(){
         return $this->hasOne(Owner::className(),['id'=>'owner_id']);
+    }
+    public function getStocktotal(){
+        return $this->hasOne(StockTotal::className(),['material_id'=>'material_id']);
     }
 }
