@@ -31,7 +31,7 @@ class Order extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['goods_code','goods_quantity','recipients','recipients_address','recipients_contact'],'required'],
+            [['goods_code','owner_id','goods_quantity','recipients','recipients_address','recipients_contact'],'required'],
             [['goods_active','storeroom_id','info','status'],'safe'],
             ['goods_quantity','integer'],
             ['goods_quantity','checkQuantity']
@@ -83,6 +83,21 @@ class Order extends BackendActiveRecord {
         }
         return $arr;
     }
+    /**
+     * [getCanUseStorerooms description]
+     * @return [type] [description]
+     */
+    public function getCanUseGoodsByOwnerId($owner_id,$storeroom_id){
+        $rs = Stock::find()->where(['owner_id'=>$owner_id,'storeroom_id'=>$storeroom_id])->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v->material['code']]=$v->material['code']."  ".$v->material['name'];
+            }
+
+        }
+        return $arr;
+    }
     public function getStoreroom(){
         return $this->hasOne(Storeroom::className(),['id'=>'storeroom_id']);
     }
@@ -96,6 +111,21 @@ class Order extends BackendActiveRecord {
         if($rs){
             foreach($rs as $key=>$v){
                 $arr[$v['active']]=$v['active'];
+            }
+
+        }
+        return $arr;
+    }
+    /**
+     * [getCanUseStorerooms description]
+     * @return [type] [description]
+     */
+    public function getCanUseOwner(){
+        $rs = Owner::find()->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v['id']]=$v['english_name'];
             }
 
         }

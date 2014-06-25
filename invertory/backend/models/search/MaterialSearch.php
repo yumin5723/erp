@@ -17,7 +17,7 @@ class MaterialSearch extends Material
     {
         return [
             [['id'], 'integer'],
-            [['code', 'name','english_name','project_id','owner_id'], 'safe'],
+            [['code', 'name','english_name','project_id'], 'safe'],
         ];
     }
 
@@ -37,12 +37,6 @@ class MaterialSearch extends Material
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
-        }
-        if(isset($this->owner_id) && !empty($this->owner_id)){
-            $owner = Owner::find()->where(['english_name'=>$this->owner_id])->one();
-            if(!empty($owner)){
-                $this->owner_id = $owner->id;
-            }
         }
         $query->andFilterWhere([
             'id' => $this->id,

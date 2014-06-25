@@ -109,20 +109,6 @@ cursor:hand;
                           {{ form.field(model,'name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}  
                           {{ form.field(model,'english_name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                           {{ form.field(model,'project_id').dropDownList(model.getCanUseProjects()).label(null,{'class':'control-label col-lg-2'})|raw }}  
-                          <div class="form-group">
-                              <label class="col-lg-2 control-label">Owner</label>
-                              <div class="col-lg-5">
-                                {{ 
-                                widget('\\kartik\\widgets\\Select2',{
-                                    'model':model,
-                                    'attribute':'owner_id',
-                                    'data':model.getCanUseOwners(),
-                                    'options':{'placeholder':'Select a owner ...'},
-                                    'pluginOptions':{'allowClear':true},
-                                 })
-                             }}
-                              </div>
-                            </div>
                           {{ form.field(model,'desc').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
                           <div id="uploads">
                           {% if isNew == true %}

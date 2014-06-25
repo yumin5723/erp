@@ -45,26 +45,42 @@
                     <br />
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}     
-                          {{ form.field(model,'goods_code',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'goods_quantity',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'recipients',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'recipients_address',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'recipients_contact',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                           {{ form.field(model,'storeroom_id').dropDownList(model.getCanUseStorerooms()).label(null,{'class':'control-label col-lg-2'})|raw }} 
                           <div class="form-group">
-                              <label class="col-lg-2 control-label">goods_active</label>
+                              <label class="col-lg-2 control-label">Owner</label>
                               <div class="col-lg-5">
                                 {{ 
                                 widget('\\kartik\\widgets\\Select2',{
                                     'model':model,
-                                    'attribute':'goods_active',
-                                    'data':model.getCanUseActive(),
-                                    'options':{'placeholder':'Select a owner ...'},
+                                    'attribute':'owner_id',
+                                    'data':model.getCanUseOwner(),
+                                    'options':{'placeholder':'Select a owner ...','onchange':'getGoods()'},
                                     'pluginOptions':{'allowClear':true},
                                  })
                              }}
                               </div>
                             </div>
+                           <div class="form-group">
+                              <label class="col-lg-2 control-label">Goods</label>
+                              <div class="col-lg-5">
+                                {{ 
+                                widget('\\kartik\\widgets\\Select2',{
+                                    'model':model,
+                                    'attribute':'goods_code',
+                                    'data':{0:""},
+                                    'options':{'placeholder':'Select a owner ...','onchange':'getGoods()'},
+                                    'pluginOptions':{'allowClear':true},
+                                 })
+                             }}
+                              </div>
+                            </div>
+
+                          {{ form.field(model,'goods_code',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'goods_quantity',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'recipients',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'recipients_address',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'recipients_contact',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                           {{ form.field(model,'goods_code',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             {{ form.field(model,'info').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
                                     <hr />
                                 <div class="form-group">
@@ -86,4 +102,25 @@
 
         </div>
       </div>
+<script type="text/javascript">
+function getGoods(){
+    var owner_id = $("#order-owner_id").val();
+    var storeroom_id = $("#order-storeroom_id").val();
+    $.ajax({
+        type : "POST",
+        url:"/order/getgoods",
+        dataType : "json",
+        data : {"owner_id":owner_id,"storeroom_id":storeroom_id},
+        success : function(data){
+            var html = "";
+            $.each(data,function(k,v){
+                html += "<option value='"+k+"'>"+v+"</option>";
+            });
+            $("#select2-chosen-2").text("Select a owner ...");
+            $("#order-goods_code").html(html);
+
+        }
+    });
+}
+</script>
 {% endblock %}

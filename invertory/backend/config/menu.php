@@ -28,22 +28,6 @@ return [
                 ],
             ],
         ],
-        'owner' => [
-            'name' => '物主',
-            'route' => 'owner/list',
-            'icon'=>'globe',
-            'style'=>'',
-            'subs' => [
-                [
-                    'name' => '物主列表',
-                    'route' => 'owner/list',
-                ],
-                [
-                    'name' => '添加物主',
-                    'route' => 'owner/create',
-                ],
-            ],
-        ],
         'storeroom'=>[
             'name'=>'仓库',
             'route'=>'',
@@ -76,6 +60,23 @@ return [
                 ],
             ],
         ],
+        'owner' => [
+            'name' => '物主',
+            'route' => 'owner/list',
+            'icon'=>'globe',
+            'style'=>'',
+            'subs' => [
+                [
+                    'name' => '物主列表',
+                    'route' => 'owner/list',
+                ],
+                [
+                    'name' => '添加物主',
+                    'route' => 'owner/create',
+                ],
+            ],
+        ],
+
         'material'=>[
             'name'=>'物料',
             'route'=>'',

@@ -8,6 +8,7 @@ use backend\models\search\OrderSearch;
 use backend\components\BackendController;
 
 class OrderController extends BackendController {
+    public $enableCsrfValidation = true;
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
@@ -95,5 +96,10 @@ class OrderController extends BackendController {
         if ($model === null) throw new CHttpException(404, 'The requested page does not exist.');
         
         return $model;
+    }
+    public function actionGetgoods(){
+        $this->enableCsrfValidation = false;
+        $result = Order::getCanUseGoodsByOwnerId($_POST['owner_id'],$_POST['storeroom_id']);
+        echo json_encode($result);
     }
 }

@@ -62,6 +62,10 @@
                   'attribute':'project_id',
                   'value':'return $model->projects->name;'|value_callback,
                 },
+                5:{
+                  'attribute':'owner_id',
+                  'value':'return $model->owners->english_name;'|value_callback,
+                },
                 6:'created',
                 7:'modified',
                 8:{

@@ -26,8 +26,8 @@ class Stock extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['material_id','storeroom_id','project_id'],'required'],
-            [['active','forecast_quantity','actual_quantity','stock_time','delivery'],'safe']
+            [['material_id','storeroom_id','project_id','owner_id'],'required'],
+            [['forecast_quantity','actual_quantity','stock_time','delivery'],'safe']
         ];
     }
     public function behaviors()
@@ -70,7 +70,22 @@ class Stock extends BackendActiveRecord {
         $arr = [];
         if($rs){
             foreach($rs as $key=>$v){
-                $arr[$v['id']]=$v['name'];
+                $arr[$v['id']]=$v['code']."  ".$v['name'];
+            }
+
+        }
+        return $arr;
+    }
+    /**
+     * [getCanUseProjects description]
+     * @return [type] [description]
+     */
+    public function getCanUseOwner(){
+        $rs = Owner::find()->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v['id']]=$v['english_name'];
             }
 
         }
@@ -96,5 +111,8 @@ class Stock extends BackendActiveRecord {
     }
     public function getMaterial(){
         return $this->hasOne(Material::className(),['id'=>'material_id']);
+    }
+    public function getOwners(){
+        return $this->hasOne(Owner::className(),['id'=>'owner_id']);
     }
 }
