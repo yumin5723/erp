@@ -29,6 +29,12 @@
             <div class="col-md-12">
 
 
+                  {% if ischange == true and results is empty  %}
+                  <div class="alert alert-warning">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        Warning!当前没有可供下订单的物料!
+  </div>
+                  {% endif %}
               <div class="widget wgreen">
                 
                 <div class="widget-head">
@@ -38,7 +44,6 @@
                   </div>
                   <div class="clearfix"></div>
                 </div>
-                {% include "../layouts/notice.twig" %}
                 <div class="widget-content">
                   <div class="padd">
 
@@ -70,6 +75,9 @@
                   </div>
 
                   {% if ischange == true %}
+                        {% if results is empty %}
+
+                        {% else %}
                         {% set form = activeform.begin({'id':'create-form','action':'/order/check','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
                         <input type="hidden" name="Order[owner_id]" value="{{ owner_id }}"/>
                         <input type="hidden" name="Order[storeroom_id]" value="{{ storeroom_id }}"/>
@@ -119,6 +127,7 @@
 
 
                   {{ void(form.end()) }}
+                  {% endif %}
                   {% endif %}
                 </div>
                   <div class="widget-foot">

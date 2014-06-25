@@ -7,6 +7,7 @@ use yii\helpers\BaseArrayHelper;
 use backend\components\BackendActiveRecord;
 
 class Stock extends BackendActiveRecord {
+    const IS_NOT_INCREASE = 1;
     public $upload;
     /**
      * function_description
@@ -120,5 +121,15 @@ class Stock extends BackendActiveRecord {
     }
     public function getStocktotal(){
         return $this->hasOne(StockTotal::className(),['material_id'=>'material_id']);
+    }
+    public function getLink(){
+        return '
+            if($model->increase == 1){
+                return "出库  ".\yii\helpers\Html::a("查看明细","/order/view?id=$model->order_id");
+            }else{
+                return "入库";
+            }
+            
+        ';
     }
 }

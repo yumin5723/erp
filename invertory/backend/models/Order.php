@@ -33,8 +33,8 @@ class Order extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['goods_code','owner_id','goods_quantity','recipients','recipients_address','recipients_contact'],'required'],
-            [['goods_active','storeroom_id','info','status'],'safe'],
+            [['owner_id','recipients','recipients_address','recipients_contact'],'required'],
+            [['goods_active','storeroom_id','to_city','info','status'],'safe'],
             ['goods_quantity','integer'],
             ['goods_quantity','checkQuantity']
             // ['goods_quantity',]/
@@ -180,6 +180,37 @@ class Order extends BackendActiveRecord {
         return '
             return \yii\helpers\Html::input("text","selection[]");
         ';
+    }
+    public function createOrderDetail($postData){
+        if(!is_array($postData)){
+            return false;
+        }
+        foreach($postData as $key=>$value){
+            $model = new OrderDetail;
+            $model->order_id = $this->id;
+            $model->goods_code = $value['code'];
+            $model->goods_quantity = $value['count'];
+            $model->save();
+        }
+        //Subtract stock
+        foreach($postData as $key=>$value){
+            $material = Material::find()->where(['code'=>$value['code']])->one();
+            $model = new Stock;
+            $model->material_id = $material->id;
+            $model->storeroom_id = $this->storeroom_id;
+            $model->owner_id = $this->owner_id;
+            $model->project_id = $material->project_id;
+            $model->actual_quantity = 0 - $value['count'];
+            $model->stock_time = date('Y-m-d H:i:s');
+            $model->created = date('Y-m-d H:i:s');
+            $model->increase = Stock::IS_NOT_INCREASE;
+            $model->order_id = $this->id;
+            $model->save(false);
+
+            //subtract stock total
+            StockTotal::updateTotal($material->id,(0 - $value['count']));
+        }
+        return true;
     }
 
 }

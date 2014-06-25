@@ -67,25 +67,34 @@ class OrderController extends BackendController {
     public function actionCheck() {
         $model = new Order;
         // collect user input data
+        if(isset($_POST['confirm_end'])){
+            $model->load($_POST);
+            if ($model->validate()) {
+                $model->save();
+                //create order detail 
+                $model->createOrderDetail($_POST['OrderDetail']);
+                $this->redirect("/order/list?OrderSearch[status]=0");
+            }
+        }
         if (isset($_POST['selection'])) {
             foreach($_POST['selection'] as $key=>$value){
                 if($value['count'] == 0){
                     unset($_POST['selection'][$key]);
                 }
             }
-
             return $this->render('checkaddress', array(
                 'model' => $model,'isNew'=>true,'data'=>$_POST['selection'],'owner_id'=>$_POST['Order']['owner_id'],
                     'storeroom_id'=>$_POST['Order']['storeroom_id'],
             )); 
         }
+        // var_dump($_POST);exit;
     }
     /**
      * [actionCreateorder description]
      * @return [type] [description]
      */
     public function actionCreateorder(){
-        
+
     }
     /**
      * Displays the create page

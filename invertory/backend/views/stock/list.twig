@@ -70,15 +70,18 @@
                   'attribute':'owner_id',
                   'value':'return $model->owners->english_name;'|value_callback,
                 },
-                6:'created',
-                7:'modified',
-                8:{
+                6:{
+                  'attribute':'状态',
+                  'format':'raw',
+                  'value':searchModel.getLink|value_callback,
+                },
+                7:{
+                  'attribute':'actual_quantity',
+                },
+                8:'created',
+                9:{
                   'attribute':'创建人',
                   'value':'return $model->createduser->username;'|value_callback,
-                },
-                9:{
-                  'attribute':'修改人',
-                  'value':'return $model->modifieduser->username;'|value_callback,
                 },
                 10:{
                     'class':'\\common\\extensions\\Grid\\GridActionColumn',

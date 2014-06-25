@@ -76,13 +76,16 @@
 
                     <br />
                     <!-- Form starts.  -->
-                     {% set form = activeform.begin({'id':'create-form','action':'/order/createorder','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
+                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
+                            {{ form.field(model,'goods_active',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                             {{ form.field(model,'to_city',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             {{ form.field(model,'recipients',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             {{ form.field(model,'recipients_address',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             {{ form.field(model,'recipients_contact',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             {{ form.field(model,'info').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
 
                             <input type="hidden" name="Order[owner_id]" value="{{ owner_id }}" />
+                            <input type="hidden" name="confirm_end" value="" />
                             <input type="hidden" name="Order[storeroom_id]" value="{{ storeroom_id }}" />
                             {% for d in data %}
                             <input type="hidden" name="OrderDetail[{{d.code}}][code]" value="{{ d.code }}"/>

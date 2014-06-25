@@ -92,6 +92,8 @@ CREATE TABLE `stock` (
   `actual_quantity` int(11) NOT NULL DEFAULT '1',
   `stock_time` datetime NOT NULL,
   `delivery` varchar(64) NOT NULL DEFAULT '',
+  `increase` tinyint(4) NOT NULL DEFAULT '0',
+  `order_id` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',
