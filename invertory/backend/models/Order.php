@@ -89,12 +89,14 @@ class Order extends BackendActiveRecord {
      * [getCanUseStorerooms description]
      * @return [type] [description]
      */
-    public function getCanUseGoodsByOwnerId($owner_id,$storeroom_id){
-        $rs = Stock::find()->where(['owner_id'=>$owner_id,'storeroom_id'=>$storeroom_id])->all();
+    public function getCanUseGoodsByOwnerId(){
+        $rs = Stock::find()->where(['owner_id'=>$this->owner_id,'storeroom_id'=>$this->storeroom_id])->all();
         $arr = [];
         if($rs){
             foreach($rs as $key=>$v){
-                $arr[$v->material['code']]="物料编号:  ".$v->material['code']."  ".$v->material['name']."  现有库存:".$v->stocktotal->total;
+                $arr[$v->material['code']]['code'] = $v->material['code'];
+                $arr[$v->material['code']]['name'] = $v->material['name'];
+                $arr[$v->material['code']]['count'] = $v->stocktotal->total;
             }
 
         }
@@ -174,4 +176,10 @@ class Order extends BackendActiveRecord {
             return "已签收";
         }
     }
+    public function getLink(){
+        return '
+            return \yii\helpers\Html::input("text","selection[]");
+        ';
+    }
+
 }

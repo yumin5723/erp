@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Order;
 use backend\models\search\OrderSearch;
+use backend\models\search\OrderStockSearch;
 use backend\components\BackendController;
 
 class OrderController extends BackendController {
@@ -47,16 +48,44 @@ class OrderController extends BackendController {
         // collect user input data
         if (isset($_POST['Order'])) {
             $model->load($_POST);
-            if ($model->validate()) {
-                $model->status = Order::NEW_ORDER;
-                $model->save();
-                Yii::$app->session->setFlash('success', '新建成功！');
-                $this->redirect("/order/list");
-            }
+                $results = $model->getCanUseGoodsByOwnerId();
+                return $this->render('create', [
+                    'results' => $results,
+                    'model'=>$model,
+                    'ischange'=>true,
+                    'owner_id'=>$_POST['Order']['owner_id'],
+                    'storeroom_id'=>$_POST['Order']['storeroom_id'],
+                ]);
         }
         return $this->render('create', array(
-            'model' => $model,'isNew'=>true,
+            'model' => $model,'isNew'=>true,'ischange'=>false,
         )); 
+    }
+    /**
+     * Displays the create page
+     */
+    public function actionCheck() {
+        $model = new Order;
+        // collect user input data
+        if (isset($_POST['selection'])) {
+            foreach($_POST['selection'] as $key=>$value){
+                if($value['count'] == 0){
+                    unset($_POST['selection'][$key]);
+                }
+            }
+
+            return $this->render('checkaddress', array(
+                'model' => $model,'isNew'=>true,'data'=>$_POST['selection'],'owner_id'=>$_POST['Order']['owner_id'],
+                    'storeroom_id'=>$_POST['Order']['storeroom_id'],
+            )); 
+        }
+    }
+    /**
+     * [actionCreateorder description]
+     * @return [type] [description]
+     */
+    public function actionCreateorder(){
+        
     }
     /**
      * Displays the create page
