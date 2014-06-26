@@ -42,4 +42,10 @@ class StockTotal extends BackendActiveRecord {
             return \yii\helpers\Html::a("查看明细","/stock/list?StockSearch[material_id]=$model->material_id");
         ';
     }
+    public function attributeLabels(){
+        return [
+            'material_id'=>'物料',
+            'total'=>'现有库存',
+        ];
+    }
 }

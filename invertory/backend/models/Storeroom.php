@@ -72,4 +72,13 @@ class Storeroom extends ActiveRecord {
             return false;
         }
     }
+    public function attributeLabels(){
+        return [
+            'name'=>'仓库名',
+            'address'=>'仓库地址',
+            'level'=>'仓库等级',
+            'contact'=>'联系人',
+            'phone'=>'联系电话',
+        ];
+    }
 }

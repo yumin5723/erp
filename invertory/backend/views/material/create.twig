@@ -113,7 +113,7 @@ cursor:hand;
                           <div id="uploads">
                           {% if isNew == true %}
                           <div class="form-group img_count" id="pic_0">
-                              <label class="col-lg-2 control-label">upload image </label>
+                              <label class="col-lg-2 control-label">图片</label>
                               <div class="col-lg-5">
                                   <a href="#myModal" onclick="uploadFile(0);" class="btn btn-info" data-toggle="modal">Upload</a><br />
                                   <input type="hidden" id="img_image0" name="Material[image][0]">
@@ -124,7 +124,7 @@ cursor:hand;
                           {% else %}
                             {% for key,value in model.image %}
                                 <div class="form-group img_count" id="pic_{{ loop.index }}">
-                              <label class="col-lg-2 control-label">upload image </label>
+                              <label class="col-lg-2 control-label">图片</label>
                               <div class="col-lg-5">
                                   <a href="#myModal" onclick="uploadFile({{ loop.index }});" class="btn btn-info" data-toggle="modal">Upload</a><br />
                                   <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Material[image][{{ loop.index }}]">

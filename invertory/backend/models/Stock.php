@@ -132,4 +132,21 @@ class Stock extends BackendActiveRecord {
             
         ';
     }
+    public function attributeLabels(){
+        return [
+            'material_id'=>'物料',
+            'storeroom_id'=>'入库仓库',
+            'project_id'=>'所属项目',
+            'forecast_quantity'=>'预计入库数量',
+            'actual_quantity'=>'实际入库数量',
+            'owner_id'=>'所属人',
+            'stock_time'=>'入库时间',
+            'delivery'=>'送货方',
+            'increase'=>'出入库标记',
+            'order_id'=>'订单号',
+            'created'=>'添加时间',
+            'created_uid'=>'创建人',
+        ];
+    }
+
 }

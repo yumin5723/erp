@@ -82,4 +82,11 @@ class Project extends BackendActiveRecord {
         //     }
         // ';
     }
+    public function attributeLabels(){
+        return [
+            'name'=>'项目名',
+            'created'=>'创建时间',
+            'created_uid'=>'创建人',
+        ];
+    }
 }

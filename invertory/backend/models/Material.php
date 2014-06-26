@@ -107,4 +107,17 @@ class Material extends BackendActiveRecord {
     public function getOwners(){
         return $this->hasOne(Owner::className(),['id'=>'owner_id']);
     }
+    public function attributeLabels(){
+        return [
+            'code'=>'物料编码',
+            'name'=>'物料名称',
+            'english_name'=>'英文名称',
+            'owner_id'=>'所属人',
+            'project_id'=>'所属项目',
+            'desc'=>'物料描述',
+            'image'=>'物料图片',
+            'created'=>'添加时间',
+            'created_uid'=>'创建人',
+        ];
+    }
 }
