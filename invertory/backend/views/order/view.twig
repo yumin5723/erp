@@ -42,20 +42,18 @@
 
                   <div class="widget-content">
 {{ widget('\\yii\\widgets\\DetailView', {
-      'model':model,
+      'model':order,
       'attributes':{
-          0:'id',
-          1:'goods_code',
-          2:'goods_quantity',
+          0:'viewid',
           3:'recipients',
           4:'recipients_address',
           5:'recipients_contact',
           6:'goods_active',
-          7:{'attribute':'storeroom_id','value':model.storeroom.name},
+          7:{'attribute':'storeroom_id','value':order.storeroom.name},
           8:'info',
           9:{
             'attribute':'状态',
-            'value':model.getOrderStatus(),
+            'value':order.getOrderStatus(),
           }
       }
 
@@ -78,71 +76,37 @@
                 <div class="widget">
 
                 <div class="widget-head">
-                  <div class="pull-left">包装情况</div>
+                  <div class="pull-left">订单内容</div>
                   <div class="widget-icons pull-right">
-                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                    <a class="wminimize" href="tables.html#"><i class="fa fa-chevron-up"></i></a> 
+                    <a class="wclose" href="tables.html#"><i class="fa fa-times"></i></a>
                   </div>  
                   <div class="clearfix"></div>
                 </div>
 
                   <div class="widget-content">
-{{ widget('\\yii\\widgets\\DetailView', {
-      'model':model,
-      'attributes':{
-          0:{
-            'label':'包装数量',
-            'value':model.packageInfo.num,
-          },
-          1:{
-            'label':'包装实重(KG)',
-            'value':model.packageInfo.actual_weight|join('KG'),
-          },
-          2:{
-            'label':'包装抛重(KG)',
-            'value':model.packageInfo.throw_weight|join("KG"),
-          },
-          3:{
-            'label':'体积(立方米)',
-            'value':model.packageInfo.volume|join("立方米"),
-          },
-          4:{
-            'label':'运输方式',
-            'value':model.getMethodText(),
-          },
-          5:{
-            'label':'干线',
-            'value':model.packageInfo.trunk,
-          },
-          6:{
-            'label':'派送',
-            'value':model.packageInfo.delivery,
-          },
-          7:{
-            'label':'单价',
-            'value':model.packageInfo.price,
-          },
-          8:{
-            'label':'包装箱',
-            'value':model.packageInfo.box,
-          },
-          9:{
-            'label':'备注',
-            'value':model.packageInfo.info,
-          }
-      }
 
-} )
-  
-}}
-                    
-
-                    <div class="widget-foot">
-                      <div class="clearfix"></div> 
-
-                    </div>
+                    <table class="table table-striped table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>物料编码</th>
+                          <th>物料名称</th>
+                          <th>发货数量</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for de in detail %}
+                        <tr>
+                          <td>{{ de.goods_code }}</td>
+                          <td>{{ de.material.name }}</td>
+                          <td>{{ de.goods_quantity }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
 
                   </div>
+
                 </div>
               </div>
 
@@ -161,66 +125,7 @@
                 </div>
 
                   <div class="widget-content">
-{{ widget('\\yii\\widgets\\DetailView', {
-      'model':model,
-      'attributes':{
-          1:{
-            'label':'交接单号',
-            'value':model.channel.connect_number,
-          },
-          2:{
-            'label':'渠道订单号',
-            'value':model.channel.channel_number,
-          },
-          3:{
-            'label':'货品名称',
-            'value':model.channel.goods_name
-          },
-          4:{
-            'label':'货品数量',
-            'value':model.channel.goods_quantity,
-          },
-          5:{
-            'label':'货品重量',
-            'value':model.channel.goods_weight,
-          },
-          6:{
-            'label':'货品体积',
-            'value':model.channel.goods_volume,
-          },
-          7:{
-            'label':'预计签收时间',
-            'value':model.channel.expected_time,
-          },
-          8:{
-            'label':'实际签收时间',
-            'value':model.channel.actual_time,
-          },
-          9:{
-            'label':'签收人',
-            'value':model.channel.receiver,
-          },
-          10:{
-            'label':'订单签收人',
-            'value':model.channel.order_receiver,
-          },
-          11:{
-            'label':'签收单图片',
-            'value':model.channel.image,
-          },
-          12:{
-            'label':'包装明细',
-            'value':model.channel.packing_details,
-          },
-          13:{
-            'label':'备注',
-            'value':model.channel.info,
-          }
-      }
 
-} )
-  
-}}
                     
 
                     <div class="widget-foot">

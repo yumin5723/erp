@@ -4,6 +4,9 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Order;
+use backend\models\OrderPackage;
+use backend\models\OrderDetail;
+use backend\models\Package;
 use backend\models\search\OrderSearch;
 use backend\models\search\OrderStockSearch;
 use backend\components\BackendController;
@@ -64,6 +67,7 @@ class OrderController extends BackendController {
     /**
      * Displays the create page
      */
+
     public function actionCheck() {
         $model = new Order;
         // collect user input data
@@ -71,6 +75,8 @@ class OrderController extends BackendController {
             $model->load($_POST);
             if ($model->validate()) {
                 $model->save();
+                $model->viewid = date('Ymd')."-".$model->id;
+                $model->update();
                 //create order detail 
                 $model->createOrderDetail($_POST['OrderDetail']);
                 $this->redirect("/order/list?OrderSearch[status]=0");
@@ -87,14 +93,6 @@ class OrderController extends BackendController {
                     'storeroom_id'=>$_POST['Order']['storeroom_id'],
             )); 
         }
-        // var_dump($_POST);exit;
-    }
-    /**
-     * [actionCreateorder description]
-     * @return [type] [description]
-     */
-    public function actionCreateorder(){
-
     }
     /**
      * Displays the create page
@@ -119,9 +117,26 @@ class OrderController extends BackendController {
      * @return mixed
      */
     public function actionView($id)
-    {
+    {   
+        $order = Order::findOne($id);
+        $order_package = OrderPackage::find()->where(['order_id'=>$id])->one();
+        $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
+        $package = [];
+        if(!empty($order_package)){
+            $package = Package::find()->where(['id'=>$order_package->package_id])->one();
+        }
         return $this->render('view', [
-            'model' => Order::findOne($id),
+            'order' => $order,
+            'package' => $package,
+            'detail' =>$detail,
+        ]);
+    }
+    public function actionPrint($id){
+        $order = Order::findOne($id);
+        $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
+        return $this->renderPartial('print', [
+            'order' => $order,
+            'detail' =>$detail,
         ]);
     }
     /**

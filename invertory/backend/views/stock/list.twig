@@ -1,17 +1,17 @@
-{% set menu_name = "order" %}
-{% set sidebar_name = "订单列表" %}
+{% set menu_name = "stock" %}
+{% set sidebar_name = "库存明细" %}
 {% extends "../layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
       <div class="page-head">
-        <h2 class="pull-left"><i class="fa fa-table"></i> Order</h2>
+        <h2 class="pull-left"><i class="fa fa-table"></i> Stock</h2>
 
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="/"><i class="fa fa-home"></i> Home</a> 
           <!-- Divider -->
           <span class="divider">/</span> 
-          <a href="/order/list" class="bread-current">Order</a>
+          <a href="/stock/list" class="bread-current">Stock</a>
         </div>
 
         <div class="clearfix"></div>
@@ -29,8 +29,6 @@
 
               <div class="col-md-12">
 
-{% set form = activeform.begin({'id':'create-form','action':'/package/multiple','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
-<button class="btn btn-sm btn-info" type="submit">合并包装</button>
                 <div class="widget">
 
                 <div class="widget-head">
@@ -53,48 +51,37 @@
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
             'columns':{
-                0:{
-                  'class':'\\yii\\grid\\CheckboxColumn',
+                1:'id',
+                2:{
+                  'attribute':'material_id',
+                  'value':'return $model->material->name;'|value_callback,
                 },
-                1:'viewid',
-                4:{
-                  'attribute':'goods_active',
-                },
-                5:{
+                3:{
                   'attribute':'storeroom_id',
                   'value':'return $model->storeroom->name;'|value_callback,
                 },
+                4:{
+                  'attribute':'project_id',
+                  'value':'return $model->projects->name;'|value_callback,
+                },
+                5:{
+                  'attribute':'owner_id',
+                  'value':'return $model->owners->english_name;'|value_callback,
+                },
                 6:{
-                  'attribute':'recipients',
+                  'attribute':'forecast_quantity',
+                  'value':'if($model->increase == 1){return "";}else{return $model->forecast_quantity;}'|value_callback,
                 },
-                7:'recipients_address',
-                8:'recipients_contact',
-                9:'created',
+                7:'actual_quantity',
+                8:'stock_time',
+                9:'delivery',
                 10:{
-                  'attribute':'创建人',
-                  'value':'return $model->createduser->username;'|value_callback,
+                  'attribute':'出入库标记',
+                  'format':'raw',
+                  'value':searchModel.getLink|value_callback,
                 },
-                11:{
-                  'attribute':'修改人',
-                  'value':'return $model->modifieduser->username;'|value_callback,
-                },
-                12:{
-                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
-                    'template':'{update}{view}',
-                },
-                13:{
-                    'attribute':'处理订单',
-                    'format':'raw',
-                    'value':searchModel.getOptLink|value_callback,
-                },
-                14:{
-                    'attribute':'打印',
-                    'format':'raw',
-                    'value':searchModel.getPrintLink|value_callback,
-                }
         }})
     }}
-{{ void(form.end()) }}
 
                     <div class="widget-foot">
                       <div class="clearfix"></div> 

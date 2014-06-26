@@ -115,6 +115,7 @@ CREATE TABLE `stock_total` (
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `viewid` varchar(128) NOT NULL DEFAULT '',
   `goods_active` varchar(255) NOT NULL DEFAULT '',
   `storeroom_id` int(11) NOT NULL DEFAULT '0',
   `owner_id` int(11) NOT NULL DEFAULT '0',
@@ -130,7 +131,7 @@ CREATE TABLE `order` (
   `created_uid` int(11) NOT NULL DEFAULT '1',
   `modified_uid` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=100;
 
 DROP TABLE IF EXISTS `order_detail`;
 CREATE TABLE `order_detail` (

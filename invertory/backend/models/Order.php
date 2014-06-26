@@ -34,7 +34,7 @@ class Order extends BackendActiveRecord {
     public function rules() {
         return [
             [['owner_id','recipients','recipients_address','recipients_contact'],'required'],
-            [['goods_active','storeroom_id','to_city','info','status'],'safe'],
+            [['goods_active','storeroom_id','to_city','info','limitday','status'],'safe'],
             ['goods_quantity','integer'],
             ['goods_quantity','checkQuantity']
             // ['goods_quantity',]/
@@ -120,6 +120,10 @@ class Order extends BackendActiveRecord {
         }
         return $arr;
     }
+    public function getCanChoseMethod(){
+        $result = ["4小时"=>'4小时','12小时'=>'12小时','24小时'=>'24小时','3天'=>'3天',"5天"=>'5天'];
+        return $result;
+    }
     /**
      * [getCanUseStorerooms description]
      * @return [type] [description]
@@ -140,13 +144,18 @@ class Order extends BackendActiveRecord {
             return \yii\helpers\Html::a("操作","/package/operate?id=$model->id");
         ';
     }
+    public function getPrintLink(){
+        return '
+            return \yii\helpers\Html::a("打印","/order/print?id=$model->id",["target"=>"_blank"]);
+        ';
+    }
     public function getPackageInfo(){
         return $this->hasOne(Package::className(),['id'=>'package_id'])
-                    ->viaTable('order_package',['order_id'=>'id']);
+                    ->via('orderPackage');
     }
-    // public function getOrderPackage(){
-    //     return $this->hasMany(OrderPackage::className(),['order_id'=>'id']);
-    // }
+    public function getOrderPackage(){
+        return $this->hasOne(OrderPackage::className(),['order_id'=>'id']);
+    }
     public function getMethodText(){
         $methods = (new Package())->getMethod();
         if(isset($methods[$this->packageInfo->method])){
@@ -211,6 +220,22 @@ class Order extends BackendActiveRecord {
             StockTotal::updateTotal($material->id,(0 - $value['count']));
         }
         return true;
+    }
+    public function attributeLabels(){
+        return [
+            'goods_active'=>'活动',
+            'viewid'=>'订单号',
+            'storeroom_id'=>'出库仓库',
+            'to_city'=>'收货城市',
+            'recipients'=>'收货人',
+            'recipients_address'=>'收货地址',
+            'recipients_contact'=>'收货人联系方式',
+            'info'=>'备注',
+            'limitday'=>'到货需求',
+            'status'=>'订单状态',
+            'created'=>'下单时间',
+            'created_uid'=>'下单人',
+        ];
     }
 
 }

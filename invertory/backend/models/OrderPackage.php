@@ -16,4 +16,13 @@ class OrderPackage extends BackendActiveRecord {
     public static function tableName() {
         return 'order_package';
     }
+    public function getOrders(){
+    	return $this->hasOne(Order::className(),['id'=>'order_id']);
+    }
+    public function getDetail(){
+    	return $this->hasMany(OrderDetail::className(),['order_id'=>'order_id']);
+    }
+    public function getPackages(){
+    	return $this->hasOne(Package::className(),['id'=>'package_id']);
+    }
 }
