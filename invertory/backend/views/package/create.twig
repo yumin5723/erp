@@ -49,10 +49,10 @@
                               <label class="col-lg-2 control-label">订单号</label>
                               <div class="col-lg-5">
                                 {% for o in order %}
-                                <input type="hidden" value="{{ o }}" name="Package[order_ids][]" class="form-control"/>
+                                <input type="hidden" value="{{ o.id }}" name="Package[order_ids][]" class="form-control"/>
                                 {% endfor %}
                                 {% for o in order %}
-                                {{ o }},
+                                {{ o.viewid }},
                                 {% endfor %}
                               </div>
                             </div> 

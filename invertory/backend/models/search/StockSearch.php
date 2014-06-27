@@ -17,7 +17,7 @@ class StockSearch extends Stock
     {
         return [
             [['id'], 'integer'],
-            [['material_id','project_id'], 'safe'],
+            [['material_id','project_id','storeroom_id','increase','owner_id'], 'safe'],
         ];
     }
 
@@ -49,6 +49,14 @@ class StockSearch extends Stock
             'material_id' => $this->material_id,
         ]);
 
+        return $dataProvider;
+    }
+    public function searchByPost($material_id,$increase){
+        $query = Stock::find()->where(['material_id'=>$material_id,'increase'=>$increase])->orderBy(['id'=>SORT_DESC]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
         return $dataProvider;
     }
 }

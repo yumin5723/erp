@@ -28,7 +28,7 @@ class OrderSearch extends Order
 
     public function search($params)
     {
-        $query = Order::find()->orderBy(['id'=>SORT_DESC]);
+        $query = Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL])->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -45,6 +45,14 @@ class OrderSearch extends Order
         ]);
         // $query->andFilterWhere(['like', 'name', $this->name]);
 
+        return $dataProvider;
+    }
+    public function searchByPost($orderid){
+        $query = Order::find()->where(['viewid'=>$orderid,'is_del'=>Order::ORDER_IS_NOT_DEL]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
         return $dataProvider;
     }
 }

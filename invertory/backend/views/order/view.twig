@@ -14,6 +14,10 @@
           <a href="/order/list" class="bread-current">Order</a>
         </div>
 
+        <div class="col-lg-5">
+            <a href="#myModal" class="btn btn-success" onclick="changeStatus({{ order.id }});" data-toggle="modal"><i class="glyphicon glyphicon-repeat">修改订单状态</i></a>
+            <a href="/order/print?id={{ order.id }}" target="_blank" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-export">打印订单</i></a>
+        </div>
         <div class="clearfix"></div>
 
       </div>
@@ -25,12 +29,8 @@
 
           <!-- Table -->
 
-            <div class="row">
-
               <div class="col-md-4">
-
                 <div class="widget">
-
                 <div class="widget-head">
                   <div class="pull-left">订单详情</div>
                   <div class="widget-icons pull-right">
@@ -53,6 +53,7 @@
           8:'info',
           9:{
             'attribute':'状态',
+            'format':'raw',
             'value':order.getOrderStatus(),
           }
       }
@@ -127,7 +128,6 @@
                   <div class="widget-content">
 
                     
-
                     <div class="widget-foot">
                       <div class="clearfix"></div> 
 
@@ -141,5 +141,45 @@
 
             </div>
         </div>
+
       </div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title">设置订单状态</h4>
+            </div>
+             {% set form = activeform.begin({'id':'uploadimageForm','action':'/order/change','layout':'horizontal','fieldConfig':{'target':'tarframe','horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
+            <div class="modal-body">
+              <div class="col-lg-5">
+                  <select class="form-control" name="status">
+                    {% for st,v in order.getCanChoseStatus() %}
+                    <option value="{{ st }}">{{ v }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+              <p>
+                    <input type="hidden" name="orderid" id="image_num" />
+                  <iframe src='' width='0' height='0' style='display:none;' name="tarframe"></iframe>
+              </p>
+            </div>
+            {{ void(form.end()) }}
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+              <button type="button" onclick="submitChangeOrder();" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Save</button>
+            </div>
+            </form>
+          </div>
+</div>
+</div>
+<script type="text/javascript">
+function changeStatus(orderid){
+    $('#image_num').val(orderid);
+    this.click();
+}
+function submitChangeOrder(){
+    $('#uploadimageForm').submit();
+}
+</script>
 {% endblock %}

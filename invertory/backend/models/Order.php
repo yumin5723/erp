@@ -13,6 +13,11 @@ class Order extends BackendActiveRecord {
     const PACKAGE_ORDER = 1;
     const SHIPPING_ORDER = 2;
     const SIGN_ORDER = 3;
+    const CONFIRM_ORDER = 4;
+    const REFUSE_ORDER = 5;
+
+    const ORDER_IS_DEL = 1;
+    const ORDER_IS_NOT_DEL = 0;
     public $goods_code;
     public $goods_quantity;
     /**
@@ -141,7 +146,11 @@ class Order extends BackendActiveRecord {
     }
     public function getOptLink(){
         return '
-            return \yii\helpers\Html::a("操作","/package/operate?id=$model->id");
+            if($model->status == 0 || $model->status == 4){
+                return \yii\helpers\Html::a("包装","/package/operate?id=$model->id");
+            }else{
+                return "";
+            }
         ';
     }
     public function getPrintLink(){
@@ -173,16 +182,22 @@ class Order extends BackendActiveRecord {
      */
     public function getOrderStatus(){
         if($this->status == self::NEW_ORDER){
-            return "未处理";
+            return "<font color='red'>未处理<font>";
+        }
+        if($this->status == self::CONFIRM_ORDER){
+            return "<font color='red'>已确认<font>";
         }
         if($this->status == self::PACKAGE_ORDER){
-            return "已包装";
+            return "<font color='red'>已包装<font>";
         }
         if($this->status == self::SHIPPING_ORDER){
-            return "已发货";
+            return "<font color='red'>已发货<font>";
         }
         if($this->status == self::SIGN_ORDER){
-            return "已签收";
+            return "<font color='red'>已签收<font>";
+        }
+        if($this->status == self::RESUSE_ORDER){
+            return "<font color='red'>已退回<font>";
         }
     }
     public function getLink(){
@@ -236,6 +251,26 @@ class Order extends BackendActiveRecord {
             'created'=>'下单时间',
             'created_uid'=>'下单人',
         ];
+    }
+    public function getCanChoseStatus(){
+        if($this->status == 3){
+            $result = [self::SIGN_ORDER=>'已签收'];
+        }
+        elseif($this->status == 1){
+            $result = [self::SHIPPING_ORDER=>'已运输',self::SIGN_ORDER=>'已签收'];
+        }
+        elseif($this->status == 2){
+            $result = [self::SIGN_ORDER=>'已签收'];
+        }
+        else {
+            $package = OrderPackage::find()->where(['order_id'=>$this->id])->one();
+            if(empty($package)){
+                $result = [self::CONFIRM_ORDER=>'确认订单'];
+            }else{
+                $result = [self::CONFIRM_ORDER=>'确认订单',self::PACKAGE_ORDER=>'已包装',self::SHIPPING_ORDER=>'已运输',self::SIGN_ORDER=>'已签收',self::REFUSE_ORDER=>'退回订单'];
+            }
+        }
+        return $result;
     }
 
 }

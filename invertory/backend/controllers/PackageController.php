@@ -61,12 +61,13 @@ class PackageController extends BackendController {
             }
         }
         return $this->render('create', array(
-            'model' => $model,'isNew'=>true,'order'=>[$id],
+            'model' => $model,'isNew'=>true,'order'=>[$order],
         )); 
     }
     public function actionMultiple(){
         if(Yii::$app->request->isPost){
-            $orders = $_POST['selection'];
+            $ordersIds = $_POST['selection'];
+            $orders = Order::find()->where(['id'=>$ordersIds])->all();
             return $this->render('create', array(
                 'model' => new Package,'isNew'=>true,'order'=>$orders
             ));  

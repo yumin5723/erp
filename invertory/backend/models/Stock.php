@@ -28,7 +28,14 @@ class Stock extends BackendActiveRecord {
     public function rules() {
         return [
             [['material_id','storeroom_id','project_id','owner_id'],'required'],
-            [['forecast_quantity','actual_quantity','stock_time','delivery'],'safe']
+            [['forecast_quantity','actual_quantity','stock_time','delivery'],'safe'],
+            [['material_id'],'required','on'=>'search'],
+        ];
+    }
+    public function scenarios()
+    {
+        return [
+            'search' => ['material_id'],
         ];
     }
     public function behaviors()
@@ -105,6 +112,14 @@ class Stock extends BackendActiveRecord {
             }
 
         }
+        return $arr;
+    }
+    /**
+     * [getCanUseStorerooms description]
+     * @return [type] [description]
+     */
+    public function getStockStatus(){
+        $arr = ['0'=>'入库','1'=>'出库'];
         return $arr;
     }
     public function getProjects(){

@@ -87,6 +87,18 @@ class StockController extends BackendController {
         }
         return $this->render('create',['model'=>$model,'isNew'=>false]);
     }
+    public function actionSearch(){
+        $model = new Stock(['scenario'=>'search']);
+        $dataProvider = [];
+        if(isset($_POST['Stock'])){
+            $model->load($_POST);
+            if($model->validate()){
+                $searchModel = new StockSearch;
+                $dataProvider = $searchModel->searchByPost($_POST['Stock']['material_id'],$_POST['Stock']['increase']);
+            }
+        }
+        return $this->render("search",['model'=>$model,'dataProvider'=>$dataProvider]);
+    }
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.

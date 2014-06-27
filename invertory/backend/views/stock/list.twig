@@ -1,5 +1,5 @@
 {% set menu_name = "stock" %}
-{% set sidebar_name = "库存明细" %}
+{% set sidebar_name = "库存总览" %}
 {% extends "../layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
@@ -51,7 +51,7 @@
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
             'columns':{
-                1:'id',
+                1:{'attribute':'increase','value':'if($model->increase == 1){return "出库";}else{return "入库";}'|value_callback},
                 2:{
                   'attribute':'material_id',
                   'value':'return $model->material->name;'|value_callback,

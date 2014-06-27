@@ -137,4 +137,20 @@ class Package extends BackendActiveRecord {
     public function getOrders(){
         return $this->hasMany(OrderPackage::className(),['package_id'=>'id']);
     }
+    public function attributeLabels(){
+        return [
+            'num'=>'包装数量',
+            'actual_weight'=>'实重',
+            'throw_weight'=>'抛重',
+            'volume'=>'体积',
+            'box'=>'包装箱',
+            'method'=>'运输方式',
+            'trunk'=>'干线',
+            'delivery'=>'派送',
+            'price'=>'单价',
+            'info'=>'备注',
+            'created'=>'操作人',
+            'created_uid'=>'操作时间',
+        ];
+    }
 }

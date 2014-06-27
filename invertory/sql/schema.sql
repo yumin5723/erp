@@ -126,6 +126,7 @@ CREATE TABLE `order` (
   `info` text NOT NULL DEFAULT '',
   `limitday` varchar(64) NOT NULL DEFAULT '',
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `is_del` tinyint(4) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',

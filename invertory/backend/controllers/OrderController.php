@@ -44,6 +44,19 @@ class OrderController extends BackendController {
         ]);
     }
     /**
+     * [actionSearch description]
+     * @return [type] [description]
+     */
+    public function actionSearch(){
+        $model = new Order;
+        $dataProvider = [];
+        if(isset($_POST['orderid'])){
+            $searchModel = new OrderSearch;
+            $dataProvider = $searchModel->searchByPost($_POST['orderid']);
+        }
+        return $this->render("search",['model'=>$model,'dataProvider'=>$dataProvider]);
+    }
+    /**
      * Displays the create page
      */
     public function actionCreate() {
@@ -118,7 +131,7 @@ class OrderController extends BackendController {
      */
     public function actionView($id)
     {   
-        $order = Order::findOne($id);
+        $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
         $order_package = OrderPackage::find()->where(['order_id'=>$id])->one();
         $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
         $package = [];
@@ -131,8 +144,23 @@ class OrderController extends BackendController {
             'detail' =>$detail,
         ]);
     }
+    public function actionChange(){
+        if(isset($_POST['orderid'])){
+            $order = Order::findOne($_POST['orderid']);
+            if(!empty($order)){
+                $order->status = $_POST['status'];
+                $order->save(false);
+                $this->redirect('/order/view?id='.$order->id);
+            }
+        }
+    }
+    /**
+     * [actionPrint description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function actionPrint($id){
-        $order = Order::findOne($id);
+        $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
         $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
         return $this->renderPartial('print', [
             'order' => $order,
@@ -145,7 +173,7 @@ class OrderController extends BackendController {
      * @param integer the ID of the model to be loaded
      */
     public function loadModel($id) {
-        $model = Order::findOne($id);
+        $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
         if ($model === null) throw new CHttpException(404, 'The requested page does not exist.');
         
         return $model;

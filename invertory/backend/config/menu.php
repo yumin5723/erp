@@ -102,9 +102,13 @@ return [
                     'name' => '库存总览',
                     'route' => 'stocktotal/list',
                 ],
+                // [
+                //     'name' => '库存明细',
+                //     'route' => 'stock/list',
+                // ],
                 [
-                    'name' => '库存明细',
-                    'route' => 'stock/list',
+                    'name' => '出入库查询',
+                    'route' => 'stock/search',
                 ],
                 [
                     'name' => '入库',
