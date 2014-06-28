@@ -1,0 +1,89 @@
+{% set sidebar_name = "未处理订单" %}
+{% set menu_name = "order" %}
+{% extends "../layouts/header.twig" %}
+{% block content %}
+        <div class="page-head">
+        <!-- Page heading -->
+        <h2 class="pull-left"><i class="fa fa-file-o"></i> Package</h2>
+        </h2>
+
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="index.html"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="#" class="bread-current">Forms</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+        <!-- Page heading ends -->
+        <!-- Matter -->
+         <div class="matter">
+        <div class="container">
+
+          <div class="row">
+
+            <div class="col-md-12">
+
+
+              <div class="widget wgreen">
+                
+                <div class="widget-head">
+                  <div class="pull-left">Forms</div>
+                  <div class="widget-icons pull-right">
+                    <a href="forms.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                {% include "../layouts/notice.twig" %}
+                <div class="widget-content">
+                  <div class="padd">
+
+                    <br />
+                    <!-- Form starts.  -->
+                     {% set form = activeform.begin({'id':'create-form','action':'/package/operate','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">订单号</label>
+                              <div class="col-lg-5">
+                                {% for o in order %}
+                                <input type="hidden" value="{{ o.id }}" name="Package[order_ids][]" class="form-control"/>
+                                {% endfor %}
+                                {% for o in order %}
+                                {{ o.viewid }},
+                                {% endfor %}
+                              </div>
+                            </div> 
+                          {{ form.field(model,'num',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'actual_weight',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'throw_weight',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'volume',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'method').dropDownList(model.getMethod()).label(null,{'class':'control-label col-lg-2'})|raw }} 
+                          {{ form.field(model,'trunk',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'delivery',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'price',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'box',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                          {{ form.field(model,'info').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
+                                    <hr />
+                                <div class="form-group">
+                                  <div class="col-lg-offset-2 col-lg-6">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                  </div>
+                                </div>
+                               {{ void(form.end()) }}
+                  </div>
+                </div>
+                  <div class="widget-foot">
+                    <!-- Footer goes here -->
+                  </div>
+              </div>  
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+<div class="admin-form">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Widget starts -->
+            <div class="widget worange">
+              <!-- Widget head -->
+              <div class="widget-head">
+                <i class="fa fa-lock"></i> Login 
+              </div>
+
+              <div class="widget-content">
+                <div class="padd">
+                  <!-- Login form -->
+                  {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-9'} } }) %}
+                    <!-- Email -->
+                    {{ form.field(model,'email',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-3'})|raw}}
+                    <!-- Password -->
+                    {{ form.field(model,'password',{inputOptions:{'class':'form-control'}}).passwordInput().label(null,{'class':'control-label col-lg-3'})|raw}}
+                    <!-- Remember me checkbox and sign in button -->
+                    <div class="form-group">
+                        <div class="col-lg-9 col-lg-offset-3">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox"> Remember me
+                            </label>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-lg-9 col-lg-offset-2">
+                            <button type="submit" class="btn btn-danger">Sign in</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
+                        </div>
+                    <br />
+                  </form>
+          
+        </div>
+                </div>
+              
+                <div class="widget-foot">
+                  Not Registred? <a href="login.html#">Register here</a>
+                </div>
+            </div>  
+      </div>
+    </div>
+  </div> 
+</div>

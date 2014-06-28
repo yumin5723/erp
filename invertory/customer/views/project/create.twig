@@ -1,0 +1,73 @@
+{% set sidebar_name = "添加项目" %}
+{% set menu_name = "project" %}
+{% extends "../layouts/header.twig" %}
+{% block content %}
+        <div class="page-head">
+        <!-- Page heading -->
+        <h2 class="pull-left"><i class="fa fa-file-o"></i> Projects</h2>
+        </h2>
+
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="index.html"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="#" class="bread-current">Forms</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+        <!-- Page heading ends -->
+
+
+        {% include "../layouts/notice.twig" %}
+        <!-- Matter -->
+         <div class="matter">
+        <div class="container">
+
+          <div class="row">
+
+            <div class="col-md-12">
+
+
+              <div class="widget wgreen">
+                
+                <div class="widget-head">
+                  <div class="pull-left">Forms</div>
+                  <div class="widget-icons pull-right">
+                    <a href="forms.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="widget-content">
+                  <div class="padd">
+
+                    <br />
+                    <!-- Form starts.  -->
+                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}     
+                            
+                            {{ form.field(model,'name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                                    <hr />
+                                <div class="form-group">
+                                  <div class="col-lg-offset-2 col-lg-6">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                  </div>
+                                </div>
+                               {{ void(form.end()) }}
+                  </div>
+                </div>
+                  <div class="widget-foot">
+                    <!-- Footer goes here -->
+                  </div>
+              </div>  
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+{% endblock %}

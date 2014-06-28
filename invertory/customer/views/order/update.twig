@@ -1,0 +1,32 @@
+{% set menu_name="mall"%}
+{% set sidebar_name = "订单列表" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h4>订单修改</h4>
+    {% block content %}
+        <div class="container">
+            {% set form = activeform.begin({'id':'update-order-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            {{ form.field(model,'order_id').label('').hiddenInput()|raw }}
+            {{ form.field(model,'order_sn').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'uid').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'cp_id').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'order_price').label(null,{'class':'col-sm-1 control-label'})|raw }}
+            {{ form.field(model,'pay_price').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'ship_price').label(null,{'class':'col-sm-1 control-label'})|raw }}
+            {{ form.field(model,'bonus_price').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'integral').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'money_paid').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'weight').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            {{ form.field(model,'ship').label(null,{'class':'col-sm-1 control-label'})|raw }}
+            {{ form.field(model,'kdgs').label(null,{'class':'col-sm-1 control-label'})|raw }}
+            {{ form.field(model,'memo').label(null,{'class':'col-sm-1 control-label'}).textarea({'rows':'4'})|raw }}
+            {{ form.field(model,'pay_type').label(null,{'class':'col-sm-1 control-label'}).radioList({'1':'支付宝'},{'class':'checkbox-inline'})|raw }}
+            {{ form.field(model,'best_time').label(null,{'class':'col-sm-1 control-label'}).radioList({'1':'随时','2':'工作日','3':'休息日'},{'class':'checkbox-inline'})|raw }}
+            {{ form.field(model,'order_date').label(null,{'class':'col-sm-1 control-label'}).textInput({'disabled':true})|raw }}
+            <div class="form-group">
+                <input type='submit' value='提交' class='btn btn-large btn-primary' />
+            </div>
+            {{ void(form.end()) }}
+        </div>
+    {% endblock %}
+</div>

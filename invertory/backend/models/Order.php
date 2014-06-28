@@ -18,6 +18,8 @@ class Order extends BackendActiveRecord {
 
     const ORDER_IS_DEL = 1;
     const ORDER_IS_NOT_DEL = 0;
+
+    const ORDER_SOURCE_CUSTOMER = 1;
     public $goods_code;
     public $goods_quantity;
     /**
@@ -57,6 +59,16 @@ class Order extends BackendActiveRecord {
                         ActiveRecord::EVENT_BEFORE_UPDATE => 'modified',
                     ],
                     'value' => function (){ return date("Y-m-d H:i:s");}
+                ],
+                'attributeStamp' => [
+                      'class' => 'yii\behaviors\AttributeBehavior',
+                      'attributes' => [
+                          ActiveRecord::EVENT_BEFORE_INSERT => ['created_uid','modified_uid'],
+                          ActiveRecord::EVENT_BEFORE_UPDATE => 'modified_uid',
+                      ],
+                      'value' => function () {
+                          return Yii::$app->user->id;
+                      },
                 ],
            ]
         );
@@ -271,6 +283,20 @@ class Order extends BackendActiveRecord {
             }
         }
         return $result;
+    }
+    public function getCreateduser(){
+        if($this->source == self::ORDER_SOURCE_CUSTOMER){
+            return $this->hasOne(Owner::className(), ['id' => 'created_uid']);
+        }else{
+            return $this->hasOne(Manager::className(), ['id' => 'created_uid']);
+        }
+    }
+    public function getModifieduser(){
+        if($this->source == self::ORDER_SOURCE_CUSTOMER){
+            return $this->hasOne(Owner::className(), ['id' => 'modified_uid']);
+        }else{
+            return $this->hasOne(Manager::className(), ['id' => 'modified_uid']);
+        }
     }
 
 }

@@ -1,0 +1,82 @@
+{% set sidebar_name = "添加仓库" %}
+{% set menu_name = "storeroom" %}
+{% extends "../layouts/header.twig" %}
+{% block content %}
+        <div class="page-head">
+        <!-- Page heading -->
+          <h2 class="pull-left">仓库
+          <!-- page meta -->
+          <span class="page-meta"></span>
+        </h2>
+
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="index.html"><i class="icon-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="#" class="bread-current">仓库</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        </div>
+        <!-- Page heading ends -->
+
+
+
+        <!-- Matter -->
+
+        <div class="matter">
+        <div class="container">
+
+          <div class="row">
+
+            <div class="col-md-12">
+
+
+              <div class="widget wgreen">
+                
+                <div class="widget-head">
+                  <div class="pull-left">Forms</div>
+                  <div class="widget-icons pull-right">
+                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="widget-content">
+                  <div class="padd">
+
+                    <hr />
+                    <!-- Form starts.  -->
+                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}     
+                            {{ form.field(model,'name',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'level',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'address',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'contact',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'phone',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            
+
+                                    <hr />
+                                <div class="form-group">
+                                  <div class="col-lg-offset-2 col-lg-6">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                  </div>
+                                </div>
+                               {{ void(form.end()) }}
+                  </div>
+                </div>
+                  <div class="widget-foot">
+                    <div class="clearfix"></div>
+                  </div>
+              </div>  
+
+            </div>
+
+          </div>
+
+        </div>
+          </div>
+{% endblock %}

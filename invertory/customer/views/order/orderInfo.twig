@@ -1,0 +1,28 @@
+{% set menu_name="mall"%}
+{% set sidebar_name = "订单列表" %}
+{% include "../layouts/header.twig" %}
+<div class="content">
+    <h4>订单详情</h4>
+    {% block content %}
+        {{ widget('\\yii\\grid\\GridView',
+            {
+                'id':'app-grid',
+                'dataProvider':model.findOrderInfo(),
+                'filterModel':model,
+                'columns':{
+                    0:'order_id',
+                    1:'goods_id',
+                    2:'goods_name',
+                    3:'goods_tag',
+                    4:'goods_price',
+                    5:'goods_qty',
+                    6:'goods_sku',
+                    7:{
+                        'attribute':'goods_status',
+                        'value':model.orderInfoStatus(),
+                    },
+                }
+            })
+        }}
+    {% endblock %}
+</div>

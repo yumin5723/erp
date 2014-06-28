@@ -71,12 +71,8 @@
                 8:'recipients_contact',
                 9:'created',
                 10:{
-                  'attribute':'创建人',
-                  'value':'return $model->createduser->username;'|value_callback,
-                },
-                11:{
-                  'attribute':'修改人',
-                  'value':'return $model->modifieduser->username;'|value_callback,
+                  'attribute':'下单人',
+                  'value':'if($model->source == 0){return $model->createduser->username;}else{ return $model->createduser->english_name;}'|value_callback,
                 },
                 12:{
                     'class':'\\common\\extensions\\Grid\\GridActionColumn',

@@ -45,6 +45,16 @@ class Owner extends ActiveRecord implements IdentityInterface
                 ],
                 'value' => function (){ return date("Y-m-d H:i:s");}
             ],
+            'attributeStamp' => [
+                      'class' => 'yii\behaviors\AttributeBehavior',
+                      'attributes' => [
+                          ActiveRecord::EVENT_BEFORE_INSERT => ['created_uid','modified_uid'],
+                          ActiveRecord::EVENT_BEFORE_UPDATE => 'modified_uid',
+                      ],
+                      'value' => function () {
+                          return Yii::$app->user->id;
+                      },
+                ],
         ];
     }
     public static function tableName(){

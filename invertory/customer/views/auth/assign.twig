@@ -1,0 +1,50 @@
+{% set menu_name = "managers" %}
+{% set sidebar_name = "分配权限" %}
+{% extends "../layouts/header.twig" %}
+{% block content %}
+    
+        <div class="container">
+                <h3>分配权限</h3>
+    {% if status == 'success' %}
+        <div class="alert alert-success message">
+            <button data-dismiss="alert" class="close" type="button">×</button>
+            <strong>Add Ooerations to Role Success!</strong>
+        </div>
+    {% elseif status == 'fail' %}
+        <div class="alert alert-error message">
+            <button data-dismiss="alert" class="close" type="button">×</button>
+            <strong>Add Ooerations to Role Fail!</strong>
+        </div>
+    {% endif %}
+                {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data'}}) %}
+                <div class="form-group field-authitem-name required">
+                    <label for="authitem-name" class="checkbox inline">Assign Operations</label>
+                    <div class="checkbox inline" id="authitem-name">
+                        {% for v in perms %}
+                        <div class="checkbox">
+                            <label>
+                            <input type="checkbox" value="{{ v }}" name="child[perm][]" {% for item in items %}{% if item == v %} checked{% endif %}{% endfor %}>{{ v }}</label>
+                        </div>
+                        {% endfor %}
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <div class="form-group field-authitem-name required">
+                        <label for="authitem-name" class="checkbox inline">Assign Roles*</label>
+                        <div class="checkbox inline" id="authitem-name">
+                            {% for v in roles %}
+                            <div class="checkbox">
+                                <label>
+                                <input type="checkbox" value="{{ v }}" name="child[role][]"{% for item in items %}{% if item == v %} checked{% endif %}{% endfor %}> {{ v }}</label>
+                            </div>
+                            {% endfor %}
+                            <div class="help-block"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+                        </div>
+                    </div>
+                </div>
+                {{ void(form.end()) }}
+        </div>
+    {% endblock %}

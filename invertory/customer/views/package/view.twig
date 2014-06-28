@@ -1,0 +1,83 @@
+{% set menu_name = "package" %}
+{% set sidebar_name = "包装明细" %}
+{% extends "../layouts/header.twig" %}
+  {% block content %}
+      <!-- Page heading -->
+      <div class="page-head">
+        <h2 class="pull-left"><i class="fa fa-table"></i> Package</h2>
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="/"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="/package/list" class="bread-current">Package</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+      <!-- Page heading ends -->
+
+      <!-- Matter -->
+      <div class="matter">
+        <div class="container">
+          <div class="alert alert-info">
+                本包装内容为订单
+                {% for o in model.orders %}
+                {{ o.order_id }}
+                {% endfor %}
+                 所含物品
+
+          </div>
+          <!-- Table -->
+
+            <div class="row">
+
+              <div class="col-md-4">
+
+                <div class="widget">
+
+                <div class="widget-head">
+                  <div class="pull-left">Detail</div>
+                  <div class="widget-icons pull-right">
+                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content">
+{{ widget('\\yii\\widgets\\DetailView', {
+      'model':model,
+      'attributes':{
+          0:'id',
+          1:'num',
+          2:'actual_weight',
+          3:'throw_weight',
+          4:'volume',
+          5:{'label':'运输方式',
+            'value':model.getViewMethod},
+          6:'trunk',
+          7:'delivery',
+          8:'price',
+          9:'info',
+      }
+
+} )
+  
+}}
+                    
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+{% endblock %}

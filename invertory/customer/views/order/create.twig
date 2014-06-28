@@ -1,0 +1,169 @@
+{% set sidebar_name = "下订单" %}
+{% set menu_name = "order" %}
+{% extends "../layouts/header.twig" %}
+{% block content %}
+        <div class="page-head">
+        <!-- Page heading -->
+        <h2 class="pull-left"><i class="fa fa-file-o"></i> Order</h2>
+        </h2>
+
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="index.html"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="#" class="bread-current">Forms</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+        <!-- Page heading ends -->
+        <!-- Matter -->
+         <div class="matter">
+        <div class="container">
+
+          <div class="row">
+
+            <div class="col-md-12">
+
+
+                  {% if ischange == true and results is empty  %}
+                  <div class="alert alert-warning">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        Warning!当前没有可供下订单的物料!
+  </div>
+                  {% endif %}
+              <div class="widget wgreen">
+                
+                <div class="widget-head">
+                  <div class="pull-left">Forms</div>
+                  <div class="widget-icons pull-right">
+                    <a href="forms.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="widget-content">
+                  <div class="padd">
+
+                    <br />
+                    <!-- Form starts.  -->
+                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}     
+                          {{ form.field(model,'storeroom_id').dropDownList(model.getCanUseStorerooms()).label(null,{'class':'control-label col-lg-2'})|raw }} 
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">物料所属人</label>
+                              <div class="col-lg-5">
+                                {{ 
+                                widget('\\kartik\\widgets\\Select2',{
+                                    'model':model,
+                                    'attribute':'owner_id',
+                                    'data':model.getCanUseOwner(),
+                                    'options':{'placeholder':'Select a owner ...','onchange':'getGoods()'},
+                                    'pluginOptions':{'allowClear':true},
+                                 })
+                             }}
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="col-lg-2 control-label"></label>
+                              <div class="col-lg-5">
+                                <button class="btn btn-success" type="submit"><i class="glyphicon glyphicon-plus"></i> 选择物料</button>
+                              </div>
+                            </div>
+                               {{ void(form.end()) }}
+                  </div>
+
+                  {% if ischange == true %}
+                        {% if results is empty %}
+
+                        {% else %}
+                        {% set form = activeform.begin({'id':'create-form','action':'/order/check','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
+                        <input type="hidden" name="Order[owner_id]" value="{{ owner_id }}"/>
+                        <input type="hidden" name="Order[storeroom_id]" value="{{ storeroom_id }}"/>
+<button class="btn btn-sm btn-info" type="submit">确认货物</button>
+                 <div class="widget">
+
+                <div class="widget-head">
+                  <div class="pull-left">库存列表</div>
+                  <div class="widget-icons pull-right">
+                    <a class="wminimize" href="tables.html#"><i class="fa fa-chevron-up"></i></a> 
+                    <a class="wclose" href="tables.html#"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content" style="display: block;">
+<div class="grid-view" id="app-grid">
+<table class="table table-striped table-bordered table-hover"><thead>
+<tr><th><input type="checkbox" value="1" name="selection_all" class="select-on-check-all"></th><th>物料编码</th><th>物料名称</th><th>现有库存</th><th>发货数量</th></tr><tr class="filters" id="app-grid-filters"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</thead>
+<tbody>
+{% for result in results %}
+<tr data-key="{{ result.code }}">
+  <td><input type="checkbox" value="{{ result.code }}" name="selection[{{ result.code }}][code]"></td>
+  <td>{{ result.code }}</td><td>{{ result.name }}</td>
+  <input type="hidden" name="selection[{{ result.code }}][name]" value="{{ result.name }}" />
+  <td>{{ result.count }}</td>
+  <td><input type="text" name="selection[{{ result.code }}][count]" value="0"></td>
+</tr>
+{% endfor %}
+</tbody></table>
+<ul class="pagination pull-right"><li class="prev disabled"><span>«</span></li>
+<li class="active"><a data-page="0" href="/order/create?page=1">1</a></li>
+<li class="next disabled"><span>»</span></li></ul></div>
+
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div> 
+                  
+
+
+
+
+                  {{ void(form.end()) }}
+                  {% endif %}
+                  {% endif %}
+                </div>
+                  <div class="widget-foot">
+                    <!-- Footer goes here -->
+                  </div>
+              </div>  
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+<script type="text/javascript">
+function getGoods(){
+    var owner_id = $("#order-owner_id").val();
+    var storeroom_id = $("#order-storeroom_id").val();
+    $.ajax({
+        type : "POST",
+        url:"/order/getgoods",
+        dataType : "json",
+        data : {"owner_id":owner_id,"storeroom_id":storeroom_id},
+        success : function(data){
+            var html = "";
+            $.each(data,function(k,v){
+                html += "<option value='"+k+"'>"+v+"</option>";
+            });
+            $("#select2-chosen-2").text("Select a owner ...");
+            $("#order-goods_code").html(html);
+
+        }
+    });
+}
+function showAddGoods(){
+
+}
+</script>
+{% endblock %}
