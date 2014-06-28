@@ -17,7 +17,8 @@
 		"yiisoft/yii2-twig": "*",
 		"yiisoft/yii2-jui":"*",
 		"mihaildev/yii2-ckeditor": "*",
-		"yiisoft/yii2-gii": "*"
+		"kartik-v/yii2-datecontrol": "dev-master",
+		"kartik-v/yii2-grid": "*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",
@@ -31,6 +32,9 @@
 	},
 	"scripts": {
 		"post-create-project-cmd": [
+			"yii\\composer\\Installer::setPermission"
+		],
+		"post-install-cmd": [
 			"yii\\composer\\Installer::setPermission"
 		]
 	},
@@ -46,7 +50,10 @@
 			"console/migrations",
 
 			"frontend/runtime",
-			"frontend/web/assets"
+			"frontend/web/assets",
+			
+			"bbsapi/runtime"
+                       
 		]
 	}
 }
