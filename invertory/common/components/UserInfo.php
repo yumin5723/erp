@@ -3,6 +3,7 @@ namespace common\components;
 use Yii;
 use common\models\User;
 use yii\db\Query;
+use backend\models\Order;
 class UserInfo{
 	protected $_uid;
 	protected $_user;
@@ -60,78 +61,17 @@ class UserInfo{
             return $email;
         }
     }
-    /*
-     *  return nickname
-     */
-    function getNickname(){
-    	$nickname = $this->getUser()->nickname;
-    	return $nickname;
+    function getUnoptorder(){
+    	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'status'=>Order::NEW_ORDER])->count();
     }
-    function getDefaultdog(){
-        $dogUcenterDb = Yii::$app->get('dogucenterdb');
-
-        $query = new Query;
-        $result = $query->select('user_dog_id')
-              ->from('nd_user')
-              ->where(['user_id'=>Yii::$app->user->id])
-              ->one($dogUcenterDb);
-        if(!empty($result)){
-            $dog_id = $result['user_dog_id'];
-            $dogspe = $query->select('t.spe_name_s')
-                            ->from('dog_species t,dog_doginfo d')
-                            ->where("d.dog_species=t.spe_id AND d.dog_id=$dog_id")
-                            ->one(\Yii::$app->get('dogdb'));
-
-            $d = explode("/", $dogspe['spe_name_s']);
-            return $d[0];
-        }
-        return "";
+    function getTotalorder(){
+    	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL])->count();
     }
-    /**
-     * get data from www api
-     * @return [type] [description]
-     */
-    function getUnreadmsg(){
-        $api = "http://www.goumin.com/api/getMsgcount.php?uid=".Yii::$app->user->id;
-        $data = file_get_contents($api);
-        $data = json_decode($data,true);
-        return $data;
+    function getRefuseorder(){
+    	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'status'=>Order::REFUSE_ORDER])->count();
     }
-    function getAge(){
-        $dogUcenterDb = Yii::$app->get('dogucenterdb');
-
-        $query = new Query;
-        $result = $query->select('user_dog_id')
-              ->from('nd_user')
-              ->where(['user_id'=>Yii::$app->user->id])
-              ->one($dogUcenterDb);
-        if(!empty($result)){
-          $dog_id = $result['user_dog_id'];
-          $result = $query->select('dog_birth_y,dog_birth_m,dog_birth_d')
-                ->from('dog_doginfo')
-                ->where(['dog_id'=>$dog_id])
-                ->one(\Yii::$app->get('dogdb'));
-          if(!empty($result)){
-             if($result['dog_birth_y'] == ""){
-                return "";
-             }
-             $year = $result['dog_birth_y'];
-             if($result['dog_birth_m'] == ""){
-                $month = "00";
-             }else{
-                $month = $result['dog_birth_m'];
-             } 
-             $year = $year."-".$month."-01";
-             $months =(time() - strtotime($year))/2592000;
-             $year = floor($months/12);
-             $month = floor($months - $year*12);
-             return $year == "0" ? $month."月" : $year."年".$month."月";
-          }
-        }else{
-          return "";
-        }
-        // $age = ((time() - $result['dog_birth_time']) / 2592000)/12;
-
+    function getMyorder(){
+    	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid])->count();
     }
 
 }
