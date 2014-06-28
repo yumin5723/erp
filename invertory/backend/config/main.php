@@ -64,7 +64,6 @@ return [
             	'<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
             ]
         ],
-        'db' => $params['components.db'],
         'user' => [
             'class' => backend\components\ManagerUser::className(),
             'identityClass' => 'backend\models\Manager',//common\models\User
