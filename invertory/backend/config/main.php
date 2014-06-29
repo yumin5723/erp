@@ -17,6 +17,10 @@ return [
   'language'=>'zh-CN',
 	'modules'=>[
 		'gii' => 'yii\gii\Module',
+    'gridview'=>[
+        'class'=>'\kartik\grid\Module',
+        'downloadAction'=>'gridview/export/download',
+    ],
 	],
 	'extensions' => require($rootDir . '/vendor/yiisoft/extensions.php'),
 	'components' => [

@@ -32,12 +32,12 @@ class Stock extends BackendActiveRecord {
             [['material_id'],'required','on'=>'search'],
         ];
     }
-    public function scenarios()
-    {
-        return [
-            'search' => ['material_id'],
-        ];
-    }
+    // public function scenarios()
+    // {
+    //     return [
+    //         'search' => ['material_id'],
+    //     ];
+    // }
     public function behaviors()
     {
         return BaseArrayHelper::merge(

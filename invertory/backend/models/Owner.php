@@ -1,6 +1,7 @@
 <?php
 namespace backend\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Security;
 use yii\web\IdentityInterface;
