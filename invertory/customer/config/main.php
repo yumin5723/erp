@@ -17,6 +17,9 @@ return [
   'language'=>'zh-CN',
 	'modules'=>[
 		'gii' => 'yii\gii\Module',
+    'gridview'=>[
+        'class'=>'\kartik\grid\Module',
+    ],
 	],
 	'extensions' => require($rootDir . '/vendor/yiisoft/extensions.php'),
 	'components' => [
