@@ -67,7 +67,6 @@ return [
             	'<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
             ]
         ],
-        'db' => $params['components.db'],
         'user' => [
             'class' => customer\components\ManagerUser::className(),
             'identityClass' => 'customer\models\Owner',//common\models\User
