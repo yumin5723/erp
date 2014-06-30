@@ -5,8 +5,8 @@ namespace customer\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use customer\models\Stock;
-use customer\models\Owner;
+use backend\models\Stock;
+use backend\models\Owner;
 
 /**
  * PostSearch represents the model behind the search form about `backend\models\Post`.
@@ -29,7 +29,7 @@ class StockSearch extends Stock
 
     public function search($params)
     {
-        $query = Stock::find()->orderBy(['id'=>SORT_DESC]);
+        $query = Stock::find()->where(['owner_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,5 +58,8 @@ class StockSearch extends Stock
             'query' => $query,
         ]);
         return $dataProvider;
+    }
+    public function getExportLink(){
+        return ['0'=>'/material/export?mid='.$this->material_id];
     }
 }

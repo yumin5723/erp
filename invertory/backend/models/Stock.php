@@ -163,5 +163,8 @@ class Stock extends BackendActiveRecord {
             'created_uid'=>'创建人',
         ];
     }
+    public function getExportLink(){
+        return ['0'=>'/stock/export?mid='.$this->material_id];
+    }
 
 }

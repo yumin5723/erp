@@ -5,8 +5,8 @@ namespace customer\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use customer\models\Material;
-use customer\models\Owner;
+use backend\models\Material;
+use backend\models\Owner;
 
 /**
  * PostSearch represents the model behind the search form about `backend\models\Post`.
@@ -49,5 +49,10 @@ class MaterialSearch extends Material
         $query->andFilterWhere(['owner_id'=>$this->owner_id]);
 
         return $dataProvider;
+    }
+    public function getStockLink(){
+        return '
+            return $model->stocktotal->total ."  ".\yii\helpers\Html::a("明细","/material/detail?StockSearch[material_id]={$model->id}");
+        ';
     }
 }

@@ -55,7 +55,7 @@
                 'heading':'<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> 库存明细</h3>',
                 'type':'success',
                 'before':html.a('<i class=""></i>', {0:''}, {'class':''}),
-                'after':html.a('<i class="glyphicon glyphicon-export"></i> 导出报表', {0:'/stock/export?mid=2'}, {'class':'btn btn-danger'}),
+                'after':html.a('<i class="glyphicon glyphicon-export"></i> 导出报表', searchModel.getExportLink(), {'class':'btn btn-danger'}),
                 'showFooter':true,
             },
             'export':false,
