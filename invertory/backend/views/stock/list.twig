@@ -41,8 +41,8 @@
                 </div>
 
                   <div class="widget-content">
-{{ widget('\\yii\\grid\\GridView', {
-            'layout':'\n{items}\n{pager}',         
+{{ widget('\\kartik\\grid\\GridView', {
+            'layout':'\n{items}\n{pager}',      
             'id':'app-grid', 
             'tableOptions':{'class':'table table-striped table-bordered table-hover'},
             'dataProvider':dataProvider,
@@ -50,6 +50,15 @@
             'pager':{
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
+            'showPageSummary':false,
+            'panel':{
+                'heading':'<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i> 库存明细</h3>',
+                'type':'success',
+                'before':html.a('<i class=""></i>', {0:''}, {'class':''}),
+                'after':html.a('<i class="glyphicon glyphicon-export"></i> 导出报表', {0:'/stock/export?mid=2'}, {'class':'btn btn-danger'}),
+                'showFooter':true,
+            },
+            'export':false,
             'columns':{
                 1:{'attribute':'increase','value':'if($model->increase == 1){return "出库";}else{return "入库";}'|value_callback},
                 2:{

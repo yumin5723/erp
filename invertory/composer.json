@@ -18,7 +18,8 @@
 		"yiisoft/yii2-jui":"*",
 		"mihaildev/yii2-ckeditor": "*",
 		"kartik-v/yii2-datecontrol": "dev-master",
-		"kartik-v/yii2-grid": "*"
+		"kartik-v/yii2-grid": "*",
+		"phpoffice/phpexcel": "*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",
