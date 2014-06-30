@@ -105,7 +105,7 @@
   <td>{{ result.code }}</td><td>{{ result.name }}</td>
   <input type="hidden" name="selection[{{ result.code }}][name]" value="{{ result.name }}" />
   <td>{{ result.count }}</td>
-  <td><input type="text" name="selection[{{ result.code }}][count]" value="0"></td>
+  <td><input type="text" class="form-control" style="width:100px;" name="selection[{{ result.code }}][count]" value="0" onblur="checkCount(this,this.value,{{ result.count }});"></td>
 </tr>
 {% endfor %}
 </tbody></table>
@@ -164,6 +164,12 @@ function getGoods(){
 }
 function showAddGoods(){
 
+}
+function checkCount(obj,count,total){
+    if(parseInt(count) > parseInt(total)){
+        alert("你选择的发货数量超过库存");
+        $(obj).val(0);
+    }
 }
 </script>
 {% endblock %}
