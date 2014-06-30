@@ -114,6 +114,9 @@ class Material extends BackendActiveRecord {
     public function getProjects(){
         return $this->hasOne(Project::className(),['id'=>'project_id']);
     }
+    public function getStocktotal(){
+        return $this->hasOne(StockTotal::className(),['material_id'=>'id']);
+    }
     public function getOwners(){
         return $this->hasOne(Owner::className(),['id'=>'owner_id']);
     }
