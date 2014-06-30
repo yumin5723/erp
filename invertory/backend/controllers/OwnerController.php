@@ -58,6 +58,18 @@ class OwnerController extends BackendController {
         )); 
     }
     /**
+     * Displays a single Order model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {   
+        $owner = Owner::findOne($id);
+        return $this->render('view', [
+            'owner' => $owner,
+        ]);
+    }
+    /**
      * Displays the create page
      */
     public function actionUpdate($id) {
@@ -75,9 +87,9 @@ class OwnerController extends BackendController {
         return $this->render('create',['model'=>$model]);
     }
     public function actionDelete(){
-        $model = new Owner();
         $id = $_GET['id'];
-        $model->deleteUser($id);
+        $model = Owner::findOne($id);
+        $model->deleteUser();
         return $this->redirect("/owner/list");
     }
     /**

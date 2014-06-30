@@ -215,15 +215,10 @@ class Owner extends ActiveRecord implements IdentityInterface
     }
 
     // public function 
-    public function deleteUser($uid){
-        $model = Ownere::find($uid);
-        $model->setScenario('update');
-        $model->status = self::STATUS_DELETED;
-        $model->update();
-        if($model->update()){
-            return true;
-        }
-        return false;
+    public function deleteUser(){
+        $this->status = self::STATUS_DELETED;
+        $this->save(false);
+        return true;
     }
 
     public function attributeLabels(){

@@ -1,0 +1,66 @@
+{% set menu_name = "owner" %}
+{% set sidebar_name = "物主列表" %}
+{% extends "../layouts/header.twig" %}
+  {% block content %}
+      <!-- Page heading -->
+      <div class="page-head">
+        <h2 class="pull-left"><i class="fa fa-table"></i> Owner</h2>
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="/"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="/owner/list" class="bread-current">Owner</a>
+        </div>
+        <div class="clearfix"></div>
+
+      </div>
+      <!-- Page heading ends -->
+
+      <!-- Matter -->
+      <div class="matter">
+        <div class="container">
+
+          <!-- Table -->
+
+              <div class="col-md-12">
+                  <div class="widget">
+                <div class="widget-head">
+                  <div class="pull-left">物主详情</div>
+                  <div class="widget-icons pull-right">
+                    <a class="wminimize" href="tables.html#"><i class="fa fa-chevron-up"></i></a> 
+                    <a class="wclose" href="tables.html#"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content">
+{{ widget('\\yii\\widgets\\DetailView', {
+      'model':owner,
+      'attributes':{
+          0:'english_name',
+          1:'email',
+          2:'phone',
+          3:'tell',
+          4:{'label':'创建时间','value':owner.created},
+      }
+
+} )
+  
+}}
+                    
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      </div>
+{% endblock %}
