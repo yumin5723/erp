@@ -15,7 +15,7 @@ class Order extends BackendActiveRecord {
     const SIGN_ORDER = 3;
     const CONFIRM_ORDER = 4;
     const REFUSE_ORDER = 5;
-
+    const REVOKE_ORDER = 6;
     const ORDER_IS_DEL = 1;
     const ORDER_IS_NOT_DEL = 0;
 
@@ -156,6 +156,21 @@ class Order extends BackendActiveRecord {
         }
         return $arr;
     }
+    /**
+     * [getCanUseStorerooms description]
+     * @return [type] [description]
+     */
+    public function getCanUseOwnerByCustomer(){
+        $rs = Owner::find()->where(['id'=>Yii::$app->user->id])->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v['id']]=$v['english_name'];
+            }
+
+        }
+        return $arr;
+    }
     public function getOptLink(){
         return '
             if($model->status == 0 || $model->status == 4){
@@ -208,7 +223,7 @@ class Order extends BackendActiveRecord {
         if($this->status == self::SIGN_ORDER){
             return "<font color='red'>已签收<font>";
         }
-        if($this->status == self::RESUSE_ORDER){
+        if($this->status == self::REFUSE_ORDER){
             return "<font color='red'>已退回<font>";
         }
     }
@@ -277,7 +292,7 @@ class Order extends BackendActiveRecord {
         else {
             $package = OrderPackage::find()->where(['order_id'=>$this->id])->one();
             if(empty($package)){
-                $result = [self::CONFIRM_ORDER=>'确认订单'];
+                $result = [self::CONFIRM_ORDER=>'确认订单',self::REFUSE_ORDER=>"拒绝订单"];
             }else{
                 $result = [self::CONFIRM_ORDER=>'确认订单',self::PACKAGE_ORDER=>'已包装',self::SHIPPING_ORDER=>'已运输',self::SIGN_ORDER=>'已签收',self::REFUSE_ORDER=>'退回订单'];
             }
@@ -297,6 +312,15 @@ class Order extends BackendActiveRecord {
         }else{
             return $this->hasOne(Manager::className(), ['id' => 'modified_uid']);
         }
+    }
+    public function getRevokLink(){
+        return '
+            if($model->status == 5){
+                return \yii\helpers\Html::a("撤销订单","/order/revoke?id=$model->id",["data-method"=>"post","data-confirm"=>"撤销订单库存将自动回复"]);
+            }else{
+                return "";
+            }
+        ';
     }
 
 }

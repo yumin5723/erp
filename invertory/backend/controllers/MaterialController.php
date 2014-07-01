@@ -29,6 +29,18 @@ class MaterialController extends BackendController {
         }
     }
     /**
+     * Displays a single Order model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {   
+        $material = Material::findOne($id);
+        return $this->render('view', [
+            'material' => $material,
+        ]);
+    }
+    /**
      * Displays the page list
      */
     public function actionList() {

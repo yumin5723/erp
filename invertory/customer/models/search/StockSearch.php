@@ -29,7 +29,34 @@ class StockSearch extends Stock
 
     public function search($params)
     {
-        $query = Stock::find()->where(['owner_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
+        // $needData = ['id','owner_id','storeroom_id','material_id','forecast_quantity','actual_quantity','stock_time','delivery','increase','order_id'];
+        $needData = ['material_id'];
+        $query = Stock::find()->select($needData)->with('material')->distinct()->where(['owner_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+        if(isset($this->owner_id) && !empty($this->owner_id)){
+            $owner = Owner::find()->where(['english_name'=>$this->owner_id])->one();
+            if(!empty($owner)){
+                $this->owner_id = $owner->id;
+            }
+        }
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'material_id' => $this->material_id,
+        ]);
+
+        return $dataProvider;
+    }
+    public function searchDetail($params)
+    {
+        $needData = ['id','owner_id','storeroom_id','material_id','forecast_quantity','actual_quantity','stock_time','delivery','increase','order_id'];
+        $query = Stock::find()->select($needData)->with('material')->distinct()->where(['owner_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -61,5 +88,15 @@ class StockSearch extends Stock
     }
     public function getExportLink(){
         return ['0'=>'/material/export?mid='.$this->material_id];
+    }
+    public function getStockLink(){
+        return '
+            return $model->stocktotal->total ."  ".\yii\helpers\Html::a("库存明细","/material/detail?StockSearch[material_id]={$model->material->id}");
+        ';
+    }
+    public function getViewLink(){
+        return '
+            return \yii\helpers\Html::a("查看","/material/view?id={$model->material->id}",["target"=>"_blank"]);
+        ';
     }
 }

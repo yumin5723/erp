@@ -50,9 +50,5 @@ class MaterialSearch extends Material
 
         return $dataProvider;
     }
-    public function getStockLink(){
-        return '
-            return $model->stocktotal->total ."  ".\yii\helpers\Html::a("明细","/material/detail?StockSearch[material_id]={$model->id}");
-        ';
-    }
+
 }

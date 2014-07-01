@@ -168,6 +168,10 @@ CREATE TABLE `package` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+alter table `package` add column height int(11) NOT NULL DEFAULT '0';
+alter table `package` add column width int(11) NOT NULL DEFAULT '0';
+alter table `package` add column length int(11) NOT NULL DEFAULT '0';
+
 DROP TABLE IF EXISTS `order_package`;
 CREATE TABLE `order_package` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

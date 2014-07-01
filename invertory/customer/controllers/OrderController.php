@@ -3,12 +3,12 @@
 namespace customer\controllers;
 
 use Yii;
-use customer\models\Order;
+use backend\models\Order;
 use customer\models\Stock;
 use customer\models\StockTotal;
 use customer\models\OrderPackage;
 use customer\models\OrderDetail;
-use customer\models\Package;
+use backend\models\Package;
 use customer\models\search\OrderSearch;
 use customer\models\search\OrderStockSearch;
 use customer\components\CustomerController;
@@ -139,7 +139,7 @@ class OrderController extends CustomerController {
                     //Recovery inventory
                     //delete stock about this order id the recovery stock total
                     Stock::findOne(['order_id'=>$id])->delete();
-                    if(!empty($stock)){
+                    // if(!empty($stock)){
                         $details = OrderDetail::find(['order_id'=>$id])->all();
                         if(!empty($details)){
                             foreach($details as $detail){
@@ -150,7 +150,7 @@ class OrderController extends CustomerController {
                                 }
                             }
                         }
-                    }
+                    // }
                 }
             }
         }

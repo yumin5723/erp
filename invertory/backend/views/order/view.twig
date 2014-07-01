@@ -16,7 +16,10 @@
 
         <div class="col-lg-5">
             <a href="#myModal" class="btn btn-success" onclick="changeStatus({{ order.id }});" data-toggle="modal"><i class="glyphicon glyphicon-repeat">修改订单状态</i></a>
-            <a href="/order/print?id={{ order.id }}" target="_blank" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-export">打印订单</i></a>
+            {% if order.status == 0 or order.status == 4%}
+            <a href="/package/operate?id={{ order.id }}" class="btn btn-danger"><i class="glyphicon glyphicon-folder-close">去包装</i></a>
+            {% endif %}
+            <a href="/order/print?id={{ order.id }}" target="_blank" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-print">打印订单</i></a>
         </div>
         <div class="clearfix"></div>
 
@@ -112,7 +115,50 @@
                 </div>
               </div>
 
+                <div class="col-md-4">
 
+{% if package is not empty %}
+                <div class="widget">
+                <div class="widget-head">
+                  <div class="pull-left">包装明细</div>
+                  <div class="widget-icons pull-right">
+                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                                   <div class="widget-content">
+{{ widget('\\yii\\widgets\\DetailView', {
+      'model':package,
+      'attributes':{
+          0:'num',
+          1:'actual_weight',
+          2:'throw_weight',
+          3:{'attribute':'volume','value':package.volume / 100},
+          4:'box',
+          5:{'attribute':'box','value':package.getPackageStatus},
+          6:'trunk',
+          7:'delivery',
+          8:'info',
+          9:'created',
+      }
+
+} )
+  
+}}
+                    
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div>
+{% endif %}
+              </div>  
+<!-- 
                             <div class="col-md-4">
 
                 <div class="widget">
@@ -136,7 +182,7 @@
 
                   </div>
                 </div>
-              </div>
+              </div> -->
 
 
 

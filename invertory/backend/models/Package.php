@@ -30,8 +30,9 @@ class Package extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['num','actual_weight','throw_weight','volume','method','trunk','delivery'],'required'],
-            [['box','info','order_ids'],'safe'],
+            [['num','actual_weight','throw_weight','method','trunk','delivery'],'required'],
+            [['box','info','order_ids','volume'],'safe'],
+            [['actual_weight','throw_weight','height','width','length'],'integer']
         ];
     }
     public function behaviors()
@@ -49,6 +50,10 @@ class Package extends BackendActiveRecord {
                 ],
            ]
         );
+    }
+    public function getPackageStatus(){
+        $methods = $this->getMethod();
+        return $methods[$this->method];
     }
     public function getMethod(){
         return [
@@ -84,6 +89,10 @@ class Package extends BackendActiveRecord {
                 $this->addError('goods_quantity', '库存不足.');
             }
         }
+    }
+    public function beforeSave($insert){
+        $this->volume = $this->length * $this->width * $this->height;
+        return parent::beforeSave($insert);
     }
     /**
      * [getCanUseStorerooms description]
@@ -140,10 +149,13 @@ class Package extends BackendActiveRecord {
     public function attributeLabels(){
         return [
             'num'=>'包装数量',
-            'actual_weight'=>'实重',
-            'throw_weight'=>'抛重',
-            'volume'=>'体积',
-            'box'=>'包装箱',
+            'actual_weight'=>'实重(kg)',
+            'throw_weight'=>'抛重(kg)',
+            'volume'=>'体积(立方米)',
+            'length'=>'长(cm)',
+            'width'=>'宽(cm)',
+            'height'=>'高(cm)',
+            'box'=>'包装材料',
             'method'=>'运输方式',
             'trunk'=>'干线',
             'delivery'=>'派送',

@@ -58,7 +58,7 @@
                                 widget('\\kartik\\widgets\\Select2',{
                                     'model':model,
                                     'attribute':'owner_id',
-                                    'data':model.getCanUseOwner(),
+                                    'data':model.getCanUseOwnerByCustomer(),
                                     'options':{'placeholder':'Select a owner ...','onchange':'getGoods()'},
                                     'pluginOptions':{'allowClear':true},
                                  })

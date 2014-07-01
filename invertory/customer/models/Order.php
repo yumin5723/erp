@@ -143,11 +143,12 @@ class Order extends CustomerActiveRecord {
         $result = ["4小时"=>'4小时','12小时'=>'12小时','24小时'=>'24小时','3天'=>'3天',"5天"=>'5天'];
         return $result;
     }
+
     /**
      * [getCanUseStorerooms description]
      * @return [type] [description]
      */
-    public function getCanUseOwner(){
+    public function getCanUseOwnerByCustomer(){
         $rs = Owner::find()->where(['id'=>Yii::$app->user->id])->all();
         $arr = [];
         if($rs){

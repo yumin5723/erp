@@ -131,6 +131,9 @@ class Stock extends CustomerActiveRecord {
     public function getMaterial(){
         return $this->hasOne(Material::className(),['id'=>'material_id']);
     }
+    public function getMymaterial(){
+        return $this->hasOne(Material::className(),['id'=>'material_id']);
+    }
     public function getOwners(){
         return $this->hasOne(Owner::className(),['id'=>'owner_id']);
     }

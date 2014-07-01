@@ -136,6 +136,7 @@ class Owner extends ActiveRecord implements IdentityInterface
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
+            ['department','safe'],
             ['email', 'unique', 'message' => 'This email address has already been taken.', 'on' => 'signup,update'],
             ['email', 'exist', 'message' => 'There is no user with such email.', 'on' => 'requestPasswordResetToken'],
 
@@ -206,6 +207,10 @@ class Owner extends ActiveRecord implements IdentityInterface
             $attrs[] = 'password';
             $this->password = $attributes['password'];
         }
+        if (!empty($attributes['department']) && $attributes['department'] != $this->department) {
+            $attrs[] = 'department';
+            $this->department = $attributes['department'];
+        }
         $this->setScenario('resetPassword');
         if ($this->validate($attrs)) {
             return $this->save(false);
@@ -228,6 +233,8 @@ class Owner extends ActiveRecord implements IdentityInterface
             'password'=>'密码',
             'phone'=>'移动电话',
             'tell'=>'固定电话',
+            'department'=>'部门',
+            'created'=>'创建时间',
         ];
     }
 }

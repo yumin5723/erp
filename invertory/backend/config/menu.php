@@ -126,6 +126,10 @@ return [
                     'route' => 'order/list?OrderSearch[status]=0',
                 ],
                 [
+                    'name' => '已确认订单',
+                    'route' => 'order/list?OrderSearch[status]=4',
+                ],
+                [
                     'name' => '已包装订单',
                     'route' => 'order/list?OrderSearch[status]=1',
                 ],

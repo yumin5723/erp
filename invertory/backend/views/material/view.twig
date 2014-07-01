@@ -13,7 +13,6 @@
           <span class="divider">/</span> 
           <a href="/material/list" class="bread-current">Material</a>
         </div>
-
         <div class="clearfix"></div>
 
       </div>
@@ -25,14 +24,11 @@
 
           <!-- Table -->
 
-            <div class="row">
-
-              <div class="col-md-12">
-
-                <div class="widget">
+<div class="col-md-12">
+<div class="widget">
 
                 <div class="widget-head">
-                  <div class="pull-left">Tables</div>
+                  <div class="pull-left">物料详情</div>
                   <div class="widget-icons pull-right">
                     <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
                     <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
@@ -41,36 +37,30 @@
                 </div>
 
                   <div class="widget-content">
-{{ widget('\\yii\\grid\\GridView', {
-            'layout':'\n{items}\n{pager}',         
-            'id':'app-grid', 
-            'tableOptions':{'class':'table table-striped table-bordered table-hover'},
-            'dataProvider':dataProvider,
-            'filterModel':searchModel,
-            'pager':{
-                'class':'\\common\\extensions\\Page\\CPageLink',
-            },
-            'columns':{
-                1:{
-                  'attribute':"物料编码",
-                  'value':'return $model->material->code;'|value_callback,
-                },
-                2:{
-                  'attribute':'物料名称',
-                  'value':'return $model->material->name;'|value_callback,
-                },
-                3:{
-                  'attribute':'现有库存',
-                  'format':'raw',
-                  'value':searchModel.getStockLink()|value_callback,
-                },
-                4:{
-                  'attribute':'物料详情',
-                  'format':'raw',
-                  'value':searchModel.getViewLink()|value_callback,
-                },
-        }})
-    }}
+                      <table class="table table-striped table-bordered detail-view">
+                          <tbody>
+                            <tr>
+                              <th>物料编码</th>
+                              <td>{{ material.code }}</td>
+                            </tr>
+                            <tr>
+                              <th>物料名称</th>
+                              <td>{{ material.name }}</td>
+                            </tr>
+                            <tr>
+                              <th>物料描述</th>
+                              <td>{{ material.desc }}</td>
+                            </tr>
+                            <tr>
+                              <th>物料图片</th>
+                              <td>
+                                {% for im in material.image %}
+                                <img src="{{ im }}" /> <br /><br />
+                                {% endfor %}
+                              </td>
+                            </tr>
+                          </tbody>
+                      </table>
                     
 
                     <div class="widget-foot">
@@ -79,9 +69,11 @@
                     </div>
 
                   </div>
+
                 </div>
               </div>
             </div>
         </div>
+
       </div>
 {% endblock %}

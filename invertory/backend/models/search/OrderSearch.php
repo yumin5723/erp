@@ -16,7 +16,7 @@ class OrderSearch extends Order
     {
         return [
             [['id'], 'integer'],
-            [['goods_code', 'goods_quantity','goods_active','storeroom_id','recipients','recipients_address','recipients_contact','status'], 'safe'],
+            [['goods_code','viewid','goods_quantity','goods_active','storeroom_id','recipients','recipients_address','recipients_contact','status'], 'safe'],
         ];
     }
 
@@ -42,6 +42,7 @@ class OrderSearch extends Order
             'id' => $this->id,
             'goods_code' => $this->goods_code,
             'status'=>$this->status,
+            'viewid'=>$this->viewid,
         ]);
         // $query->andFilterWhere(['like', 'name', $this->name]);
 

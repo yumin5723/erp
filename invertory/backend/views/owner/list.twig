@@ -67,12 +67,14 @@
                   'attribute':'tell',
                 },
                 5:{
+                  'attribute':'department',
+                },
+                6:{
                     'attribute':'status',
                     'label':'状态',
                     'value':'if($model->status == 0){return "正常";}else{return "禁用";}'|value_callback,
                 },
-                6:'created',
-                7:'modified',
+                7:'created',
                 8:{
                     'class':'\\common\\extensions\\Grid\\GridActionColumn',
                     'template':'{update}{view}{delete}',

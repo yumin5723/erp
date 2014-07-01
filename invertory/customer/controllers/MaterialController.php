@@ -34,9 +34,8 @@ class MaterialController extends CustomerController {
      * Displays the page list
      */
     public function actionList() {
-        $searchModel = new MaterialSearch;
+        $searchModel = new StockSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
         return $this->render('list', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
@@ -49,7 +48,7 @@ class MaterialController extends CustomerController {
      */
     public function actionDetail(){
         $searchModel = new StockSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $dataProvider = $searchModel->searchDetail(Yii::$app->request->getQueryParams());
 
         return $this->render('detail', [
             'dataProvider' => $dataProvider,

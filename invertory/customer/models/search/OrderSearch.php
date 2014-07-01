@@ -5,7 +5,7 @@ namespace customer\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use customer\models\Order;
+use backend\models\Order;
 
 /**
  * PostSearch represents the model behind the search form about `backend\models\Post`.
@@ -28,7 +28,7 @@ class OrderSearch extends Order
 
     public function search($params)
     {
-        $query = Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'owner_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
+        $query = Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
