@@ -91,6 +91,19 @@ return [
                   ],
               ],
           ],
+          'mail' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath'=>'@app/views/mail',
+            'htmlLayout'=>false,
+            'transport' => [
+              'class' => 'Swift_SmtpTransport',
+              'host' => 'smtp.163.com',
+              'username' => 'liuwanglei2001@163.com',
+              'password' => 'lwl7301294',
+              'port' => '25',
+              'encryption' => 'tls',
+            ],
+        ],
 		'errorHandler' => [
 			'errorAction' => 'site/error',
 		],
