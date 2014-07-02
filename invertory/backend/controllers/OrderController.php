@@ -184,6 +184,39 @@ class OrderController extends BackendController {
         ]);
     }
     /**
+     * [actionPrint description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function actionMark(){
+        $id = intval($_REQUEST['id']);
+        $status = intval($_REQUEST['status']);
+
+        $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
+        if($status == Order::SHIPPING_ORDER){
+            //order shipping must package before
+            if($order->status != Order::PACKAGE_ORDER){
+                echo <<<EOF
+            <script>alert("您要标记发货的订单还没有录入包装信息，请先录入包装信息!");</script>
+EOF;
+            }else{
+                $order->status = Order::SHIPPING_ORDER;
+                $order->save();
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        if($status == Order::SIGN_ORDER){
+            //order sign must shipping before
+            if($order->status != Order::SHIPPING_ORDER){
+
+            }else{
+                $order->status = Order::SIGN_ORDER;
+                $order->save();
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+    /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer the ID of the model to be loaded

@@ -27,6 +27,7 @@ class Material extends BackendActiveRecord {
     public function rules() {
         return [
             [['name','code','project_id'],'required'],
+            ['name','required'],
             [['english_name','desc','image'],'safe']
         ];
     }

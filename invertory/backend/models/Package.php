@@ -161,8 +161,8 @@ class Package extends BackendActiveRecord {
             'delivery'=>'派送',
             'price'=>'单价',
             'info'=>'备注',
-            'created'=>'操作人',
-            'created_uid'=>'操作时间',
+            'created'=>'操作时间',
+            'created_uid'=>'操作人',
         ];
     }
     /**

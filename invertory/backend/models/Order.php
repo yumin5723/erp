@@ -175,6 +175,10 @@ class Order extends BackendActiveRecord {
         return '
             if($model->status == 0 || $model->status == 4){
                 return \yii\helpers\Html::a("包装","/package/operate?id=$model->id");
+            }elseif($model->status == 1){
+                return \yii\helpers\Html::a("标记发货","/order/mark?id=$model->id&status=2");
+            }elseif($model->status == 2){
+                return \yii\helpers\Html::a("标记签收","/order/mark?id=$model->id&status=3");
             }else{
                 return "";
             }
