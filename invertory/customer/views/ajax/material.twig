@@ -1,0 +1,28 @@
+<table class="table table-striped table-bordered detail-view">
+  <tbody>
+    <tr>
+      <th>物料编码</th>
+      <td>{{ material.code }}</td>
+    </tr>
+     <tr>
+      <th>物料名称</th>
+      <td>{{ material.name }}</td>
+    </tr>
+    <tr>
+      <th>物料英文名称</th>
+      <td>{{ material.english_name }}</td>
+    </tr>
+    <tr>
+      <th>物料详情</th>
+      <td>{{ material.desc }}</td>
+    </tr>
+    <tr>
+      <th>物料图片</th>
+      <td>
+          {% for image in material.image %}
+          <img src="{{ image }}" /> <br/><br/><br/>
+          {% endfor %}
+      </td>
+    </tr>
+  </tbody>
+</table>
