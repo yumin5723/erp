@@ -150,6 +150,22 @@ class OrderController extends BackendController {
             if(!empty($order)){
                 $order->status = $_POST['status'];
                 $order->save(false);
+
+                if($_POST['status'] == Order::CONFIRM_ORDER){
+                    //send mail to customer
+                    Yii::$app->mail->compose('confirm',['order'=>$order])
+                         ->setFrom('liuwanglei2001@163.com')
+                         ->setTo('liuwanglei@goumin.com')
+                         ->setSubject("订单确认通知")
+                         ->send();
+                }
+                if($_GET['status'] == Order::SIGN_ORDER){
+                    Yii::$app->mail->compose('sign',['order'=>$order])
+                         ->setFrom('liuwanglei2001@163.com')
+                         ->setTo('liuwanglei@goumin.com')
+                         ->setSubject("订单签收通知")
+                         ->send();
+                }
                 $this->redirect('/order/view?id='.$order->id);
             }
         }

@@ -28,7 +28,7 @@ class OrderSearch extends Order
 
     public function search($params)
     {
-        $query = Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
+        $query = Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'owner_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
