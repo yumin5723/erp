@@ -63,8 +63,36 @@
                           {{ form.field(model,'width',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                           {{ form.field(model,'height',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                           {{ form.field(model,'method').dropDownList(model.getMethod()).label(null,{'class':'control-label col-lg-2'})|raw }} 
-                          {{ form.field(model,'trunk',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'delivery',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">干线</label>
+                              <div class="col-lg-5">
+                                {{ 
+                                widget('\\kartik\\widgets\\Select2',{
+                                    'model':model,
+                                    'attribute':'trunk',
+                                    'data':model.getCanUseTrunk(),
+                                    'options':{'placeholder':'Select a trunk ...'},
+                                    'pluginOptions':{'allowClear':true},
+                                 })
+                             }}
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-lg-2 control-label">派送</label>
+                              <div class="col-lg-5">
+                                {{ 
+                                widget('\\kartik\\widgets\\Select2',{
+                                    'model':model,
+                                    'attribute':'delivery',
+                                    'data':model.getCanUseDelivery(),
+                                    'options':{'placeholder':'Select a delivery ...'},
+                                    'pluginOptions':{'allowClear':true},
+                                 })
+                             }}
+                              </div>
+                            </div>
                           {{ form.field(model,'box',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                           {{ form.field(model,'info').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
                                     <hr />

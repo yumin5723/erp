@@ -1,0 +1,82 @@
+{% set menu_name = "supplier" %}
+{% set sidebar_name = "派送公司列表" %}
+{% extends "../layouts/header.twig" %}
+  {% block content %}
+      <!-- Page heading ends -->
+
+            <div class="page-head">
+        <h2 class="pull-left"><i class="fa fa-table"></i> Delivery</h2>
+
+        <!-- Breadcrumb -->
+        <div class="bread-crumb pull-right">
+          <a href="/"><i class="fa fa-home"></i> Home</a> 
+          <!-- Divider -->
+          <span class="divider">/</span> 
+          <a href="/delivery/list" class="bread-current">Delivery</a>
+        </div>
+
+        <div class="clearfix"></div>
+
+      </div>
+
+      <!-- Matter -->
+      <div class="matter">
+        <div class="container">
+
+          <!-- Table -->
+
+            <div class="row">
+
+              <div class="col-md-12">
+
+                <div class="widget">
+
+                <div class="widget-head">
+                  <div class="pull-left">Tables</div>
+                  <div class="widget-icons pull-right">
+                    <a href="tables.html#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="tables.html#" class="wclose"><i class="fa fa-times"></i></a>
+                  </div>  
+                  <div class="clearfix"></div>
+                </div>
+
+                  <div class="widget-content">
+{{ widget('\\yii\\grid\\GridView', {
+            'layout':'\n{items}\n{pager}',         
+            'id':'app-grid', 
+            'tableOptions':{'class':'table table-striped table-bordered table-hover'},
+            'dataProvider':dataProvider,
+            'filterModel':model,
+            'pager':{
+                'class':'\\common\\extensions\\Page\\CPageLink',
+            },
+            'columns':{
+                1:{
+                  'attribute':"name",
+                },
+                2:'contact',
+                3:'address',
+                4:{'attribute':'phone'},
+                5:{'attribute':'city'},
+                6:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}',
+                },
+        }})
+    }}
+                    
+
+                    <div class="widget-foot">
+                      <div class="clearfix"></div> 
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+{% endblock %}
+
+

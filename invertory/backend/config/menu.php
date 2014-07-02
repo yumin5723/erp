@@ -44,6 +44,30 @@ return [
                 ],
             ],
         ],
+        'supplier'=>[
+            'name'=>'供应商',
+            'route'=>'',
+            'icon'=>'group',
+            'style'=>'',
+            'subs' => [
+                [
+                    'name' => '干线列表',
+                    'route' => 'trunk/list',
+                ],
+                [
+                    'name' => '添加干线',
+                    'route' => 'trunk/create',
+                ],
+                [
+                    'name' => '派送公司列表',
+                    'route' => 'delivery/list',
+                ],
+                [
+                    'name' => '添加派送公司',
+                    'route' => 'delivery/create',
+                ],
+            ],
+        ],
         'project'=>[
             'name'=>'项目',
             'route'=>'',

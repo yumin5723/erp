@@ -165,4 +165,34 @@ class Package extends BackendActiveRecord {
             'created_uid'=>'操作时间',
         ];
     }
+    /**
+     * [getCanUseStorerooms description]
+     * @return [type] [description]
+     */
+    public function getCanUseTrunk(){
+        $rs = Trunk::find()->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v['name']]=$v['name'];
+            }
+
+        }
+        return $arr;
+    }
+    /**
+     * [getCanUseStorerooms description]
+     * @return [type] [description]
+     */
+    public function getCanUseDelivery(){
+        $rs = Delivery::find()->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v['name']]=$v['name'];
+            }
+
+        }
+        return $arr;
+    }
 }
