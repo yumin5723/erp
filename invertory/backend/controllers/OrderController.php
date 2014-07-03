@@ -4,15 +4,17 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Order;
+use backend\models\OrderSign;
 use backend\models\OrderPackage;
 use backend\models\OrderDetail;
 use backend\models\Package;
+use backend\models\Upload;
 use backend\models\search\OrderSearch;
 use backend\models\search\OrderStockSearch;
 use backend\components\BackendController;
 
 class OrderController extends BackendController {
-    public $enableCsrfValidation = true;
+    public $enableCsrfValidation;
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
@@ -41,6 +43,7 @@ class OrderController extends BackendController {
         return $this->render('list', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'status'=>$_GET['OrderSearch']['status'],
         ]);
     }
     /**
@@ -76,6 +79,57 @@ class OrderController extends BackendController {
         return $this->render('create', array(
             'model' => $model,'isNew'=>true,'ischange'=>false,
         )); 
+    }
+    /**
+     * [actionConfirm description]
+     * @return [type] [description]
+     */
+    public function actionConfirm(){
+        $ordersIds = $_POST['selection'];
+        $orders = Order::find()->where(['id'=>$ordersIds,'is_del'=>Order::ORDER_IS_NOT_DEL])->all();
+        foreach($orders as $order){
+            if($order->status != Order::NEW_ORDER){
+                continue;
+            }else{
+                $order->status = Order::CONFIRM_ORDER;
+                $order->save(false);
+            }
+        }
+        return $this->redirect('/order/list?OrderSearch[status]=4');
+    }
+    /**
+     * [actionShipping description]
+     * @return [type] [description]
+     */
+    public function actionShipping(){
+        $ordersIds = $_POST['selection'];
+        $orders = Order::find()->where(['id'=>$ordersIds,'is_del'=>Order::ORDER_IS_NOT_DEL])->all();
+        foreach($orders as $order){
+            if($order->status != Order::PACKAGE_ORDER){
+                continue;
+            }else{
+                $order->status = Order::SHIPPING_ORDER;
+                $order->save(false);
+            }
+        }
+        return $this->redirect('/order/list?OrderSearch[status]=2');
+    }
+    /**
+     * [actionSign description]
+     * @return [type] [description]
+     */
+    public function actionSign(){
+        $ordersIds = $_POST['selection'];
+        $orders = Order::find()->where(['id'=>$ordersIds,'is_del'=>Order::ORDER_IS_NOT_DEL])->all();
+        foreach($orders as $order){
+            if($order->status != Order::SHIPPING_ORDER){
+                continue;
+            }else{
+                $order->status = Order::SIGN_ORDER;
+                $order->save(false);
+            }
+        }
+        return $this->redirect('/order/list?OrderSearch[status]=3');
     }
     /**
      * Displays the create page
@@ -134,6 +188,7 @@ class OrderController extends BackendController {
         $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
         $order_package = OrderPackage::find()->where(['order_id'=>$id])->one();
         $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
+        $sign = OrderSign::findOne($id);
         $package = [];
         if(!empty($order_package)){
             $package = Package::find()->where(['id'=>$order_package->package_id])->one();
@@ -142,6 +197,7 @@ class OrderController extends BackendController {
             'order' => $order,
             'package' => $package,
             'detail' =>$detail,
+            'sign' => $sign,
         ]);
     }
     public function actionChange(){
@@ -188,33 +244,24 @@ class OrderController extends BackendController {
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    public function actionMark(){
-        $id = intval($_REQUEST['id']);
-        $status = intval($_REQUEST['status']);
-
-        $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
-        if($status == Order::SHIPPING_ORDER){
-            //order shipping must package before
-            if($order->status != Order::PACKAGE_ORDER){
-                echo <<<EOF
-            <script>alert("您要标记发货的订单还没有录入包装信息，请先录入包装信息!");</script>
-EOF;
-            }else{
-                $order->status = Order::SHIPPING_ORDER;
-                $order->save();
-            }
-            return $this->redirect(Yii::$app->request->referrer);
+    public function actionMarksign($id){
+        $order = $this->loadModel($id);
+        if($order->status != Order::SHIPPING_ORDER){
+            throw new CHttpException(404, '数据错误，请检查一下订单是否是发货状态，不是发货状态的订单不能标记为签收');
         }
-        if($status == Order::SIGN_ORDER){
-            //order sign must shipping before
-            if($order->status != Order::SHIPPING_ORDER){
-
-            }else{
-                $order->status = Order::SIGN_ORDER;
-                $order->save();
+        $model = new OrderSign;
+        $model->order_viewid = $order->viewid;
+        if(Yii::$app->request->isPost){
+            $model->load($_POST);
+            if($model->validate()){
+                if($model->save()){
+                    $order->status = Order::SIGN_ORDER;
+                    $model->save(false);
+                }
+                return $this->redirect("/order/list?OrderSearch[status]=3");
             }
-            return $this->redirect(Yii::$app->request->referrer);
         }
+        return $this->render('marksign',['id'=>$id,'order'=>$order,'model'=>$model]);
     }
     /**
      * Returns the data model based on the primary key given in the GET variable.
@@ -223,13 +270,31 @@ EOF;
      */
     public function loadModel($id) {
         $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
-        if ($model === null) throw new CHttpException(404, 'The requested page does not exist.');
+        if ($order === null) throw new CHttpException(404, 'The requested page does not exist.');
         
-        return $model;
+        return $order;
     }
     public function actionGetgoods(){
         $this->enableCsrfValidation = false;
         $result = Order::getCanUseGoodsByOwnerId($_POST['owner_id'],$_POST['storeroom_id']);
         echo json_encode($result);
+    }
+    public function actionUploadfile(){
+        $this->enableCsrfValidation = false;
+        $num = $_POST['num'];
+        // print_r($_FILES);exit;
+        if($_FILES){
+            $model = new Upload;
+            $result = $model->uploadImage($_FILES,false,"picture");
+            if($result[0] == true){
+                    echo <<<EOF
+            <script>parent.stopSend("{$num}","{$result[1]}");</script>
+EOF;
+            }else{
+                echo <<<EOF
+            <script>alert("{$result[1]}");</script>
+EOF;
+            }
+        }
     }
 }

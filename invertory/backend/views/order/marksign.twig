@@ -1,5 +1,5 @@
-{% set sidebar_name = "添加物料" %}
-{% set menu_name = "material" %}
+{% set sidebar_name = "订单列表" %}
+{% set menu_name = "order" %}
 {% extends "../layouts/header.twig" %}
 {% block content %}
 <style type="text/css">
@@ -64,13 +64,15 @@ cursor:hand;
 </style>
         <div class="page-head">
         <!-- Page heading -->
-        <h2 class="pull-left"><i class="fa fa-file-o"></i> Material</h2>
+          <h2 class="pull-left">Orders
+          <!-- page meta -->
+          <span class="page-meta"></span>
         </h2>
 
 
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
-          <a href="index.html"><i class="fa fa-home"></i> Home</a> 
+          <a href="index.html"><i class="icon-home"></i> Home</a> 
           <!-- Divider -->
           <span class="divider">/</span> 
           <a href="#" class="bread-current">Forms</a>
@@ -78,10 +80,13 @@ cursor:hand;
 
         <div class="clearfix"></div>
 
-      </div>
+        </div>
         <!-- Page heading ends -->
+
+
+
         <!-- Matter -->
-         <div class="matter">
+          <div class="matter">
         <div class="container">
 
           <div class="row">
@@ -98,44 +103,37 @@ cursor:hand;
                   </div>
                   <div class="clearfix"></div>
                 </div>
-                {% include "../layouts/notice.twig" %}
+
                 <div class="widget-content">
                   <div class="padd">
 
                     <br />
                     <!-- Form starts.  -->
-                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}     
-                          {{ form.field(model,'code',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}  
-                          {{ form.field(model,'english_name',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
-                          {{ form.field(model,'project_id').dropDownList(model.getCanUseProjects()).label(null,{'class':'control-label col-lg-2'})|raw }}  
-                          {{ form.field(model,'desc').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
-                          <div id="uploads">
-                          {% if isNew == true %}
-                          <div class="form-group img_count" id="pic_0">
-                              <label class="col-lg-2 control-label">图片</label>
-                              <div class="col-lg-5">
-                                  <a href="#myModal" onclick="uploadFile(0);" class="btn btn-info" data-toggle="modal">Upload</a><br />
-                                  <input type="hidden" id="img_image0" name="Material[image][0]">
-                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image0" src=""></a>
-                              </div>
-                              <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
-                            </div>
-                          {% else %}
-                            {% for key,value in model.image %}
-                                <div class="form-group img_count" id="pic_{{ loop.index }}">
-                              <label class="col-lg-2 control-label">图片</label>
-                              <div class="col-lg-5">
-                                  <a href="#myModal" onclick="uploadFile({{ loop.index }});" class="btn btn-info" data-toggle="modal">Upload</a><br />
-                                  <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Material[image][{{ loop.index }}]">
-                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image{{ loop.index }}" src="{{ value }}"></a>
-                              </div>
-                              <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
-                              <a class="btn btn-xs btn-danger pull-left" onclick="return deletePic('pic_{{loop.index}}');">删除</a>
-                            </div>
-                            {% endfor %}
-                          {% endif %}
-                          </div>
+                     {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-6'} } }) %}
+                            {{ form.field(model,'order_viewid',{'inputOptions':{'class':'form-control','readonly':'true'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'signer',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            <input type="hidden" value="{{ order.id }}" name="OrderSign[order_id]" /> 
+                            {{ form.field(model,'sign_date').widget('\\yii\\jui\\DatePicker',{'name' : 'sign_date',
+                              'attribute' : 'sign_date', 
+                              'model':model,
+                              'options':{'class':'form-control'},
+                              'clientOptions' : 
+                              {
+                                  'dateFormat' : 'yy-mm-dd',
+                                  'changeMonth':true,
+                                  'changeYear':true,
+                                  'yearRange':'-1:+25',   
+                              },
+                              }).label(null,{'class':'control-label col-lg-2'})|raw
+                              }}
+                                  <div class="form-group img_count" id="pic_0">
+                                  <label class="col-lg-2 control-label">图片</label>
+                                  <div class="col-lg-5">
+                                      <a href="#myModal" onclick="uploadFile(0);" class="btn btn-info" data-toggle="modal">Upload</a><br />
+                                      <input type="hidden" id="img_image0" name="OrderSign[image]">
+                                      <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image0" src=""></a>
+                                  </div>
+                                  </div>
                                     <hr />
                                 <div class="form-group">
                                   <div class="col-lg-offset-2 col-lg-6">
@@ -163,7 +161,7 @@ cursor:hand;
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h4 class="modal-title">please select a image file</h4>
             </div>
-            <form id="uploadimageForm" action="/material/uploadfile" method="post" target="tarframe" enctype="multipart/form-data">
+            <form id="uploadimageForm" action="/order/uploadfile" method="post" target="tarframe" enctype="multipart/form-data">
             <div class="modal-body">
               <p>
                     <input type="hidden" name="num" id="image_num" />
@@ -215,3 +213,4 @@ function stopSend(num,img){
     }
 </script>
 {% endblock %}
+

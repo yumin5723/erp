@@ -263,3 +263,16 @@ CREATE TABLE `delivery` (
   `modified_uid` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `order_sign`;
+CREATE TABLE `order_sign` (
+  `order_id` int(11) NOT NULL,
+  `sign_date` datetime NOT NULL,
+  `signer` varchar(64) NOT NULL DEFAULT '',
+  `image` varchar(255) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `created_uid` int(11) NOT NULL DEFAULT '1',
+  `modified_uid` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

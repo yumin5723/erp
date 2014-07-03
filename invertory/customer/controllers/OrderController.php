@@ -4,6 +4,7 @@ namespace customer\controllers;
 
 use Yii;
 use backend\models\Order;
+use backend\models\OrderSign;
 use customer\models\Stock;
 use customer\models\StockTotal;
 use customer\models\OrderPackage;
@@ -167,6 +168,7 @@ class OrderController extends CustomerController {
         $order_package = OrderPackage::find()->where(['order_id'=>$id])->one();
         $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
         $package = [];
+        $sign = OrderSign::findOne($id);
         if(!empty($order_package)){
             $package = Package::find()->where(['id'=>$order_package->package_id])->one();
         }
@@ -174,6 +176,7 @@ class OrderController extends CustomerController {
             'order' => $order,
             'package' => $package,
             'detail' =>$detail,
+            'sign' => $sign,
         ]);
     }
     public function actionChange(){

@@ -57,8 +57,8 @@
                           <tr>
                             <th>物料图片</th>
                             <td>
-                                {% for image in material.image %}
-                                <img src="{{ image }}" /> <br/><br/><br/>
+                                {% for im in material.image %}
+                                <a class='prettyPhoto[pp_gal]' href={{ im }}><img width='300px' src={{ im }}></a><br /><br />
                                 {% endfor %}
                             </td>
                           </tr>
