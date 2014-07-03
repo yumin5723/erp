@@ -270,6 +270,7 @@ CREATE TABLE `order_sign` (
   `sign_date` datetime NOT NULL,
   `signer` varchar(64) NOT NULL DEFAULT '',
   `image` varchar(255) NOT NULL DEFAULT '',
+  `info` text NOT NULL DEFAULT '',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',

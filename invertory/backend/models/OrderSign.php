@@ -27,7 +27,7 @@ class OrderSign extends BackendActiveRecord {
     public function rules() {
         return [
             [['order_id','signer','sign_date'],'required'],
-            [['image'],'safe'],
+            [['image','info'],'safe'],
             ['order_id','required'],
         ];
     }
@@ -66,6 +66,7 @@ class OrderSign extends BackendActiveRecord {
             'created'=>'操作时间',
             'created_uid'=>'操作人',
             'order_viewid'=>'订单号',
+            'info' => '备注',
         ];
     }
     public function getImage(){
