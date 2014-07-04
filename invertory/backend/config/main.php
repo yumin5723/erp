@@ -20,6 +20,9 @@ return [
     'gridview'=>[
         'class'=>'\kartik\grid\Module',
     ],
+    'datecontrol'=>[
+        'class' => 'kartik\datecontrol\Module',
+    ],
 	],
 	'extensions' => require($rootDir . '/vendor/yiisoft/extensions.php'),
 	'components' => [

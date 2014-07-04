@@ -113,19 +113,9 @@ cursor:hand;
                             {{ form.field(model,'order_viewid',{'inputOptions':{'class':'form-control','readonly':'true'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             {{ form.field(model,'signer',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             <input type="hidden" value="{{ order.id }}" name="OrderSign[order_id]" /> 
-                            {{ form.field(model,'sign_date').widget('\\yii\\jui\\DatePicker',{'name' : 'sign_date',
-                              'attribute' : 'sign_date', 
-                              'model':model,
-                              'options':{'class':'form-control'},
-                              'clientOptions' : 
-                              {
-                                  'dateFormat' : 'yy-mm-dd',
-                                  'changeMonth':true,
-                                  'changeYear':true,
-                                  'yearRange':'-1:+25',   
-                              },
-                              }).label(null,{'class':'control-label col-lg-2'})|raw
-                              }}
+
+                              {{ form.field(model,'sign_date').widget('\\kartik\\datecontrol\\DateControl', {'displayFormat': 'Y-m-d H:i','saveFormat':'U','type':'datetime'}).label(null,{'class':'control-label col-lg-2'})|raw }}
+                              
                               {{ form.field(model,'info').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
                                   <div class="form-group img_count" id="pic_0">
                                   <label class="col-lg-2 control-label">图片</label>
