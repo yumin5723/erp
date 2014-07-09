@@ -81,7 +81,7 @@ class Order extends BackendActiveRecord {
     {
         if (!$this->hasErrors()) {
             $code = $this->goods_code;
-            $quantity = Stock::find()->where(['code'=>$code])->sum('actual_quantity');
+            $quantity = Stock::find()->where(['code'=>$code,'storeroom_id'=>$this->storeroom_id])->sum('actual_quantity');
             if ($this->goods_quantity > $quantiy) {
                 $this->addError('goods_quantity', '库存不足.');
             }
@@ -263,7 +263,7 @@ class Order extends BackendActiveRecord {
             $model->save(false);
 
             //subtract stock total
-            StockTotal::updateTotal($material->id,(0 - $value['count']));
+            StockTotal::updateTotal($model->storeroom_id,$material->id,(0 - $value['count']));
         }
         return true;
     }

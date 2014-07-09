@@ -103,13 +103,15 @@ CREATE TABLE `stock` (
 
 DROP TABLE IF EXISTS `stock_total`;
 CREATE TABLE `stock_total` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `material_id` int(11) NOT NULL DEFAULT '0',
   `total` int(11) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',
   `modified_uid` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`material_id`)
+  PRIMARY KEY (`id`),
+  KEY `material_id`(`material_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `order`;
@@ -277,3 +279,7 @@ CREATE TABLE `order_sign` (
   `modified_uid` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table `stock` add column `destory` int(11) NOT NULL DEFAULT '0';
+alter table `stock` add column `destory_reason` blob NOT NULL DEFAULT '';
+alter table `stock_total` add column `storeroom_id` int(11) NOT NULL DEFAULT '1';

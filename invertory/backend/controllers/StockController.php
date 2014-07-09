@@ -53,7 +53,7 @@ class StockController extends BackendController {
             if ($model->validate()) {
                 $model->save();
                 //create a data in stock total
-                StockTotal::updateTotal($model->material_id,$model->actual_quantity);
+                StockTotal::updateTotal($model->storeroom_id,$model->material_id,$model->actual_quantity);
                 Yii::$app->session->setFlash('success', '新建成功！');
                 $this->redirect("/stock/list");
             }
@@ -113,9 +113,9 @@ class StockController extends BackendController {
                 //update StockTotal
                 if($model->actual_quantity != $_POST['Stock']['actual_quantity']){
                     if($model->actual_quantity > $_POST['Stock']['actual_quantity']){
-                        StockTotal::updateTotal($model->material_id,($_POST['Stock']['actual_quantity'] - $model->actual_quantity));
+                        StockTotal::updateTotal($model->storeroom_id,$model->material_id,($_POST['Stock']['actual_quantity'] - $model->actual_quantity));
                     }else{
-                        StockTotal::updateTotal($model->material_id,($model->actual_quantity - $_POST['Stock']['actual_quantity']));
+                        StockTotal::updateTotal($model->storeroom_id,$model->material_id,($model->actual_quantity - $_POST['Stock']['actual_quantity']));
                     }
                 }
                 if ($model->load($_POST) && $model->save()) {
@@ -148,6 +148,25 @@ class StockController extends BackendController {
         if ($model === null) throw new CHttpException(404, 'The requested page does not exist.');
         
         return $model;
+    }
+    public function actionDestory(){
+        $model = new Stock(['scenario'=>'destory']);
+        if (isset($_POST['Stock'])) {
+            $model->load($_POST);
+            if ($model->validate()) {
+                $stock = Stock::find()->where(['material_id'=>$_POST['Stock']['material_id']])->orderby(['id'=>SORT_DESC])->one();
+                $model->owner_id = $stock->owner_id;
+                $model->increase = Stock::IS_NOT_INCREASE;
+                $model->actual_quantity = 0 - $_POST['Stock']['actual_quantity'];
+                $model->stock_time = date('Y-m-d H:i:s');
+                $model->save();
+                //create a data in stock total
+                StockTotal::updateTotal($model->storeroom_id,$model->material_id,$model->actual_quantity);
+                Yii::$app->session->setFlash('success', '成功销毁物料，库存已经相应减少');
+                // $this->redirect("/stock/list");
+            }
+        }
+        return $this->render('destory',['model'=>$model]);
     }
     public function actionUploadfile(){
         $this->enableCsrfValidation = false;

@@ -60,7 +60,6 @@
             },
             'export':false,
             'columns':{
-                1:{'attribute':'increase','value':'if($model->increase == 1){return "出库";}else{return "入库";}'|value_callback},
                 2:{
                   'attribute':'material_id',
                   'value':'return $model->material->name;'|value_callback,

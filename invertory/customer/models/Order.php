@@ -261,7 +261,7 @@ class Order extends CustomerActiveRecord {
             $model->save(false);
 
             //subtract stock total
-            StockTotal::updateTotal($material->id,(0 - $value['count']));
+            StockTotal::updateTotal($model->storeroom_id,$material->id,(0 - $value['count']));
         }
         return true;
     }

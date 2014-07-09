@@ -138,6 +138,10 @@ return [
                     'name' => '入库',
                     'route' => 'stock/create',
                 ],
+                [
+                    'name' => '销毁',
+                    'route' => 'stock/destory',
+                ],
             ],
         ],
         'order'=>[

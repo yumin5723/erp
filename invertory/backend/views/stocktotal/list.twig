@@ -46,7 +46,6 @@
             'id':'app-grid', 
             'tableOptions':{'class':'table table-striped table-bordered table-hover'},
             'dataProvider':dataProvider,
-            'filterModel':searchModel,
             'pager':{
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
@@ -54,6 +53,10 @@
                 2:{
                   'attribute':'material_id',
                   'value':'return $model->material->name;'|value_callback,
+                },
+                2:{
+                  'attribute':'storeroom_id',
+                  'value':'return $model->storeroom->name;'|value_callback,
                 },
                 4:{
                   'attribute':'total',

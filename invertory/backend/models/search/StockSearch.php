@@ -47,6 +47,7 @@ class StockSearch extends Stock
         $query->andFilterWhere([
             'id' => $this->id,
             'material_id' => $this->material_id,
+            'storeroom_id'=> $this->storeroom_id,
         ]);
 
         return $dataProvider;

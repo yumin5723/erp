@@ -21,5 +21,7 @@ class OrderDetail extends BackendActiveRecord {
     public function getMaterial(){
     	return $this->hasOne(Material::className(),['code'=>'goods_code']);
     }
-
+    public function getOrders(){
+        return $this->hasOne(Order::className(),['id'=>'order_id']);
+    }
 }

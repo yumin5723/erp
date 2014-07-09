@@ -144,7 +144,7 @@ class OrderController extends CustomerController {
                         $details = OrderDetail::find(['order_id'=>$id])->all();
                         if(!empty($details)){
                             foreach($details as $detail){
-                                $total = StockTotal::find(['material_id'=>$detail->material->id])->one();
+                                $total = StockTotal::find(['storeroom_id'=>$detail->orders->storeroom_id,'material_id'=>$detail->material->id])->one();
                                 if(!empty($total)){
                                     $total->goods_quantity = $total + $detail->goods_quantity;
                                     $total->update();

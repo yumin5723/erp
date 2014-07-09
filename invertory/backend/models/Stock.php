@@ -30,14 +30,31 @@ class Stock extends BackendActiveRecord {
             [['material_id','storeroom_id','project_id','owner_id'],'required'],
             [['forecast_quantity','actual_quantity','stock_time','delivery'],'safe'],
             [['material_id'],'required','on'=>'search'],
+            [['material_id','actual_quantity','destory_reason'],'required','on'=>'destory'],
+            [['actual_quantity'],'checkQuantity','on'=>'destory'],
         ];
     }
-    // public function scenarios()
-    // {
-    //     return [
-    //         'search' => ['material_id'],
-    //     ];
-    // }
+    /**
+    * Validates the can use destory num.
+    * This method serves as the inline validation for password.
+    */
+    public function checkQuantity()
+    {
+        if (!$this->hasErrors()) {
+            $destory = $this->actual_quantity;
+            $quantity = StockTotal::find()->where(['material_id'=>$this->material_id,'storeroom_id'=>$this->storeroom_id])->one();
+            if ($destory > $quantity->total) {
+                $this->addError('actual_quantity', '您要销毁的数量超过当前的库存数量，当前您最多可销毁'.$quantity->total."件");
+            }
+        }
+    }
+    public function scenarios()
+    {
+        return [
+            'destory' => ['material_id','actual_quantity','project_id','storeroom_id','destory_reason'],
+            'default' => ['material_id','storeroom_id','project_id','owner_id','forecast_quantity','actual_quantity','stock_time','delivery'],
+        ];
+    }
     public function behaviors()
     {
         return BaseArrayHelper::merge(
@@ -135,12 +152,16 @@ class Stock extends BackendActiveRecord {
         return $this->hasOne(Owner::className(),['id'=>'owner_id']);
     }
     public function getStocktotal(){
-        return $this->hasOne(StockTotal::className(),['material_id'=>'material_id']);
+        return $this->hasOne(StockTotal::className(),['storeroom_id'=>'storeroom_id']);
     }
     public function getLink(){
         return '
             if($model->increase == 1){
-                return "出库  ".\yii\helpers\Html::a("查看明细","/order/view?id=$model->order_id");
+                if($model->destory_reason != ""){
+                    return "<span title=$model->destory_reason>销毁</span>";
+                }else{
+                    return "出库  ".\yii\helpers\Html::a("查看明细","/order/view?id=$model->order_id");
+                }
             }else{
                 return "入库";
             }
@@ -153,14 +174,16 @@ class Stock extends BackendActiveRecord {
             'storeroom_id'=>'入库仓库',
             'project_id'=>'所属项目',
             'forecast_quantity'=>'预计入库数量',
-            'actual_quantity'=>'实际入库数量',
+            'actual_quantity'=>'实际出入库数量',
             'owner_id'=>'所属人',
-            'stock_time'=>'入库时间',
+            'stock_time'=>'出入库时间',
             'delivery'=>'送货方',
             'increase'=>'出入库标记',
             'order_id'=>'订单号',
             'created'=>'添加时间',
             'created_uid'=>'创建人',
+            'destory'=>'销毁数量',
+            'destory_reason'=>'销毁原因',
         ];
     }
     public function getExportLink(){

@@ -20,11 +20,12 @@ class StockTotal extends BackendActiveRecord {
      * @param  [type] $material_id [description]
      * @return [type]              [description]
      */
-    public static function updateTotal($material_id,$count){
-    	$material = self::findOne($material_id);
+    public static function updateTotal($storeroom_id,$material_id,$count){
+    	$material = self::find()->where(['material_id'=>$material_id,"storeroom_id"=>$storeroom_id])->one();
     	if(empty($material)){
     		$model = new self;
     		$model->material_id = $material_id;
+            $model->storeroom_id = $storeroom_id;
     		$model->total = $count;
     		$model->save();
     		return true;
@@ -37,9 +38,12 @@ class StockTotal extends BackendActiveRecord {
     public function getMaterial(){
     	return $this->hasOne(Material::className(),['id'=>'material_id']);
     }
+    public function getStoreroom(){
+        return $this->hasOne(Storeroom::className(),['id'=>'storeroom_id']);
+    }
     public function getLink(){
     	return '
-            return \yii\helpers\Html::a("查看明细","/stock/list?StockSearch[material_id]=$model->material_id");
+            return \yii\helpers\Html::a("查看明细","/stock/list?StockSearch[material_id]=$model->material_id&StockSearch[storeroom_id]=$model->storeroom_id");
         ';
     }
     public function attributeLabels(){

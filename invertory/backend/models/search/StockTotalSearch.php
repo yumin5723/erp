@@ -15,8 +15,7 @@ class StockTotalSearch extends StockTotal
     public function rules()
     {
         return [
-            [['material_id'], 'integer'],
-            [['total'], 'safe'],
+            [['material_id'], 'safe'],
         ];
     }
 
