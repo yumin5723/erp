@@ -113,7 +113,7 @@ class Order extends BackendActiveRecord {
             foreach($rs as $key=>$v){
                 $arr[$v->material['code']]['code'] = $v->material['code'];
                 $arr[$v->material['code']]['name'] = $v->material['name'];
-                $arr[$v->material['code']]['count'] = $v->stocktotal->total;
+                $arr[$v->material['code']]['count'] = StockTotal::find()->where(['storeroom_id'=>$this->storeroom_id,'material_id'=>$v->material_id])->one()->total;
             }
 
         }

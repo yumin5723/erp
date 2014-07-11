@@ -27,9 +27,9 @@ class Stock extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['material_id','storeroom_id','project_id','owner_id'],'required'],
+            [['material_id','storeroom_id','active','project_id','owner_id'],'required'],
             [['forecast_quantity','actual_quantity','stock_time','delivery'],'safe'],
-            [['material_id'],'required','on'=>'search'],
+            [['material_id','storeroom_id'],'required','on'=>'search'],
             [['material_id','actual_quantity','destory_reason'],'required','on'=>'destory'],
             [['actual_quantity'],'checkQuantity','on'=>'destory'],
         ];
@@ -53,6 +53,7 @@ class Stock extends BackendActiveRecord {
         return [
             'destory' => ['material_id','actual_quantity','project_id','storeroom_id','destory_reason'],
             'default' => ['material_id','storeroom_id','project_id','owner_id','forecast_quantity','actual_quantity','stock_time','delivery'],
+            'search'  =>['material_id','storeroom_id','increase'],
         ];
     }
     public function behaviors()
@@ -154,13 +155,16 @@ class Stock extends BackendActiveRecord {
     public function getStocktotal(){
         return $this->hasOne(StockTotal::className(),['storeroom_id'=>'storeroom_id']);
     }
+    public function getOrders(){
+        return $this->hasOne(Order::className(),['id'=>'order_id']);
+    }
     public function getLink(){
         return '
             if($model->increase == 1){
                 if($model->destory_reason != ""){
                     return "<span title=$model->destory_reason>销毁</span>";
                 }else{
-                    return "出库  ".\yii\helpers\Html::a("查看明细","/order/view?id=$model->order_id");
+                    return "出库  ".\yii\helpers\Html::a("查看明细","/order/view?id=$model->order_id",["tatget"=>"_blank"]);
                 }
             }else{
                 return "入库";
@@ -184,10 +188,44 @@ class Stock extends BackendActiveRecord {
             'created_uid'=>'创建人',
             'destory'=>'销毁数量',
             'destory_reason'=>'销毁原因',
+            'active'=>'活动名称',
         ];
     }
     public function getExportLink(){
-        return ['0'=>'/stock/export?mid='.$this->material_id];
+        return ['0'=>'/stock/export?mid='.$this->material_id."&sid=".$this->storeroom_id."&increase=".$this->increase];
+    }
+    /**
+     * [getExportData description]
+     * @return [type] [description]
+     */
+    public static function getExportData(){
+        $data = Stock::find()->orderby(['id'=>SORT_DESC])->all();
+        $ret = [];
+        $stock_total = 0;
+        $output_total = 0;
+        foreach($data as $v){
+            $ret[$v->material_id]['name'] = $v->material->name;
+            $ret[$v->material_id]['english_name'] = $v->material->english_name;
+            $ret[$v->material_id]['owner'] = $v->owners->english_name;
+            $ret[$v->material_id]['now_count'] = $v->stocktotal->total;
+            $ret[$v->material_id]['stock_time'] = $v->stock_time;
+            if($v->actual_quantity > 0){
+                $ret[$v->material_id]['stock_detail'][] = $v->actual_quantity;
+                $stock_total += $v->actual_quantity; 
+                $ret[$v->material_id]['stock_total'] = $stock_total;
+                // $ret[$v->material_id]['stock_output'][] = "";
+                // $ret[$v->material_id]['output_total'] = 0;
+            }else{
+                if($v->destory_reason == ""){
+                    $ret[$v->material_id]['stock_output'][] = "订单号:".$v->orders->viewid.":".( 0 - $v->actual_quantity);
+                    $output_total += (0 - $v->actual_quantity);
+                    $ret[$v->material_id]['output_total'] = $output_total;
+                }
+            }
+            $ret[$v->material_id]['info'] = "";
+            $ret[$v->material_id]['delivery'] = $v->delivery;
+        }
+        return $ret;
     }
 
 }

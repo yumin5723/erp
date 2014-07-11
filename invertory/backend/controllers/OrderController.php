@@ -215,7 +215,7 @@ class OrderController extends BackendController {
                          ->setSubject("订单确认通知")
                          ->send();
                 }
-                if($_GET['status'] == Order::SIGN_ORDER){
+                if($_POST['status'] == Order::SIGN_ORDER){
                     Yii::$app->mail->compose('sign',['order'=>$order])
                          ->setFrom('liuwanglei2001@163.com')
                          ->setTo('liuwanglei@goumin.com')

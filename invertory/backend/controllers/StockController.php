@@ -65,36 +65,106 @@ class StockController extends BackendController {
     public function actionExport(){
         if(isset($_GET['mid']) && $_GET['mid'] != 0){
             $material_id = $_GET['mid'];
+            $storeroom_id = $_GET['sid'];
+            $increase = $_GET['increase'];
             $filename = Material::findOne($material_id)->name;
-            $stocks = Stock::find()->where(['material_id'=>$material_id])->orderby(['id'=>SORT_DESC])->all();
+            //chu ku report
+            if($increase == Stock::IS_NOT_INCREASE){
+                $filename .= "出库报表.xls";
+                $stocks = Stock::find()->where(['material_id'=>$material_id,'storeroom_id'=>$storeroom_id,'increase'=>$increase,'destory_reason'=>""])->orderby(['material_id'=>SORT_DESC,'id'=>SORT_DESC])->all();
+                $objPHPExcel = new \PHPExcel();
+                $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A1','物料')
+                            ->setCellValue('B1','仓库')
+                            ->setCellValue('C1','所属人')
+                            ->setCellValue('D1','活动名称')
+                            ->setCellValue('E1','出库数量')
+                            ->setCellValue('F1','出库时间')
+                            ->setCellValue('G1','订单号');
+                $i=2;
+                foreach($stocks as $v)
+                {
+                    $objPHPExcel->setActiveSheetIndex(0)
+                                ->setCellValue('A'.$i, $v->material->name)
+                                ->setCellValue('B'.$i, $v->storeroom->name)
+                                ->setCellValue('C'.$i, $v->owners->english_name)
+                                ->setCellValue('D'.$i, $v->active)
+                                ->setCellValue('E'.$i, ( 0 - $v->forecast_quantity))
+                                ->setCellValue('F'.$i, $v->actual_quantity)
+                                ->setCellValue('G'.$i, $v->stock_time)
+                                ->setCellValue('H'.$i, $v->orders->viewid);
+                                $i++;
+                }
+                $objPHPExcel->setActiveSheetIndex(0);
+            }else{
+                $filename .= "入库报表.xls";
+                $stocks = Stock::find()->where(['material_id'=>$material_id,'storeroom_id'=>$storeroom_id,'increase'=>$increase])->orderby(['material_id'=>SORT_DESC,'id'=>SORT_DESC])->all();
+                $objPHPExcel = new \PHPExcel();
+                $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A1','物料')
+                            ->setCellValue('B1','仓库')
+                            ->setCellValue('C1','所属人')
+                            ->setCellValue('D1','活动名称')
+                            ->setCellValue('E1','预计入库数量')
+                            ->setCellValue('F1','实际入库数量')
+                            ->setCellValue('G1','入库时间')
+                            ->setCellValue('H1','送货方');
+                $i=2;
+                foreach($stocks as $v)
+                {
+                    $objPHPExcel->setActiveSheetIndex(0)
+                                ->setCellValue('A'.$i, $v->material->name)
+                                ->setCellValue('B'.$i, $v->storeroom->name)
+                                ->setCellValue('C'.$i, $v->owners->english_name)
+                                ->setCellValue('D'.$i, $v->active)
+                                ->setCellValue('E'.$i, $v->forecast_quantity)
+                                ->setCellValue('F'.$i, $v->actual_quantity)
+                                ->setCellValue('G'.$i, $v->stock_time)
+                                ->setCellValue('H'.$i, $v->delivery);
+                                $i++;
+                }
+                $objPHPExcel->setActiveSheetIndex(0);
+            }
+            header('Content-Type: application/vnd.ms-excel;charset=utf-8');
+            header('Content-Disposition: attachment;filename='.$filename);
+            header('Cache-Control: max-age=0');
+            $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $objWriter->save('php://output');
+        }
+    }
+    public function actionExportstock(){
+        if(isset($_GET['sid']) && $_GET['sid'] != 0){
+            $storeroom_id = $_GET['sid'];
+            //chu ku report
+            //$ret['store'] = $result->storeroom->name;
+            $filename = "库存报表.xls";
+            $data = StockTotal::getExportDataByStoreroomId($_GET['sid']);
             $objPHPExcel = new \PHPExcel();
             $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A1','出入库标识')
+                        ->setCellValue('A1','仓库')
                         ->setCellValue('B1','物料')
-                        ->setCellValue('C1','仓库')
-                        ->setCellValue('D1','所属人')
-                        ->setCellValue('E1','预计入库数量')
-                        ->setCellValue('F1','实际入库数量')
-                        ->setCellValue('G1','入库时间')
-                        ->setCellValue('H1','送货方');
+                        ->setCellValue('C1','所属人')
+                        ->setCellValue('D1','现有库存')
+                        ->setCellValue('E1','最后一次入库时间')
+                        ->setCellValue('F1','最后一次出库时间')
+                        ->setCellValue('G1','备注');
             $i=2;
-            foreach($stocks as $v)
+            foreach($data as $v)
             {
-                $increase = $v->increase == Stock::IS_NOT_INCREASE ? "出库" :"入库";
                 $objPHPExcel->setActiveSheetIndex(0)
-                            ->setCellValue('A'.$i, $increase)
-                            ->setCellValue('B'.$i, $v->material->name)
-                            ->setCellValue('C'.$i, $v->storeroom->name)
-                            ->setCellValue('D'.$i, $v->owners->english_name)
-                            ->setCellValue('E'.$i, $v->forecast_quantity)
-                            ->setCellValue('F'.$i, $v->actual_quantity)
-                            ->setCellValue('G'.$i, $v->stock_time)
-                            ->setCellValue('H'.$i, $v->delivery);
+                            ->setCellValue('A'.$i, $v['store'])
+                            ->setCellValue('B'.$i, $v['material'])
+                            ->setCellValue('C'.$i, $v['owner'])
+                            ->setCellValue('D'.$i, $v['total'])
+                            ->setCellValue('E'.$i, $v['last_income'])
+                            ->setCellValue('F'.$i, $v['last_output'])
+                            ->setCellValue('G'.$i, $v['info']);
                             $i++;
             }
             $objPHPExcel->setActiveSheetIndex(0);
+            
             header('Content-Type: application/vnd.ms-excel;charset=utf-8');
-            header('Content-Disposition: attachment;filename='.($filename."库存报告.xls").'');
+            header('Content-Disposition: attachment;filename='.$filename);
             header('Cache-Control: max-age=0');
             $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
             $objWriter->save('php://output');
@@ -133,7 +203,7 @@ class StockController extends BackendController {
             $model->load($_POST);
             if($model->validate()){
                 $searchModel = new StockSearch;
-                $dataProvider = $searchModel->searchByPost($_POST['Stock']['material_id'],$_POST['Stock']['increase']);
+                $dataProvider = $searchModel->searchByPost($_POST['Stock']['material_id'],$_POST['Stock']['storeroom_id'],$_POST['Stock']['increase']);
             }
         }
         return $this->render("search",['model'=>$model,'dataProvider'=>$dataProvider]);

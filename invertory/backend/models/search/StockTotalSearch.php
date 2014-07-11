@@ -15,7 +15,7 @@ class StockTotalSearch extends StockTotal
     public function rules()
     {
         return [
-            [['material_id'], 'safe'],
+            [['material_id','storeroom_id'], 'safe'],
         ];
     }
 
@@ -32,10 +32,14 @@ class StockTotalSearch extends StockTotal
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
+        
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
+        $query->andFilterWhere([
+            'material_id' => $this->material_id,
+            'storeroom_id'=> $this->storeroom_id,
+        ]);
         return $dataProvider;
     }
 }

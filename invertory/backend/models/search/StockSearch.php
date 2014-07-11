@@ -17,7 +17,7 @@ class StockSearch extends Stock
     {
         return [
             [['id'], 'integer'],
-            [['material_id','project_id','storeroom_id','increase','owner_id'], 'safe'],
+            [['material_id','project_id','active','storeroom_id','increase','owner_id'], 'safe'],
         ];
     }
 
@@ -29,7 +29,7 @@ class StockSearch extends Stock
 
     public function search($params)
     {
-        $query = Stock::find()->orderBy(['id'=>SORT_DESC]);
+        $query = Stock::find()->orderBy(['material_id'=>SORT_DESC,'id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -48,12 +48,13 @@ class StockSearch extends Stock
             'id' => $this->id,
             'material_id' => $this->material_id,
             'storeroom_id'=> $this->storeroom_id,
+            'active'=>$this->active,
         ]);
 
         return $dataProvider;
     }
-    public function searchByPost($material_id,$increase){
-        $query = Stock::find()->where(['material_id'=>$material_id,'increase'=>$increase])->orderBy(['id'=>SORT_DESC]);
+    public function searchByPost($material_id,$storeroom_id,$increase){
+        $query = Stock::find()->where(['material_id'=>$material_id,'storeroom_id'=>$storeroom_id,'increase'=>$increase])->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

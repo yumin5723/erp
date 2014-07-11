@@ -1,5 +1,5 @@
 {% set menu_name = "material" %}
-{% set sidebar_name = "物料列表" %}
+{% set sidebar_name = "我的物料" %}
 {% extends "../layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
@@ -46,7 +46,6 @@
             'id':'app-grid', 
             'tableOptions':{'class':'table table-striped table-bordered table-hover'},
             'dataProvider':dataProvider,
-            'filterModel':searchModel,
             'pager':{
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
@@ -59,11 +58,6 @@
                   'attribute':'物料名称',
                   'format':'raw',
                   'value':'return \\yii\\helpers\\Html::a($model->material->name,"#",["onclick"=>"viewM({$model->material->id})"]);'|value_callback,
-                },
-                3:{
-                  'attribute':'现有库存',
-                  'format':'raw',
-                  'value':searchModel.getStockLink()|value_callback,
                 },
                 4:{
                   'attribute':'物料详情',

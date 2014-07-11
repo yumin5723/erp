@@ -7,7 +7,7 @@ return [
             'style'=>'tasks',
             'subs' => [
                 [
-                    'name' => '物料列表',
+                    'name' => '我的物料',
                     'route' => 'material/list',
                 ],
                 // [

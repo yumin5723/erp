@@ -46,10 +46,34 @@ class StockTotal extends BackendActiveRecord {
             return \yii\helpers\Html::a("查看明细","/stock/list?StockSearch[material_id]=$model->material_id&StockSearch[storeroom_id]=$model->storeroom_id");
         ';
     }
+    public function getExportLink(){
+        return '
+            return \yii\helpers\Html::a("导出报表","/stock/exportstock?sid=$model->storeroom_id");
+        ';
+    }
     public function attributeLabels(){
         return [
             'material_id'=>'物料',
             'total'=>'现有库存',
         ];
+    }
+    /**
+     * [getExportDataByStoreroomId description]
+     * @param  [type] $storeroom_id [description]
+     * @return [type]               [description]
+     */
+    public function getExportDataByStoreroomId($storeroom_id){
+        $results = StockTotal::find()->where(['storeroom_id'=>$storeroom_id])->orderby(['material_id'=>SORT_DESC])->all();
+        foreach($results as $key=>$result){
+            $ret[$key]['store'] = $result->storeroom->name;
+            $ret[$key]['material'] = $result->material->name;
+            $ret[$key]['owner'] = Owner::findOne($result->material->owner_id)->english_name;
+            $ret[$key]['total'] = $result->total;
+            $ret[$key]['last_income'] = Stock::find()->where(['material_id'=>$result->material_id,'increase'=>0,'storeroom_id'=>$storeroom_id])->orderby(['id'=>SORT_DESC])->one()->stock_time;
+            $ret[$key]['last_output'] = Stock::find()->where(['material_id'=>$result->material_id,'increase'=>1,'destory_reason'=>"",'storeroom_id'=>$storeroom_id])->orderby(['id'=>SORT_DESC])->one()->stock_time;
+            $destory = Stock::find()->where('destory_reason!=:destory_reason',[':destory_reason'=>""])->sum('actual_quantity');
+            $ret[$key]['info'] = "销毁破损".(0 - $destory);
+        }
+        return $ret;
     }
 }

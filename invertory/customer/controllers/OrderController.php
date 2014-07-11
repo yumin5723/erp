@@ -8,8 +8,9 @@ use backend\models\OrderSign;
 use customer\models\Stock;
 use customer\models\StockTotal;
 use customer\models\OrderPackage;
-use customer\models\OrderDetail;
+use backend\models\OrderDetail;
 use backend\models\Package;
+use backend\models\Material;
 use customer\models\search\OrderSearch;
 use customer\models\search\OrderStockSearch;
 use customer\components\CustomerController;
@@ -139,19 +140,19 @@ class OrderController extends CustomerController {
                 if($model->save()){
                     //Recovery inventory
                     //delete stock about this order id the recovery stock total
-                    Stock::findOne(['order_id'=>$id])->delete();
-                    // if(!empty($stock)){
-                        $details = OrderDetail::find(['order_id'=>$id])->all();
-                        if(!empty($details)){
-                            foreach($details as $detail){
-                                $total = StockTotal::find(['storeroom_id'=>$detail->orders->storeroom_id,'material_id'=>$detail->material->id])->one();
-                                if(!empty($total)){
-                                    $total->goods_quantity = $total + $detail->goods_quantity;
-                                    $total->update();
-                                }
+                    Stock::deleteAll(['order_id'=>$id]);
+                    $details = OrderDetail::find()->where(['order_id'=>$id])->all();
+                    if(!empty($details)){
+                        foreach($details as $detail){
+                            $storeroom_id = Order::findOne($id)->storeroom_id;
+                            $material_id = Material::find()->where(['code'=>$detail->goods_code])->one()->id;
+                            $total = StockTotal::find(['storeroom_id'=>$storeroom_id,'material_id'=>$material_id])->one();
+                            if(!empty($total)){
+                                $total->total = $total->total + $detail->goods_quantity;
+                                $total->update();
                             }
                         }
-                    // }
+                    }
                 }
             }
         }
