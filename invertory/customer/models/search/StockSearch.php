@@ -13,6 +13,7 @@ use backend\models\Owner;
  */
 class StockSearch extends Stock
 {
+    
     public function rules()
     {
         return [
@@ -30,8 +31,8 @@ class StockSearch extends Stock
     public function search($params)
     {
         // $needData = ['id','owner_id','storeroom_id','material_id','forecast_quantity','actual_quantity','stock_time','delivery','increase','order_id'];
-        $needData = ['material_id'];
-        $query = Stock::find()->select($needData)->with('material')->distinct()->where(['owner_id'=>Yii::$app->user->id])->orderBy(['id'=>SORT_DESC]);
+        $needData = ['material_id','storeroom_id','total'=>'sum(actual_quantity)'];
+        $query = Stock::find()->select($needData)->with('material')->where(['owner_id'=>Yii::$app->user->id])->groupby(['storeroom_id','material_id'])->orderBy(['id'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

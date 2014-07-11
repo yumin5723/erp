@@ -9,6 +9,7 @@ use backend\components\BackendActiveRecord;
 class Stock extends BackendActiveRecord {
     const IS_NOT_INCREASE = 1;
     public $upload;
+    public $total;
     /**
      * function_description
      *

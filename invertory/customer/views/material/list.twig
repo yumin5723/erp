@@ -50,6 +50,10 @@
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
             'columns':{
+                0:{
+                  'attribute':"仓库",
+                  'value':'return $model->storeroom->name;'|value_callback,
+                },
                 1:{
                   'attribute':"物料编码",
                   'value':'return $model->material->code;'|value_callback,
@@ -59,7 +63,8 @@
                   'format':'raw',
                   'value':'return \\yii\\helpers\\Html::a($model->material->name,"#",["onclick"=>"viewM({$model->material->id})"]);'|value_callback,
                 },
-                4:{
+                3:'total',
+                5:{
                   'attribute':'物料详情',
                   'format':'raw',
                   'value':searchModel.getViewLink()|value_callback,
