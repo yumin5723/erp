@@ -68,6 +68,10 @@ return [
                     'name' => '下订单',
                     'route' => 'order/create',
                 ],
+                [
+                    'name' => '导入excel订单',
+                    'route' => 'order/import',
+                ],
             ],
         ],
 ];

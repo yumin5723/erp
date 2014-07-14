@@ -10,6 +10,8 @@ use customer\models\StockTotal;
 use customer\models\OrderPackage;
 use backend\models\OrderDetail;
 use backend\models\Package;
+use backend\models\Owner;
+use backend\models\Storeroom;
 use backend\models\Material;
 use customer\models\search\OrderSearch;
 use customer\models\search\OrderStockSearch;
@@ -218,5 +220,175 @@ class OrderController extends CustomerController {
         $this->enableCsrfValidation = false;
         $result = Order::getCanUseGoodsByOwnerId($_POST['owner_id'],$_POST['storeroom_id']);
         echo json_encode($result);
+    }
+    public function actionImport(){
+        $model = new Order;
+        $error = [];
+        $right = false;
+        if(isset($_POST['Order']) && $_POST['Order'] != ""){
+            $objPHPExcel = new \PHPExcel();
+            $objPHPExcel = \PHPExcel_IOFactory::load($_FILES["Order"]["tmp_name"]['file']);
+            $datas = $objPHPExcel->getSheet(0)->toArray();
+            $ret = [];
+            $datas = [
+                ['序号','收件人','收件地址','收件人电话','收件城市','活动','发货仓库','物料编码','物料属主','数量','到货需求','备注'],
+                ['1','','','','','','北京中央库','JIHFSN899011','alisa','20','4小时','must be'],
+                ['1','wanglei','beijing office','13800138000','beijing','2014 word cup','北京中央库','GSDGSG99990SGA','alisa','5','4小时','must be'],
+                ['2','lisi','beijing office','13800138000','beijing','2014 word cup','北京中央库','JIHFSN899011','alisa','40','4小时','must be'],
+            ];
+            foreach($datas as $key=>$data){
+                if($key == 0){
+                    continue;
+                }else{
+                    $ret[$data[0]]['recipients'] = $data[1];
+                    $ret[$data[0]]['recipients_address'] = $data[2];  
+                    $ret[$data[0]]['recipients_contact'] = $data[3];  
+                    $ret[$data[0]]['to_city'] = $data[4];
+                    $ret[$data[0]]['goods_active'] = $data[5];
+                    $ret[$data[0]]['storeroom_id'] = $data[6];
+                    $ret[$data[0]]['goods'][$data[7]] = $data[9];
+                    // $ret[$data[0]]['goods']['count'][] = $data[9];
+                    $ret[$data[0]]['owner_id'] = $data[8];
+                    $ret[$data[0]]['limitday'] = $data[10];
+                    $ret[$data[0]]['info'] = $data[11];
+                }
+            }
+            $error = $this->checkOrderRight($ret);
+            if(!empty($error)){
+                if(!isset($error['owner_error'])){
+                    $error['owner_error'] = [];
+                }
+                if(!isset($error['material_error'])){
+                    $error['material_error'] = [];
+                }
+                if(!isset($error['storeroom_error'])){
+                    $error['storeroom_error'] = [];
+                }
+                if(!isset($error['total_error'])){
+                    $error['total_error'] = [];
+                }
+            }else{
+                if($this->createBatchOrder($ret)){
+                    $right = true;
+                }else{
+                    $right = false;
+                }
+                
+            }
+        }
+        return $this->render('import',['model'=>$model,'error'=>$error,'right'=>$right]);
+    }
+    /**
+     * [checkOrderRight description]
+     * @param  [type] $result [description]
+     * @return [type]         [description]
+     */
+    public function checkOrderRight($orderArray){
+        $error = [];
+        $count = [];
+        $num = 0;
+        foreach($orderArray as $value){
+            $storeroom_id = $value['storeroom_id'];
+            
+            $storeroom = Storeroom::find()->where(['name'=>trim($value['storeroom_id'])])->one();
+            $owner = Owner::find()->where(['english_name'=>$value['owner_id']])->one();
+            if(empty($storeroom)){
+                $error['storeroom_error'][$value['storeroom_id']] = $value['storeroom_id'];
+            }elseif(empty($owner)){
+                $error['owner_error'][$value['owner_id']] = $value['owner_id'];
+            }else{
+                foreach($value['goods'] as $key=>$v){
+                    $material = Material::find()->where(['code'=>$key])->one();
+                    if(empty($material)){
+                        $error['material_error'][$key] = $key; 
+                    }else{
+                        if(isset($count[$key])){
+                            $count[$key] += $v;
+                        }else{
+                            $count[$key] = $v;
+                        }
+                    }
+                }
+                foreach($count as $k=>$v1){
+                    $material = Material::find()->where(['code'=>$k])->one();
+                    $stock_total = StockTotal::find()->where(['storeroom_id'=>$storeroom->id,'material_id'=>$material->id])->one();
+                    if($stock_total->total < $v1){
+                        $error['total_error'][$k] = $k;
+                    }
+                }
+            }
+        }
+        return $error;
+    }
+    /**
+     * [createOrder description]
+     * @param  [type] $orderArray [description]
+     * @return [type]             [description]
+     */
+    protected function createBatchOrder($orderArray){
+        $db = Owner::getDb();
+        $transaction = $db->beginTransaction();
+        try {
+            foreach($orderArray as $value){
+                $storeroom = Storeroom::find()->where(['name'=>trim($value['storeroom_id'])])->one();
+                $owner = Owner::find()->where(['english_name'=>$value['owner_id']])->one();
+                //create order
+                $model = new Order;
+                $model->goods_active = $value['goods_active'];
+                $model->storeroom_id = $storeroom->id;
+                $model->owner_id = $owner->id;
+                $model->to_city = $value['to_city'];
+                $model->recipients = $value['recipients'];
+                $model->recipients_address = $value['recipients_address'];
+                $model->recipients_contact = $value['recipients_contact'];
+                $model->info = $value['info'];
+                $model->limitday = $value['limitday'];
+                $model->created = date('Y-m-d H:i:s');
+                $model->created_uid = Yii::$app->user->id;
+                $model->source = Order::ORDER_SOURCE_CUSTOMER;
+                $model->save(false);
+                $model->viewid = date('Ymd')."-".$model->id;
+                $model->update();
+
+                foreach($value['goods'] as $key=>$v){
+                    $detail = new OrderDetail;
+                    $detail->order_id = $model->id;
+                    $detail->goods_code = $key;
+                    $detail->goods_quantity = $v;
+                    $detail->save();
+                }
+                //Subtract stock
+                foreach($value['goods'] as $key=>$v){
+                    $material = Material::find()->where(['code'=>$key])->one();
+                    $stock = new Stock;
+                    $stock->material_id = $material->id;
+                    $stock->storeroom_id = $model->storeroom_id;
+                    $stock->owner_id = $model->owner_id;
+                    $stock->project_id = $material->project_id;
+                    $stock->actual_quantity = 0 - $v;
+                    $stock->stock_time = date('Y-m-d H:i:s');
+                    $stock->created = date('Y-m-d H:i:s');
+                    $stock->increase = Stock::IS_NOT_INCREASE;
+                    $stock->order_id = $model->id;
+                    $stock->active = $model->goods_active;
+                    $stock->save(false);
+
+                    //subtract stock total
+                    // StockTotal::updateTotal($model->storeroom_id,$material->id,(0 - $v));
+                    $stockTotal = StockTotal::find()->where(['material_id'=>$material->id,"storeroom_id"=>$model->storeroom_id])->one();
+                    $stockTotal->total = $stockTotal->total + (0 - $v);
+                    $stockTotal->update();
+                }
+            }
+            //create order detail
+            $transaction->commit();
+            return true;
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+    public function actionDownload(){
+        
     }
 }

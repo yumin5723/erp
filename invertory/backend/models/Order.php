@@ -23,6 +23,7 @@ class Order extends BackendActiveRecord {
     const ORDER_SOURCE_CUSTOMER = 1;
     public $goods_code;
     public $goods_quantity;
+    public $file;
     /**
      * function_description
      *
@@ -284,6 +285,7 @@ class Order extends BackendActiveRecord {
             'status'=>'订单状态',
             'created'=>'下单时间',
             'created_uid'=>'下单人',
+            'file'=>'excel文件',
         ];
     }
     public function getCanChoseStatus(){
