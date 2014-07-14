@@ -8,6 +8,7 @@ use backend\components\BackendActiveRecord;
 
 class Stock extends BackendActiveRecord {
     const IS_NOT_INCREASE = 1;
+    const IS_INCREASE = 0;
     public $upload;
     public $total;
     /**
@@ -28,8 +29,8 @@ class Stock extends BackendActiveRecord {
      */
     public function rules() {
         return [
-            [['material_id','storeroom_id','active','project_id','owner_id'],'required'],
-            [['forecast_quantity','actual_quantity','stock_time','delivery'],'safe'],
+            [['material_id','storeroom_id','stock_time','actual_quantity','active','project_id','owner_id'],'required'],
+            [['forecast_quantity','delivery'],'safe'],
             [['material_id','storeroom_id'],'required','on'=>'search'],
             [['material_id','actual_quantity','destory_reason'],'required','on'=>'destory'],
             [['actual_quantity'],'checkQuantity','on'=>'destory'],
@@ -53,7 +54,7 @@ class Stock extends BackendActiveRecord {
     {
         return [
             'destory' => ['material_id','actual_quantity','project_id','storeroom_id','destory_reason'],
-            'default' => ['material_id','storeroom_id','project_id','owner_id','forecast_quantity','actual_quantity','stock_time','delivery'],
+            'default' => ['material_id','storeroom_id','project_id','owner_id','forecast_quantity','active','actual_quantity','stock_time','delivery'],
             'search'  =>['material_id','storeroom_id','increase'],
         ];
     }
@@ -190,6 +191,7 @@ class Stock extends BackendActiveRecord {
             'destory'=>'销毁数量',
             'destory_reason'=>'销毁原因',
             'active'=>'活动名称',
+            'total'=>'当前库存',
         ];
     }
     public function getExportLink(){

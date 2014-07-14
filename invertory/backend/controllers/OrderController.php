@@ -207,21 +207,21 @@ class OrderController extends BackendController {
                 $order->status = $_POST['status'];
                 $order->save(false);
 
-                if($_POST['status'] == Order::CONFIRM_ORDER){
-                    //send mail to customer
-                    Yii::$app->mail->compose('confirm',['order'=>$order])
-                         ->setFrom('liuwanglei2001@163.com')
-                         ->setTo('liuwanglei@goumin.com')
-                         ->setSubject("订单确认通知")
-                         ->send();
-                }
-                if($_POST['status'] == Order::SIGN_ORDER){
-                    Yii::$app->mail->compose('sign',['order'=>$order])
-                         ->setFrom('liuwanglei2001@163.com')
-                         ->setTo('liuwanglei@goumin.com')
-                         ->setSubject("订单签收通知")
-                         ->send();
-                }
+                // if($_POST['status'] == Order::CONFIRM_ORDER){
+                //     //send mail to customer
+                //     Yii::$app->mail->compose('confirm',['order'=>$order])
+                //          ->setFrom('liuwanglei2001@163.com')
+                //          ->setTo('liuwanglei@goumin.com')
+                //          ->setSubject("订单确认通知")
+                //          ->send();
+                // }
+                // if($_POST['status'] == Order::SIGN_ORDER){
+                //     Yii::$app->mail->compose('sign',['order'=>$order])
+                //          ->setFrom('liuwanglei2001@163.com')
+                //          ->setTo('liuwanglei@goumin.com')
+                //          ->setSubject("订单签收通知")
+                //          ->send();
+                // }
                 $this->redirect('/order/view?id='.$order->id);
             }
         }
@@ -256,12 +256,32 @@ class OrderController extends BackendController {
             if($model->validate()){
                 if($model->save()){
                     $order->status = Order::SIGN_ORDER;
-                    $model->save(false);
+                    $order->save(false);
                 }
                 return $this->redirect("/order/list?OrderSearch[status]=3");
             }
         }
         return $this->render('marksign',['id'=>$id,'order'=>$order,'model'=>$model]);
+    }
+    public function actionMarkunsign($id){
+        $order = $this->loadModel($id);
+        if($order->status != Order::SHIPPING_ORDER){
+            throw new CHttpException(404, '数据错误，请检查一下订单是否是发货状态，不是发货状态的订单不能标记为签收');
+        }
+        $model = new OrderSign;
+        $model->order_viewid = $order->viewid;
+        if(Yii::$app->request->isPost){
+            $model->load($_POST);
+            if($model->validate()){
+                $model->type = OrderSign::ORDER_IS_NOT_SIGNED;
+                if($model->save()){
+                    $order->status = Order::UNSIGN_ORDER;
+                    $order->save(false);
+                }
+                return $this->redirect("/order/list?OrderSearch[status]=7");
+            }
+        }
+        return $this->render('markunsign',['id'=>$id,'order'=>$order,'model'=>$model]);
     }
     /**
      * Returns the data model based on the primary key given in the GET variable.

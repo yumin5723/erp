@@ -96,7 +96,7 @@
                 }
         }})
     }}
-{% if status != 2 and status != 3 %}
+{% if status != 2 and status != 3 and status != 7 %}
 {{ void(form.end()) }}
 {% endif %}
                     <div class="widget-foot">
@@ -193,6 +193,36 @@
                 });
               }else{
                   window.location.href="/order/marksign?id="+id;
+              }
+              
+          }
+      });
+    }
+    function markunsign(id){
+      var html = "";
+      $.ajax({
+          type : "POST",
+          url:"/ajax/marksign",
+          dataType : "json",
+          data : {"id":id},
+          success : function(json){
+              if(json == 1){
+                 data_html = "<div class='tip_error'><p>订单还未发货不能标记为未签收！</p></div>";
+                 $.layer({
+                  type: 1,
+                  title: '物料详情',
+                  offset: [($(window).height() - 190)/2+'px', ''],
+                  border : [5, 0.5, '#666'],
+                  area: ['450px','190px'],
+                  shadeClose: true,
+                  closeBtn: [1, true],
+                  close:function(){window.location.reload();},
+                  page:{
+                      html : data_html
+                  }
+                });
+              }else{
+                  window.location.href="/order/markunsign?id="+id;
               }
               
           }

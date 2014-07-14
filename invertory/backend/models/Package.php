@@ -160,7 +160,7 @@ class Package extends BackendActiveRecord {
             'trunk'=>'干线',
             'delivery'=>'派送',
             'price'=>'单价',
-            'info'=>'备注',
+            'info'=>'封装',
             'created'=>'操作时间',
             'created_uid'=>'操作人',
         ];
@@ -194,5 +194,8 @@ class Package extends BackendActiveRecord {
 
         }
         return $arr;
+    }
+    public function getBox(){
+        return ['A'=>'A','B'=>'B','C'=>'C','D'=>'D'];
     }
 }

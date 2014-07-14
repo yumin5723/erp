@@ -228,7 +228,7 @@ class Owner extends ActiveRecord implements IdentityInterface
 
     public function attributeLabels(){
         return [
-            'english_name'=>'名称',
+            'english_name'=>'英文名称',
             'email'=>'邮箱',
             'password'=>'密码',
             'phone'=>'移动电话',

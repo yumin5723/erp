@@ -73,5 +73,23 @@ class UserInfo{
     function getMyorder(){
     	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid])->count();
     }
+    function getMyrefuseorder(){
+        return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid,'status'=>Order::REFUSE_ORDER])->count();
+    }
+    function getMyconfirmorder(){
+        return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid,'status'=>Order::CONFIRM_ORDER])->count();
+    }
+    function getMypackageorder(){
+        return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid,'status'=>Order::PACKAGE_ORDER])->count();
+    }
+    function getMyshippingorder(){
+        return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid,'status'=>Order::SHIPPING_ORDER])->count();
+    }
+    function getMysignorder(){
+        return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid,'status'=>Order::SIGN_ORDER])->count();
+    }
+    function getMyunsignorder(){
+        return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'created_uid'=>$this->_uid,'status'=>Order::UNSIGN_ORDER])->count();
+    }
 
 }

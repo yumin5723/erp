@@ -1,10 +1,6 @@
 <?php
 return [
-	'components.db' => [
-		'class' => 'yii\db\Connection',
-		'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
-		'username' => 'root',
-		'password' => '',
-		'charset' => 'utf8',
-	],
+	'attachDir'=>'/data2/static_files/erp',
+	'targetDomain'=>'http://static.meiruzhi.com',
+	'resource_folder'=>"/data0/goumindata/static_files/",
 ];

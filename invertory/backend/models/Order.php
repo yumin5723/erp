@@ -16,6 +16,7 @@ class Order extends BackendActiveRecord {
     const CONFIRM_ORDER = 4;
     const REFUSE_ORDER = 5;
     const REVOKE_ORDER = 6;
+    const UNSIGN_ORDER = 7;
     const ORDER_IS_DEL = 1;
     const ORDER_IS_NOT_DEL = 0;
 
@@ -178,7 +179,7 @@ class Order extends BackendActiveRecord {
             }elseif($model->status == 1){
                 return \yii\helpers\Html::a("标记发货","#",["onclick"=>"markshipping($model->id)"]);
             }elseif($model->status == 2){
-                return \yii\helpers\Html::a("标记签收","#",["onclick"=>"marksign($model->id)"]);
+                return \yii\helpers\Html::a("标记签收<br />","#",["onclick"=>"marksign($model->id)"]).\yii\helpers\Html::a("标记未签收","#",["onclick"=>"markunsign($model->id)"]);
             }else{
                 return "";
             }
@@ -260,6 +261,7 @@ class Order extends BackendActiveRecord {
             $model->created = date('Y-m-d H:i:s');
             $model->increase = Stock::IS_NOT_INCREASE;
             $model->order_id = $this->id;
+            $model->active = $this->goods_active;
             $model->save(false);
 
             //subtract stock total

@@ -170,6 +170,10 @@ return [
                     'route' => 'order/list?OrderSearch[status]=3',
                 ],
                 [
+                    'name' => '未签收订单',
+                    'route' => 'order/list?OrderSearch[status]=7',
+                ],
+                [
                     'name' => '下订单',
                     'route' => 'order/create',
                 ],
