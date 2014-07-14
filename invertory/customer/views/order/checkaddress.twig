@@ -77,6 +77,7 @@
                     <br />
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
+                            {{ form.field(model,'goods_active',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                              {{ form.field(model,'to_city',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                               {{ form.field(model,'limitday').dropDownList(model.getCanChoseMethod()).label(null,{'class':'control-label col-lg-2'})|raw }} 
                             {{ form.field(model,'recipients',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}

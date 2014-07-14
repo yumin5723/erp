@@ -16,6 +16,21 @@ return [
                 // ],
             ],
         ],
+        'stock'=>[
+            'name'=>'库存',
+            'route'=>'',
+            'icon'=>'cloud-upload',
+            'subs' => [
+                [
+                    'name' => '入库明细',
+                    'route' => 'stock/list',
+                ],
+                [
+                    'name' => '出库明细',
+                    'route' => 'stock/output',
+                ],
+            ],
+        ],
         'order'=>[
             'name'=>'订单',
             'route'=>'',
@@ -42,12 +57,12 @@ return [
                     'route' => 'order/list?OrderSearch[status]=3',
                 ],
                 [
-                    'name' => '已拒绝订单',
-                    'route' => 'order/list?OrderSearch[status]=5',
+                    'name' => '未签收订单',
+                    'route' => 'order/list?OrderSearch[status]=7',
                 ],
                 [
-                    'name' => 'excel导入订单',
-                    'route' => 'order/import',
+                    'name' => '已拒绝订单',
+                    'route' => 'order/list?OrderSearch[status]=5',
                 ],
                 [
                     'name' => '下订单',

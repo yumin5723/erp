@@ -1,4 +1,4 @@
-{% set sidebar_name = "入库明细" %}
+{% set sidebar_name = "出库明细" %}
 {% set menu_name = "stock" %}
 {% extends "../layouts/header.twig" %}
 {% block content %}
@@ -57,19 +57,18 @@
             },
             'showPageSummary':false,
             'panel':{
-                'heading':'<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i>入库明细(输入物料编码可查询该物料入库明细)</h3>',
+                'heading':'<h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i>出库明细(输入物料编码可查询该物料出库明细)</h3>',
                 'type':'success',
                 'before':html.a('<i class=""></i>', {0:''}, {'class':''}),
-                'after':html.a('<i class="glyphicon glyphicon-export"></i> 导出入库报表', searchModel.getExportLink(), {'class':'btn btn-danger'}),
+                'after':html.a('<i class="glyphicon glyphicon-export"></i> 导出出库报表', searchModel.getOutputExportLink(), {'class':'btn btn-danger'}),
                 'showFooter':true,
             },
             'export':false,
             'columns':{
-                1:{
+                2:{
                   'attribute':'material_id',
                   'value':'return $model->material->name;'|value_callback,
                 },
-                2:'active',
                 3:{
                   'attribute':'storeroom_id',
                   'value':'return $model->storeroom->name;'|value_callback,
@@ -82,14 +81,11 @@
                   'attribute':'owner_id',
                   'value':'return $model->owners->english_name;'|value_callback,
                 },
-                6:{
-                  'attribute':'forecast_quantity',
-                  'value':'if($model->increase == 1){return "";}else{return $model->forecast_quantity;}'|value_callback,
-                },
                 7:'actual_quantity',
                 8:'stock_time',
-                9:'delivery',
-                10:{
+                9:'active',
+                10:{'attribute':'order_id','value':'if($model->order_id != 0){return $model->orders->viewid;}else{return "";}'|value_callback},
+                11:{
                   'attribute':'出入库标记',
                   'format':'raw',
                   'value':searchModel.getLink|value_callback,

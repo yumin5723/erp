@@ -65,7 +65,7 @@
             
             <!-- Dropdown menu -->
             <ul class="dropdown-menu">
-              <li><a href="/manager/update/{{ App.user.id }}"><i class="icon-cogs"></i> ChangePassword</a></li>
+              <li><a href="/owner/update/{{ App.user.id }}"><i class="icon-cogs"></i> ChangePassword</a></li>
               <li><a href="/site/logout"><i class="icon-off"></i> Logout</a></li>
             </ul>
           </li>
@@ -98,32 +98,86 @@
 
         <!-- Data section -->
 
-        <div class="col-md-4">
+        <div class="col-md-8">
           <div class="header-data">
 
             <!-- Traffic data -->
             <div class="hdata">
               <div class="mcol-left">
                 <!-- Icon with red background -->
-                <i class="fa fa-signal bred"></i> 
+                <i class="fa fa-frown-o bred"></i> 
               </div>
               <div class="mcol-right">
                 <!-- Number of visitors -->
-                <p><a href="/order/list?OrderSearch[status]=5">{{ u.refuseorder }}订单</a> <em>待撤销</em></p>
+                <p><a href="/order/list?OrderSearch[status]=5">{{ u.myrefuseorder }}订单</a> <em>待撤销</em></p>
               </div>
               <div class="clearfix"></div>
             </div>
-
+            <div class="hdata">
+              <div class="mcol-left">
+                <!-- Icon with red background -->
+                <i class="fa fa-thumbs-o-up bblue"></i> 
+              </div>
+              <div class="mcol-right">
+                <!-- Number of visitors -->
+                <p><a href="/order/list?OrderSearch[status]=4">{{ u.myconfirmorder }}订单</a> <em>已确认</em></p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="hdata">
+              <div class="mcol-left">
+                <!-- Icon with red background -->
+                <i class="fa fa-archive borange"></i> 
+              </div>
+              <div class="mcol-right">
+                <!-- Number of visitors -->
+                <p><a href="/order/list?OrderSearch[status]=1">{{ u.mypackageorder }}订单</a> <em>已包装</em></p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="hdata">
+              <div class="mcol-left">
+                <!-- Icon with red background -->
+              <i class="fa fa-plane bbrown"></i> 
+              </div>
+              <div class="mcol-right">
+                <!-- Number of visitors -->
+                <p><a href="/order/list?OrderSearch[status]=2">{{ u.myshippingorder }}订单</a> <em>已运输</em></p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="hdata">
+              <div class="mcol-left">
+                <!-- Icon with red background -->
+                <i class="fa fa-pencil byellow"></i> 
+              </div>
+              <div class="mcol-right">
+                <!-- Number of visitors -->
+                <p><a href="/order/list?OrderSearch[status]=3">{{ u.mysignorder }}订单</a> <em>已签收</em></p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="hdata">
+              <div class="mcol-left">
+                <!-- Icon with red background -->
+                <i class="fa fa-mail-reply bred"></i> 
+              </div>
+              <div class="mcol-right">
+                <!-- Number of visitors -->
+                <p><a href="/order/list?OrderSearch[status]=7">{{ u.myunsignorder }}订单</a> <em>未签收</em></p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
             <!-- Members data -->
             <!-- revenue data -->
             <div class="hdata">
               <div class="mcol-left">
                 <!-- Icon with green background -->
-                <i class="fa fa-money bgreen"></i> 
+                <i class="fa fa-signal bgreen"></i> 
               </div>
               <div class="mcol-right">
                 <!-- Number of visitors -->
-                <p><a href="#">{{ u.myorder }}订单</a><em>我的</em></p>
+                <p><a href="#">{{ u.myorder }}订单</a><em>总量</em></p>
               </div>
               <div class="clearfix"></div>
             </div>                        
