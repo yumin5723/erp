@@ -6,6 +6,7 @@ use Yii;
 use backend\models\Package;
 use backend\models\search\PackageSearch;
 use backend\models\Order;
+use backend\models\OrderPackage;
 use backend\components\BackendController;
 
 class PackageController extends BackendController {
@@ -57,11 +58,37 @@ class PackageController extends BackendController {
             if ($model->validate() && $model->save()) {
                 $model->saveOrderPackage();
                 Yii::$app->session->setFlash('success', '新建成功！');
-                $this->redirect("/package/view?id=".$model->id);
+                $this->redirect("/order/list?OrderSearch[status]=1");
             }
         }
         return $this->render('create', array(
             'model' => $model,'isNew'=>true,'order'=>[$order],
+        )); 
+    }
+    /**
+     * [actionOperate description]
+     * @return [type] [description]
+     */
+    public function actionUpdate($id){
+        // $order = Order::findOne($id);
+        $package = OrderPackage::find()->where(['order_id'=>$id])->one();
+        if(!empty($package)){
+            $model = $this->loadModel($package->package_id);
+        }
+        $ret = [];
+        foreach($model->orders as $v){
+            $ret[] = Order::findOne($v->order_id);
+        }
+        // collect user input data
+        if (isset($_POST['Package'])) {
+            $model->load($_POST);
+            if ($model->validate() && $model->save()) {
+                Yii::$app->session->setFlash('success', '修改成功！');
+                $this->redirect("/order/list?OrderSearch[status]=1");
+            }
+        }
+        return $this->render('create', array(
+            'model' => $model,'isNew'=>true,'order'=>$ret,
         )); 
     }
     public function actionMultiple(){

@@ -187,8 +187,9 @@ class Order extends BackendActiveRecord {
     }
     public function getPrintLink(){
         return '
-            return \yii\helpers\Html::a("打印","/order/print?id=$model->id",["target"=>"_blank"]);
+             return \yii\helpers\Html::a("打印<br />","/order/print?id=$model->id",["target"=>"_blank"]).\yii\helpers\Html::a("修改包装信息","/package/update?id=$model->id",["target"=>"_blank"]);
         ';
+        // return 'return $model->packageInfo;';
     }
     public function getPackageInfo(){
         return $this->hasOne(Package::className(),['id'=>'package_id'])
