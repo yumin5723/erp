@@ -46,6 +46,10 @@ return [
                     'route' => 'order/list?OrderSearch[status]=5',
                 ],
                 [
+                    'name' => 'excel导入订单',
+                    'route' => 'order/import',
+                ],
+                [
                     'name' => '下订单',
                     'route' => 'order/create',
                 ],
