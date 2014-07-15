@@ -230,12 +230,12 @@ class OrderController extends CustomerController {
             $objPHPExcel = \PHPExcel_IOFactory::load($_FILES["Order"]["tmp_name"]['file']);
             $datas = $objPHPExcel->getSheet(0)->toArray();
             $ret = [];
-            $datas = [
-                ['序号','收件人','收件地址','收件人电话','收件城市','活动','发货仓库','物料编码','物料属主','数量','到货需求','备注'],
-                ['1','','','','','','北京中央库','JIHFSN899011','alisa','20','4小时','must be'],
-                ['1','wanglei','beijing office','13800138000','beijing','2014 word cup','北京中央库','GSDGSG99990SGA','alisa','5','4小时','must be'],
-                ['2','lisi','beijing office','13800138000','beijing','2014 word cup','北京中央库','JIHFSN899011','alisa','40','4小时','must be'],
-            ];
+            // $datas = [
+            //     ['序号','收件人','收件地址','收件人电话','收件城市','活动','发货仓库','物料编码','物料属主','数量','到货需求','备注'],
+            //     ['1','','','','','','北京中央库','JIHFSN899011','alisa','20','4小时','must be'],
+            //     ['1','wanglei','beijing office','13800138000','beijing','2014 word cup','北京中央库','GSDGSG99990SGA','alisa','5','4小时','must be'],
+            //     ['2','lisi','beijing office','13800138000','beijing','2014 word cup','北京中央库','JIHFSN899011','alisa','40','4小时','must be'],
+            // ];
             foreach($datas as $key=>$data){
                 if($key == 0){
                     continue;
@@ -250,7 +250,7 @@ class OrderController extends CustomerController {
                     // $ret[$data[0]]['goods']['count'][] = $data[9];
                     $ret[$data[0]]['owner_id'] = $data[8];
                     $ret[$data[0]]['limitday'] = $data[10];
-                    $ret[$data[0]]['info'] = $data[11];
+                    $ret[$data[0]]['info'] = $data[11] == null ? "" :$data[11];
                 }
             }
             $error = $this->checkOrderRight($ret);
@@ -389,6 +389,6 @@ class OrderController extends CustomerController {
         }
     }
     public function actionDownload(){
-        
+
     }
 }
