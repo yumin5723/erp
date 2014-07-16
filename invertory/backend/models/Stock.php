@@ -135,6 +135,21 @@ class Stock extends BackendActiveRecord {
         return $arr;
     }
     /**
+     * [getCanUseShipping description]
+     * @return [type] [description]
+     */
+    public function getCanUseShipping(){
+        $rs = Shipping::find()->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v['name']]=$v['name'];
+            }
+
+        }
+        return $arr;
+    }
+    /**
      * [getCanUseStorerooms description]
      * @return [type] [description]
      */

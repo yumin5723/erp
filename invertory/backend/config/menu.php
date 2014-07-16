@@ -66,6 +66,14 @@ return [
                     'name' => '添加派送公司',
                     'route' => 'delivery/create',
                 ],
+                [
+                    'name' => '送货商列表',
+                    'route' => 'shipping/list',
+                ],
+                [
+                    'name' => '添加送货商',
+                    'route' => 'shipping/create',
+                ],
             ],
         ],
         'project'=>[
