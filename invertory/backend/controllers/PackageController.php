@@ -93,11 +93,23 @@ class PackageController extends BackendController {
     }
     public function actionMultiple(){
         if(Yii::$app->request->isPost){
-            $ordersIds = $_POST['selection'];
-            $orders = Order::find()->where(['id'=>$ordersIds,'is_del'=>Order::ORDER_IS_NOT_DEL])->all();
-            return $this->render('create', array(
-                'model' => new Package,'isNew'=>true,'order'=>$orders
-            ));  
+            if(isset($_POST['selection'])){
+                $ordersIds = $_POST['selection'];
+                $orders = Order::find()->where(['id'=>$ordersIds,'is_del'=>Order::ORDER_IS_NOT_DEL])->all();
+                return $this->render('create', array(
+                    'model' => new Package,'isNew'=>true,'order'=>$orders
+                ));  
+            }else{
+                if (isset($_POST['Package'])) {
+                    $model= new Package;
+                    $model->load($_POST);
+                    if ($model->validate() && $model->save()) {
+                        $model->saveOrderPackage();
+                        // Yii::$app->session->setFlash('success', '新建成功！');
+                        $this->redirect("/order/list?OrderSearch[status]=1");
+                    }
+                }
+            }
         }
     }
     /**

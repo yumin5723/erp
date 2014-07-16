@@ -91,7 +91,7 @@ class Package extends BackendActiveRecord {
         }
     }
     public function beforeSave($insert){
-        $this->volume = $this->length * $this->width * $this->height;
+        $this->volume = ($this->length/100) * ($this->width/100) * ($this->height/100);
         return parent::beforeSave($insert);
     }
     /**

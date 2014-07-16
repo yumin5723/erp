@@ -117,7 +117,7 @@ cursor:hand;
                               <div class="col-lg-5">
                                   <a href="#myModal" onclick="uploadFile(0);" class="btn btn-info" data-toggle="modal">Upload</a><br />
                                   <input type="hidden" id="img_image0" name="Material[image][0]">
-                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image0" src=""></a>
+                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240" height="180" class="img_image0" src=""></a>
                               </div>
                               <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
                             </div>
@@ -128,7 +128,7 @@ cursor:hand;
                               <div class="col-lg-5">
                                   <a href="#myModal" onclick="uploadFile({{ loop.index }});" class="btn btn-info" data-toggle="modal">Upload</a><br />
                                   <input type="hidden" value="{{ value }}" id="img_image{{ loop.index }}" name="Material[image][{{ loop.index }}]">
-                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240px" height="180px" class="img_image{{ loop.index }}" src="{{ value }}"></a>
+                                  <a class="prettyPhoto[pp_gal]" href=""><img alt="" width="240" height="180" class="img_image{{ loop.index }}" src="{{ value }}"></a>
                               </div>
                               <a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>
                               <a class="btn btn-xs btn-danger pull-left" onclick="return deletePic('pic_{{loop.index}}');">删除</a>
@@ -188,7 +188,7 @@ function showUpload(){
   str+='<label class="col-lg-2 control-label"></label>';
   str+='<div class="col-lg-5">';
   str+='<a href="#myModal" class="btn btn-info" data-toggle="modal" onclick="uploadFile('+ i +');">Upload</a><br />';
-  str+= '<a class="prettyPhoto[pp_gal]" href="img/photos/s1.jpg"><img width="240px" height="180px" alt="" class="img_image'+i+'" src=""></a>';
+  str+= '<a class="prettyPhoto[pp_gal]" href="img/photos/s1.jpg"><img width="240" height="180" alt="" class="img_image'+i+'" src=""></a>';
   str+='</div>';
   str+='<input type="hidden" id="img_image'+i+'" name="Material[image]['+ i +']">';
   str+= '<a class="btn btn-xs btn-danger pull-left" onclick="return showUpload();">继续上传</a>';
