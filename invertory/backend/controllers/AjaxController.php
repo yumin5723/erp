@@ -40,4 +40,11 @@ class AjaxController extends BackendController {
             echo 2;
         }
     }
+    public function actionView($id)
+    {   
+        $this->enableCsrfValidation = false;
+        $material = Material::findOne($id);
+        echo $this->renderPartial('material',['material'=>$material]);
+        // echo yii\helpers\ArrayHelper::toArray($material);
+    }
 }
