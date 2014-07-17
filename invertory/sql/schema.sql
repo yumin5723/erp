@@ -300,3 +300,6 @@ alter table `stock` add column `destory_reason` blob NOT NULL DEFAULT '';
 alter table `stock_total` add column `storeroom_id` int(11) NOT NULL DEFAULT '1';
 alter table `stock` add column activite varchar(64) NOT NULL DEFAULT '';
 alter table `order_sign` add column `type` tinyint(4) NOT NULL DEFAULT '0';
+
+alter table `material` add column `weight` int(11) NOT NULL DEFAULT '0';
+alter table `material` add column `spec` varchar(255) NOT NULL DEFAULT '';

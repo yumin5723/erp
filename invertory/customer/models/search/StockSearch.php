@@ -19,7 +19,7 @@ class StockSearch extends Stock
     {
         return [
             [['id'], 'integer'],
-            [['material_id','increase'], 'safe'],
+            [['material_id','owner_id','increase'], 'safe'],
         ];
     }
 

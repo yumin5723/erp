@@ -28,7 +28,7 @@ class Material extends BackendActiveRecord {
         return [
             [['name','code','project_id'],'required'],
             ['code','unique'],
-            [['english_name','desc','image'],'safe']
+            [['english_name','desc','weight','spec','image'],'safe']
         ];
     }
     public function behaviors()
@@ -132,6 +132,8 @@ class Material extends BackendActiveRecord {
             'image'=>'物料图片',
             'created'=>'添加时间',
             'created_uid'=>'创建人',
+            'weight' => '单位克重',
+            'spec' => '规格',
         ];
     }
 }

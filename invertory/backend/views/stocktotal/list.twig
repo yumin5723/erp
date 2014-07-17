@@ -51,27 +51,24 @@
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
             'columns':{
-                2:{
-                  'attribute':'material_id',
-                  'value':'return $model->material->name;'|value_callback,
-                },
-                3:{
-                  'attribute':'storeroom_id',
+                0:{
+                  'attribute':"storeroom_id",
                   'value':'return $model->storeroom->name;'|value_callback,
                 },
-                4:{
-                  'attribute':'total',
+                1:{
+                  'attribute':"material_id",
+                  'value':'return $model->material->code;'|value_callback,
                 },
-                5:{
-                  'attribute':'明细',
+                2:{
+                  'attribute':'物料名称',
                   'format':'raw',
-                  'value':searchModel.getLink|value_callback,
+                  'value':'return \\yii\\helpers\\Html::a($model->material->name,"#",["onclick"=>"viewM({$model->material->id})"]);'|value_callback,
                 },
-                6:{
-                  'attribute':'导出',
-                  'format':'raw',
-                  'value':searchModel.getExportLink|value_callback,
-                }
+                3:{
+                  'attribute':'owner_id',
+                  'value':'return $model->owners->english_name;'|value_callback,
+                },
+                4:'total',
         }})
     }}
                     

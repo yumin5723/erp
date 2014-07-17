@@ -5,7 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Stock;
 use backend\models\StockTotal;
-use backend\models\search\StockTotalSearch;
+use backend\models\search\StockSearch;
 use backend\components\BackendController;
 use backend\models\Upload;
 
@@ -32,8 +32,8 @@ class StocktotalController extends BackendController {
      * Displays the page list
      */
     public function actionList() {
-        $searchModel = new StockTotalSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $searchModel = new StockSearch;
+        $dataProvider = $searchModel->searchTotal(Yii::$app->request->getQueryParams());
 
         return $this->render('list', [
             'dataProvider' => $dataProvider,
