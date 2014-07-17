@@ -48,6 +48,32 @@
                     <div class="alert alert-success">
                           {{ form.errorSummary(model)|raw }}
                     </div>
+                          {{ form.field(model,'begin_time').widget('\\yii\\jui\\DatePicker',{'name' : 'begin_time',
+                              'attribute' : 'begin_time', 
+                              'model':model,
+                              'options':{'class':'form-control'},
+                              'clientOptions' : 
+                              {
+                                  'dateFormat' : 'yy-mm-dd',
+                                  'changeMonth':true,
+                                  'changeYear':true,
+                                  'yearRange':'-1:+25',   
+                              },
+                              }).label(null,{'class':'control-label col-lg-2'})|raw
+                    }}
+                    {{ form.field(model,'end_time').widget('\\yii\\jui\\DatePicker',{'name' : 'end_time',
+                        'attribute' : 'end_time', 
+                        'model':model,
+                        'options':{'class':'form-control'},
+                        'clientOptions' : 
+                        {
+                            'dateFormat' : 'yy-mm-dd',
+                            'changeMonth':true,
+                            'changeYear':true,
+                            'yearRange':'-1:+25',   
+                        },
+                        }).label(null,{'class':'control-label col-lg-2'})|raw
+                    }}
                           <div class="form-group">
                               <label class="col-lg-2 control-label">物料</label>
                               <div class="col-lg-5">

@@ -225,7 +225,9 @@ class StockController extends CustomerController {
             $model->load($_POST);
             if($model->validate()){
                 $searchModel = new StockSearch;
-                $dataProvider = $searchModel->searchByPost($_POST['Stock']['material_id'],$_POST['Stock']['storeroom_id'],$_POST['Stock']['increase']);
+                $model->begin_time = $_POST['Stock']['begin_time'];
+                $model->end_time = $_POST['Stock']['end_time'];
+                $dataProvider = $searchModel->searchByPost($_POST['Stock']['material_id'],$_POST['Stock']['storeroom_id'],$_POST['Stock']['increase'],$_POST['Stock']['begin_time'],$_POST['Stock']['end_time']);
             }
         }
         return $this->render("search",['model'=>$model,'dataProvider'=>$dataProvider]);

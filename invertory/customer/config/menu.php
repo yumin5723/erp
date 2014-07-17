@@ -29,6 +29,11 @@ return [
                     'name' => '出库明细',
                     'route' => 'stock/output',
                 ],
+                [
+                    'name' => '查询',
+                    'route' => 'stock/search',
+                ],
+
             ],
         ],
         'order'=>[

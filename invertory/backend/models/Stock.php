@@ -11,6 +11,8 @@ class Stock extends BackendActiveRecord {
     const IS_INCREASE = 0;
     public $upload;
     public $total;
+    public $begin_time;
+    public $end_time;
     /**
      * function_description
      *
@@ -154,7 +156,7 @@ class Stock extends BackendActiveRecord {
      * @return [type] [description]
      */
     public function getStockStatus(){
-        $arr = ['0'=>'入库','1'=>'出库'];
+        $arr = ['-1'=>'','0'=>'入库','1'=>'出库'];
         return $arr;
     }
     public function getProjects(){
@@ -181,7 +183,7 @@ class Stock extends BackendActiveRecord {
                 if($model->destory_reason != ""){
                     return "<span title=$model->destory_reason>销毁</span>";
                 }else{
-                    return "出库  ".\yii\helpers\Html::a("查看明细","/order/view?id=$model->order_id",["tatget"=>"_blank"]);
+                    return "出库  ".\yii\helpers\Html::a("查看明细","/order/view?id=$model->order_id",["tar`get"=>"_blank"]);
                 }
             }else{
                 return "入库";
@@ -207,6 +209,8 @@ class Stock extends BackendActiveRecord {
             'destory_reason'=>'销毁原因',
             'active'=>'活动名称',
             'total'=>'当前库存',
+            'begin_time'=>'开始时间',
+            'end_time'=>'结束时间',
         ];
     }
     public function getExportLink(){

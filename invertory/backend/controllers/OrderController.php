@@ -92,6 +92,7 @@ class OrderController extends BackendController {
                 continue;
             }else{
                 $order->status = Order::CONFIRM_ORDER;
+                $order->confirm_date = date('Y-m-d H:i:s');
                 $order->save(false);
             }
         }
@@ -109,6 +110,7 @@ class OrderController extends BackendController {
                 continue;
             }else{
                 $order->status = Order::SHIPPING_ORDER;
+                $order->shipping_date =date('Y-m-d H:i:s');
                 $order->save(false);
             }
         }
@@ -205,6 +207,15 @@ class OrderController extends BackendController {
             $order = Order::findOne($_POST['orderid']);
             if(!empty($order)){
                 $order->status = $_POST['status'];
+                if($_POST['status'] == Order::CONFIRM_ORDER){
+                    $order->confirm_date = date('Y-m-d H:i:s');
+                }elseif($_POST['status'] == Order::PACKAGE_ORDER){
+                    $order->package_date = date('Y-m-d H:i:s');
+                }elseif($_POST['status'] == Order::SHIPPING_ORDER){
+                    $order->shipping_date = date('Y-m-d H:i:s');
+                }elseif($_POST['status'] == Order::REFUSE_ORDER){
+                    $order->refuse_date = date('Y-m-d H:i:s');
+                }
                 $order->save(false);
 
                 // if($_POST['status'] == Order::CONFIRM_ORDER){

@@ -303,3 +303,10 @@ alter table `order_sign` add column `type` tinyint(4) NOT NULL DEFAULT '0';
 
 alter table `material` add column `weight` int(11) NOT NULL DEFAULT '0';
 alter table `material` add column `spec` varchar(255) NOT NULL DEFAULT '';
+
+alter table `order` add column `confirm_date` datetime NOT NULL;
+alter table `order` add column `refuse_date` datetime NOT NULL;
+alter table `order` add column `package_date` datetime NOT NULL;
+alter table `order` add column `shipping_date` datetime NOT NULL;
+alter table `order` add column `sign_date` datetime NOT NULL;
+alter table `order` add column `unsign_date` datetime NOT NULL;

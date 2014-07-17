@@ -121,6 +121,9 @@ class Order extends BackendActiveRecord {
         }
         return $arr;
     }
+    public function getOrdersign(){
+        return $this->hasOne(OrderSign::className(),['order_id'=>'id']);
+    }
     public function getStoreroom(){
         return $this->hasOne(Storeroom::className(),['id'=>'storeroom_id']);
     }
@@ -219,19 +222,19 @@ class Order extends BackendActiveRecord {
             return "<font color='red'>未处理<font>";
         }
         if($this->status == self::CONFIRM_ORDER){
-            return "<font color='red'>已确认<font>";
+            return "<font color='red'>已确认({$this->confirm_date})<font>";
         }
         if($this->status == self::PACKAGE_ORDER){
-            return "<font color='red'>已包装<font>";
+            return "<font color='red'>已包装({$this->package_date})<font>";
         }
         if($this->status == self::SHIPPING_ORDER){
-            return "<font color='red'>已发货<font>";
+            return "<font color='red'>已发货({$this->shipping_date})<font>";
         }
         if($this->status == self::SIGN_ORDER){
-            return "<font color='red'>已签收<font>";
+            return "<font color='red'>已签收({$this->ordersign->created})<font>";
         }
         if($this->status == self::REFUSE_ORDER){
-            return "<font color='red'>已退回<font>";
+            return "<font color='red'>已退回($this->refuse_date)<font>";
         }
     }
     public function getLink(){

@@ -128,9 +128,28 @@ class StockSearch extends Stock
 
         return $dataProvider;
     }
-    public function searchByPost($material_id,$increase){
-        $query = Stock::find()->where(['material_id'=>$material_id,'increase'=>$increase])->orderBy(['id'=>SORT_DESC]);
-
+    public function searchByPost($material_id,$storeroom_id,$increase,$begin_time,$end_time){
+        if($begin_time > $end_time){
+            $query = Stock::find()->where("-1 = 1");
+        }
+        if($increase == "-1"){
+            if($begin_time == "" || $end_time == ""){
+                $query = Stock::find()->where(['material_id'=>$material_id,'storeroom_id'=>$storeroom_id])->orderBy(['id'=>SORT_DESC]);
+            }else{
+                $begin_time = $begin_time." 00:00:00";
+                $end_time = $end_time." 23:59:59";
+                $query = Stock::find()->where('material_id=:material_id AND storeroom_id = :storeroom_id AND created >= :begin AND created <= :end',[':material_id'=>$material_id,':storeroom_id'=>$storeroom_id,":begin"=>$begin_time,':end'=>$end_time])->orderBy(['id'=>SORT_DESC]);
+            }
+        }else{
+            if($begin_time == "" || $end_time == ""){
+                $query = Stock::find()->where(['material_id'=>$material_id,'storeroom_id'=>$storeroom_id,'increase'=>$increase])->orderBy(['id'=>SORT_DESC]);
+            }else{
+                $begin_time = $begin_time." 00:00:00";
+                $end_time = $end_time." 23:59:59";
+                $query = Stock::find()->where('material_id=:material_id AND storeroom_id=:storeroom_id AND increase=:increase AND created>=:begin AND created<=:end',[':material_id'=>$material_id,':storeroom_id'=>$storeroom_id,':increase'=>$increase,":begin"=>$begin_time,':end'=>$end_time])->orderBy(['id'=>SORT_DESC]);
+            }    
+        }
+        $query->andWhere(['owner_id'=>Yii::$app->user->id]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

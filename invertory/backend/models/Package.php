@@ -73,6 +73,7 @@ class Package extends BackendActiveRecord {
 
             $as = Order::findOne($order);
             $as->status = Order::PACKAGE_ORDER;
+            $as->package_date = date('Y-m-d H:i:s');
             $as->save(false);
         }
     }
