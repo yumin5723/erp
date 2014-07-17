@@ -60,9 +60,13 @@
             },
             'export':false,
             'columns':{
-                1:'active',
-                2:{
+                0:'active',
+                1:{
                   'attribute':'material_id',
+                  'value':'return $model->material->code;'|value_callback,
+                },
+                2:{
+                  'attribute':'物料品名',
                   'value':'return $model->material->name;'|value_callback,
                 },
                 3:{

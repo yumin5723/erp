@@ -69,6 +69,16 @@
                   'value':'return $model->owners->english_name;'|value_callback,
                 },
                 4:'total',
+                5:{
+                  'attribute':'查看明细',
+                  'format':'raw',
+                  'value':searchModel.getDetailLink|value_callback,
+                },
+                6:{
+                  'attribute':'导出',
+                  'format':'raw',
+                  'value':searchModel.getExportDetailLink|value_callback,
+                }
         }})
     }}
                     

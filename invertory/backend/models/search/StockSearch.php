@@ -114,4 +114,9 @@ class StockSearch extends Stock
         ]);
         return $dataProvider;
     }
+    public function getDetailLink(){
+        return '
+            return \yii\helpers\Html::a("查看明细","/stock/list?StockSearch[material_id]=$model->material_id&StockSearch[storeroom_id]=$model->storeroom_id");
+        ';
+    }
 }

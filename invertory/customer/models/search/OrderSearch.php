@@ -55,4 +55,10 @@ class OrderSearch extends Order
         ]);
         return $dataProvider;
     }
+    public function getPrintLink(){
+        return '
+             return \yii\helpers\Html::a("导出<br />","/order/print?id=$model->id",["target"=>"_blank"]);
+        ';
+        // return 'return $model->packageInfo;';
+    }
 }

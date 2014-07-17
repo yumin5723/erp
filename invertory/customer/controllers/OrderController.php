@@ -197,13 +197,52 @@ class OrderController extends CustomerController {
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
+    // public function actionPrint($id){
+    //     $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
+    //     $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
+    //     return $this->renderPartial('print', [
+    //         'order' => $order,
+    //         'detail' =>$detail,
+    //     ]);
+    // }
     public function actionPrint($id){
-        $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
-        $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
-        return $this->renderPartial('print', [
-            'order' => $order,
-            'detail' =>$detail,
-        ]);
+        $orders = OrderDetail::find()->where(['order_id'=>$id])->all();
+        $filename = "订单".$order->viewid.".xls";
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A1','订单号')
+                            ->setCellValue('B1','收件人')
+                            ->setCellValue('C1','收件地址')
+                            ->setCellValue('D1','收件人电话')
+                            ->setCellValue('E1','收件城市')
+                            ->setCellValue('F1','活动')
+                            ->setCellValue('G1','发货仓库')
+                            ->setCellValue('H1','物料编码')
+                            ->setCellValue('I1','物料品名')
+                            ->setCellValue('J1','物料属主')
+                            ->setCellValue('K1','数量')
+                            ->setCellValue('L1','到货需求')
+                            ->setCellValue('M1','备注');
+        $i=2;
+        foreach($orders as $v)
+        {
+            $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A'.$i, $v->orders->viewid)
+                        ->setCellValue('B'.$i, $v->orders->recipients)
+                        ->setCellValue('C'.$i, $v->orders->recipients_address)
+                        ->setCellValue('D'.$i, $v->orders->recipients_contact)
+                        ->setCellValue('E'.$i, $v->orders->to_city))
+                        ->setCellValue('F'.$i, $v->orders->goods_active)
+                        ->setCellValue('G'.$i, $v->storeroom->name)
+                        ->setCellValue('H'.$i, $v->goods_code)
+                        ->setCellValue('I'.$i, $v->material->name)
+                        ->setCellValue('J'.$i, $v->)
+                        ->setCellValue('K'.$i, $v->goods_quantity)
+                        ->setCellValue('L'.$i, $v->orders->limitday)
+                        ->setCellValue('L'.$i, $v->orders->info);
+                        $i++;
+        }
+        $objPHPExcel->setActiveSheetIndex(0);
     }
     /**
      * Returns the data model based on the primary key given in the GET variable.

@@ -15,7 +15,7 @@
         </div>
 
         <div class="col-lg-5">
-            <a href="/order/print?id={{ order.id }}" target="_blank" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-print">打印订单</i></a>
+            <a href="/order/print?id={{ order.id }}" target="_blank" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-print">导出订单</i></a>
         </div>
         <div class="clearfix"></div>
 
@@ -48,8 +48,12 @@
           4:'recipients_address',
           5:'recipients_contact',
           7:{'attribute':'storeroom_id','value':order.storeroom.name},
-          8:'info',
-          9:{
+          8:'created',
+          9:'confirm_date',
+          10:'package_date',
+          11:'shipping_date',
+          12:'info',
+          13:{
             'attribute':'状态',
             'format':'raw',
             'value':order.getOrderStatus(),

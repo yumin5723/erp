@@ -249,5 +249,10 @@ class Stock extends BackendActiveRecord {
         }
         return $ret;
     }
+    public function getExportDetailLink(){
+        return '
+            return \yii\helpers\Html::a("导出报表","/stock/exportstock?sid=$model->storeroom_id");
+        ';
+    }
 
 }

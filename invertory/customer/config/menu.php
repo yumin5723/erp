@@ -1,7 +1,7 @@
 <?php
 return [
         'material'=>[
-            'name'=>'物料',
+            'name'=>'库存',
             'route'=>'',
             'icon'=>'tasks',
             'style'=>'tasks',
@@ -17,16 +17,16 @@ return [
             ],
         ],
         'stock'=>[
-            'name'=>'库存',
+            'name'=>'出入库明细',
             'route'=>'',
             'icon'=>'cloud-upload',
             'subs' => [
                 [
-                    'name' => '入库明细',
+                    'name' => '入库',
                     'route' => 'stock/list',
                 ],
                 [
-                    'name' => '出库明细',
+                    'name' => '出库',
                     'route' => 'stock/output',
                 ],
                 [

@@ -231,7 +231,7 @@ class Order extends BackendActiveRecord {
             return "<font color='red'>已发货({$this->shipping_date})<font>";
         }
         if($this->status == self::SIGN_ORDER){
-            return "<font color='red'>已签收({$this->ordersign->created})<font>";
+            return "<font color='red'>已签收({$this->ordersign->sign_date})<font>";
         }
         if($this->status == self::REFUSE_ORDER){
             return "<font color='red'>已退回($this->refuse_date)<font>";
@@ -289,6 +289,9 @@ class Order extends BackendActiveRecord {
             'created'=>'下单时间',
             'created_uid'=>'下单人',
             'file'=>'excel文件',
+            'confirm_date'=>'确认时间',
+            'package_date'=>'包装时间',
+            'shipping_date'=>'运输时间',
         ];
     }
     public function getCanChoseStatus(){
