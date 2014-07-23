@@ -207,7 +207,8 @@ class OrderController extends CustomerController {
     // }
     public function actionPrint($id){
         $orders = OrderDetail::find()->where(['order_id'=>$id])->all();
-        $filename = "订单".$order->viewid.".xls";
+        $o = Order::findOne($id);
+        $filename = "订单".$o->viewid.".xls";
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->setActiveSheetIndex(0)
                             ->setCellValue('A1','订单号')
@@ -226,23 +227,29 @@ class OrderController extends CustomerController {
         $i=2;
         foreach($orders as $v)
         {
+            $mobile = $v->orders->recipients_contact;
             $objPHPExcel->setActiveSheetIndex(0)
                         ->setCellValue('A'.$i, $v->orders->viewid)
                         ->setCellValue('B'.$i, $v->orders->recipients)
                         ->setCellValue('C'.$i, $v->orders->recipients_address)
-                        ->setCellValue('D'.$i, $v->orders->recipients_contact)
-                        ->setCellValue('E'.$i, $v->orders->to_city))
+                        ->setCellValue('D'.$i, $mobile)
+                        ->setCellValue('E'.$i, $v->orders->to_city)
                         ->setCellValue('F'.$i, $v->orders->goods_active)
                         ->setCellValue('G'.$i, $v->storeroom->name)
                         ->setCellValue('H'.$i, $v->goods_code)
                         ->setCellValue('I'.$i, $v->material->name)
-                        ->setCellValue('J'.$i, $v->)
+                        ->setCellValue('J'.$i, $v->owners->english_name)
                         ->setCellValue('K'.$i, $v->goods_quantity)
                         ->setCellValue('L'.$i, $v->orders->limitday)
-                        ->setCellValue('L'.$i, $v->orders->info);
+                        ->setCellValue('M'.$i, $v->orders->info);
                         $i++;
         }
         $objPHPExcel->setActiveSheetIndex(0);
+        header('Content-Type: application/vnd.ms-excel;charset=utf-8');
+        header('Content-Disposition: attachment;filename='.$filename);
+        header('Cache-Control: max-age=0');
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output');
     }
     /**
      * Returns the data model based on the primary key given in the GET variable.

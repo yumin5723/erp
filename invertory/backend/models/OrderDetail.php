@@ -22,9 +22,12 @@ class OrderDetail extends BackendActiveRecord {
     	return $this->hasOne(Material::className(),['code'=>'goods_code']);
     }
     public function getOrders(){
-        return $this->hasOne(Order::className(),['id'=>'order_id'])->via('storeroom');
+        return $this->hasOne(Order::className(),['id'=>'order_id']);
     }
     public function getStoreroom(){
-        return $this->hasOne(Storeroom::className(),['id'=>'storeroom_id']);
+        return $this->hasOne(Storeroom::className(),['id'=>'storeroom_id'])->via('orders');
+    }
+    public function getOwners(){
+        return $this->hasOne(Owner::className(),['id'=>'owner_id'])->via('orders');
     }
 }
