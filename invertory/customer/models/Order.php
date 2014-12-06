@@ -187,6 +187,15 @@ class Order extends CustomerActiveRecord {
             return \yii\helpers\Html::a("打印","/order/print?id=$model->id",["target"=>"_blank"]);
         ';
     }
+    public function getRevokLink(){
+        return '
+            if($model->status == 5){
+                return \yii\helpers\Html::a("撤销订单","/order/revoke?id=$model->id",["data-method"=>"post","data-confirm"=>"撤销订单库存将自动回复"]);
+            }else{
+                return "";
+            }
+        ';
+    }
     public function getPackageInfo(){
         return $this->hasOne(Package::className(),['id'=>'package_id'])
                     ->via('orderPackage');

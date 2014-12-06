@@ -1,6 +1,6 @@
 {% set menu_name = "stock" %}
 {% set sidebar_name = "库存总览" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
       <div class="page-head">
@@ -61,7 +61,7 @@
                 5:{
                   'attribute':'明细',
                   'format':'raw',
-                  'value':searchModel.getLink|value_callback,
+                  'value':searchModel.getLink()|value_callback,
                 }
         }})
     }}

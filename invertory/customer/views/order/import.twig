@@ -1,6 +1,6 @@
 {% set sidebar_name = "导入excel订单" %}
 {% set menu_name = "order" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
 {% block content %}
         <div class="page-head">
         <!-- Page heading -->
@@ -38,7 +38,7 @@
                   </div>
                   <div class="clearfix"></div>
                 </div>
-                {% include "../layouts/notice.twig" %}
+                {% include "@app/views/layouts/notice.twig" %}
                 <div class="widget-content">
                   <div class="padd">
 

@@ -114,7 +114,7 @@ cursor:hand;
                             {{ form.field(model,'signer',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             <input type="hidden" value="{{ order.id }}" name="OrderSign[order_id]" /> 
 
-                            {{ form.field(model,'sign_date').widget('\\kartik\\datecontrol\\DateControl', {'displayFormat': 'Y-m-d H:i','saveFormat':'Y-m-d H:i:s','type':'datetime'}).label(null,{'class':'control-label col-lg-2'})|raw }}
+                            {{ form.field(model,'sign_date').widget('\\kartik\\datecontrol\\DateControl', {'displayFormat': 'php:Y-m-d H:i','saveFormat':'php:Y-m-d H:i:s','type':'datetime'}).label(null,{'class':'control-label col-lg-2'})|raw }}
 
                               {{ form.field(model,'info').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
                                   <div class="form-group img_count" id="pic_0">

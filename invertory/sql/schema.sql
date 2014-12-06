@@ -52,9 +52,9 @@ CREATE TABLE `owner` (
   `email` varchar(255) NOT NULL DEFAULT '',
   `phone` varchar(255) NOT NULL DEFAULT '',
   `tell` varchar(255) NOT NULL DEFAULT '',
-  `auth_key` varchar(32) NOT NULL,
-  `password_hash` varchar(128) NOT NULL,
-  `password_reset_token` varchar(128) NOT NULL,
+  `auth_key` varchar(64) NOT NULL DEFAULT '',
+  `password_hash` varchar(128) NOT NULL DEFAULT '',
+  `password_reset_token` varchar(128) NOT NULL DEFAULT '',
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `role` smallint(6) NOT NULL DEFAULT '10',
   `created` datetime NOT NULL,
@@ -70,10 +70,10 @@ CREATE TABLE `material` (
   `code` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
   `english_name` varchar(255) NOT NULL DEFAULT '',
-  `owner_id` int(11) NOT NULL, 
-  `project_id` int(11) NOT NULL, 
+  `owner_id` int(11) NOT NULL DEFAULT '0', 
+  `project_id` int(11) NOT NULL DEFAULT '0', 
   `desc` text NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL DEFAULT '',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',
@@ -161,7 +161,7 @@ CREATE TABLE `package` (
   `method` tinyint(4) NOT NULL DEFAULT '1',
   `trunk` varchar(64) NOT NULL DEFAULT '',
   `delivery` varchar(64) NOT NULL DEFAULT '',
-  `price` decimal(32,2) NOT NULL, 
+  `price` decimal(32,2) NOT NULL DEFAULT '0.00', 
   `info` text NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
@@ -281,7 +281,7 @@ CREATE TABLE `order_sign` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table `stock` add column `destory` int(11) NOT NULL DEFAULT '0';
-alter table `stock` add column `destory_reason` blob NOT NULL DEFAULT '';
+alter table `stock` add column `destory_reason` blob NOT NULL;
 alter table `stock_total` add column `storeroom_id` int(11) NOT NULL DEFAULT '1';
 alter table `stock` add column activite varchar(64) NOT NULL DEFAULT '';
 alter table `order_sign` add column `type` tinyint(4) NOT NULL DEFAULT '0';

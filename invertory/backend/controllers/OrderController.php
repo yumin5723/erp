@@ -253,6 +253,7 @@ class OrderController extends BackendController {
         $model->order_viewid = $order->viewid;
         if(Yii::$app->request->isPost){
             $model->load($_POST);
+            $model->sign_date = $_POST['sign_date-ordersign-sign_date'];
             if($model->validate()){
                 if($model->save()){
                     $order->status = Order::SIGN_ORDER;
@@ -272,6 +273,7 @@ class OrderController extends BackendController {
         $model->order_viewid = $order->viewid;
         if(Yii::$app->request->isPost){
             $model->load($_POST);
+            $model->sign_date = $_POST['sign_date-ordersign-sign_date'];
             if($model->validate()){
                 $model->type = OrderSign::ORDER_IS_NOT_SIGNED;
                 if($model->save()){

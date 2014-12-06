@@ -1,6 +1,6 @@
 {% set menu_name = "material" %}
 {% set sidebar_name = "物料列表" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
       <div class="page-head">
@@ -83,7 +83,7 @@
                 10:{
                   'attribute':'出入库标记',
                   'format':'raw',
-                  'value':searchModel.getLink|value_callback,
+                  'value':searchModel.getLink()|value_callback,
                 },
         }})
     }}

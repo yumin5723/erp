@@ -1,6 +1,6 @@
 {% set sidebar_name = "入库" %}
 {% set menu_name = "stock" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
 {% block content %}
         <div class="page-head">
         <!-- Page heading -->
@@ -38,7 +38,7 @@
                   </div>
                   <div class="clearfix"></div>
                 </div>
-                {% include "../layouts/notice.twig" %}
+                {% include "@app/views/layouts/notice.twig" %}
                 <div class="widget-content">
                   <div class="padd">
 
@@ -79,9 +79,10 @@
                               'attribute' : 'stock_time', 
                               'model':model,
                               'options':{'class':'form-control'},
+                              'dateFormat' : 'yyyy-MM-dd',
                               'clientOptions' : 
                               {
-                                  'dateFormat' : 'yy-mm-dd',
+                                  
                                   'changeMonth':true,
                                   'changeYear':true,
                                   'yearRange':'-1:+25',   

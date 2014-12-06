@@ -10,7 +10,7 @@ use backend\models\Order;
 /**
  * PostSearch represents the model behind the search form about `backend\models\Post`.
  */
-class OrderSearch extends Order
+class OrderSearch extends \customer\models\Order
 {
     public function rules()
     {

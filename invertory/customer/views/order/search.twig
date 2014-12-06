@@ -1,6 +1,6 @@
 {% set menu_name = "order" %}
 {% set sidebar_name = "" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
       <div class="page-head">
@@ -71,12 +71,12 @@
                 13:{
                     'attribute':'处理订单',
                     'format':'raw',
-                    'value':model.getOptLink|value_callback,
+                    'value':model.getOptLink()|value_callback,
                 },
                 14:{
                     'attribute':'打印',
                     'format':'raw',
-                    'value':model.getPrintLink|value_callback,
+                    'value':model.getPrintLink()|value_callback,
                 }
         }})
     }}

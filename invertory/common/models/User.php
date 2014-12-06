@@ -159,7 +159,7 @@ class User extends ActiveRecord implements IdentityInterface
 		// 		$this->password_hash = Security::generatePasswordHash($this->password);
 		// 	}
 			// if ($this->isNewRecord) {
-				$this->auth_key = Security::generateRandomKey();
+				$this->auth_key = Security::generateRandomString();
 			// }
 			return true;
 		// }

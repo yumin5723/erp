@@ -1,6 +1,6 @@
 {% set sidebar_name = "出入库查询" %}
 {% set menu_name = "stock" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
 {% block content %}
         <div class="page-head">
         <!-- Page heading -->
@@ -38,7 +38,7 @@
                   </div>
                   <div class="clearfix"></div>
                 </div>
-                {% include "../layouts/notice.twig" %}
+                {% include "@app/views/layouts/notice.twig" %}
                 <div class="widget-content">
                   <div class="padd">
 
@@ -133,7 +133,7 @@
                 10:{
                   'attribute':'出入库标记',
                   'format':'raw',
-                  'value':model.getLink|value_callback,
+                  'value':model.getLink()|value_callback,
                 },
         }})
     }}

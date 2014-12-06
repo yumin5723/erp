@@ -53,7 +53,7 @@
                             {{ form.field(model,'order_viewid',{'inputOptions':{'class':'form-control','readonly':'true'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             <input type="hidden" value="{{ order.id }}" name="OrderSign[order_id]" /> 
 
-                            {{ form.field(model,'sign_date').widget('\\kartik\\datecontrol\\DateControl', {'displayFormat': 'Y-m-d H:i','saveFormat':'Y-m-d H:i:s','type':'datetime'}).label(null,{'class':'control-label col-lg-2'})|raw }}
+                            {{ form.field(model,'sign_date').widget('\\kartik\\datecontrol\\DateControl', {'displayFormat': 'Y-m-d H:i','type':'datetime'}).label(null,{'class':'control-label col-lg-2'})|raw }}
 
                               {{ form.field(model,'info').textArea({'row':2}).label(null,{'class':'control-label col-lg-2'})|raw }}
                                     <hr />

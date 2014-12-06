@@ -1,6 +1,6 @@
 {% set sidebar_name = "入库明细" %}
 {% set menu_name = "stock" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
 {% block content %}
         <div class="page-head">
         <!-- Page heading -->
@@ -92,7 +92,7 @@
                 10:{
                   'attribute':'出入库标记',
                   'format':'raw',
-                  'value':searchModel.getLink|value_callback,
+                  'value':searchModel.getLink()|value_callback,
                 },
         }})
     }}

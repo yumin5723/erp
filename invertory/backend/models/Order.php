@@ -248,6 +248,8 @@ class Order extends BackendActiveRecord {
             $model->order_id = $this->id;
             $model->goods_code = $value['code'];
             $model->goods_quantity = $value['count'];
+            $model->created = date('Y-m-d H:i:s');
+            $model->modified = date('Y-m-d H:i:s');
             $model->save();
         }
         //Subtract stock

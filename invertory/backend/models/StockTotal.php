@@ -27,10 +27,13 @@ class StockTotal extends BackendActiveRecord {
     		$model->material_id = $material_id;
             $model->storeroom_id = $storeroom_id;
     		$model->total = $count;
+            $model->created = date('Y-m-d H:i:s');
+            $model->modified = date('Y-m-d H:i:s');
     		$model->save();
     		return true;
     	}else{
     		$material->total = $material->total + $count;
+            $material->modified = date('Y-m-d H:i:s');
     		$material->save();
     	}
     	return true;

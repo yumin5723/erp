@@ -69,6 +69,8 @@ class Package extends BackendActiveRecord {
             $orderPackage = new OrderPackage;
             $orderPackage->order_id = $order;
             $orderPackage->package_id = $this->id;
+            $orderPackage->created = date('Y-m-d H:i:s');
+            $orderPackage->modified = date('Y-m-d H:i:s');
             $orderPackage->save();
 
             $as = Order::findOne($order);

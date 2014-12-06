@@ -1,6 +1,6 @@
 {% set menu_name = "order" %}
 {% set sidebar_name = "订单列表" %}
-{% extends "../layouts/header.twig" %}
+{% extends "@app/views/layouts/header.twig" %}
   {% block content %}
       <!-- Page heading -->
       <div class="page-head">
@@ -129,7 +129,7 @@
           2:'throw_weight',
           3:{'attribute':'volume','value':package.volume / 100},
           4:'box',
-          5:{'attribute':'box','value':package.getPackageStatus},
+          5:{'attribute':'box','value':package.getPackageStatus()},
           8:'info',
           9:'created',
       }
@@ -162,10 +162,10 @@
       'model':sign,
       'attributes':{
           0:'signer',
-          1:{'label':'签收状态','value':sign.getSignType},
+          1:{'label':'签收状态','value':sign.getSignType()},
           2:'sign_date',
           3:'info',
-          4:{'label':'签收图片','value':sign.getImage,'format':'raw'},
+          4:{'label':'签收图片','value':sign.getImage(),'format':'raw'},
       }
 
 } )
