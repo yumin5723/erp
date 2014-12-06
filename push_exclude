@@ -1,8 +1,6 @@
 index-test.php
-*web/index.php
 *web/assets/*
 *web/.htaccess
-*-local.php
 *runtime/*
 *tests/*
 test.php
