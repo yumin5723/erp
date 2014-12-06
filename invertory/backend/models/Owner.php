@@ -3,7 +3,6 @@ namespace backend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
 use yii\web\IdentityInterface;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
@@ -34,7 +33,7 @@ class Owner extends ActiveRecord implements IdentityInterface
 
     const ROLE_USER = 10;
 
-    public static function findIdentityByAccessToken($token){}
+    public static function findIdentityByAccessToken($token,$type=null){}
     public function behaviors()
     {
         return [
@@ -116,7 +115,7 @@ class Owner extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Security::validatePassword($password, $this->password_hash);
+        return \Yii::$app->getSecurity()->validatePassword($password, $this->password_hash);
     }
 
     public function rules()
@@ -160,10 +159,10 @@ class Owner extends ActiveRecord implements IdentityInterface
     {
         if (parent::beforeSave($insert)) {
             if (($this->isNewRecord || $this->getScenario() === 'resetPassword') && !empty($this->password)) {
-                $this->password_hash = Security::generatePasswordHash($this->password);
+                $this->password_hash = \Yii::$app->getSecurity()->generatePasswordHash($this->password);
             }
             if ($this->isNewRecord) {
-                $this->auth_key = Security::generateRandomKey();
+                $this->auth_key = \Yii::$app->getSecurity()->generateRandomKey();
             }
             return true;
         }

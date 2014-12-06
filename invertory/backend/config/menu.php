@@ -14,18 +14,18 @@ return [
                     'name' => '添加管理员',
                     'route' => 'manager/create',
                 ],
-                [
-                    'name' => '角色列表',
-                    'route' => 'auth/rolelist',
-                ],
-                [
-                    'name' => '分配权限',
-                    'route' => 'auth/assign',
-                ],
-                [
-                    'name' => '权限添加',
-                    'route' => 'auth/flushperms',
-                ],
+                // [
+                //     'name' => '角色列表',
+                //     'route' => 'auth/rolelist',
+                // ],
+                // [
+                //     'name' => '分配权限',
+                //     'route' => 'auth/assign',
+                // ],
+                // [
+                //     'name' => '权限添加',
+                //     'route' => 'auth/flushperms',
+                // ],
             ],
         ],
         'storeroom'=>[

@@ -16,7 +16,7 @@ CREATE TABLE `manager` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `manager` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created`, `modified`) VALUES
-(1, 'admin', 'D179fKcB3pJbImNK4Oy279FszUfU7jbS', '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG', '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG', 'admin@goumin.com', 10, 10, "", "");
+(1, 'admin', 'D179fKcB3pJbImNK4Oy279FszUfU7jbS', '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG', '$2y$13$J870q/urL8UWO/LfiW2ym.hwwuUUpOGDAsmWbb/2ChS8lKaLwluQG', 'admin@goumin.com', 10, 10, "2014-12-06 12:10:15", "2014-12-06 12:10:15");
 
 DROP TABLE IF EXISTS `storeroom`;
 CREATE TABLE `storeroom` (
@@ -125,7 +125,7 @@ CREATE TABLE `order` (
   `recipients` varchar(64) NOT NULL DEFAULT '',
   `recipients_address` varchar(255) NOT NULL DEFAULT '',
   `recipients_contact` varchar(255) NOT NULL DEFAULT '',
-  `info` text NOT NULL DEFAULT '',
+  `info` text NOT NULL,
   `limitday` varchar(64) NOT NULL DEFAULT '',
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `is_del` tinyint(4) NOT NULL DEFAULT '0',
@@ -162,7 +162,7 @@ CREATE TABLE `package` (
   `trunk` varchar(64) NOT NULL DEFAULT '',
   `delivery` varchar(64) NOT NULL DEFAULT '',
   `price` decimal(32,2) NOT NULL, 
-  `info` text NOT NULL DEFAULT '',
+  `info` text NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',
@@ -272,7 +272,7 @@ CREATE TABLE `order_sign` (
   `sign_date` datetime NOT NULL,
   `signer` varchar(64) NOT NULL DEFAULT '',
   `image` varchar(255) NOT NULL DEFAULT '',
-  `info` text NOT NULL DEFAULT '',
+  `info` text NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_uid` int(11) NOT NULL DEFAULT '1',
@@ -285,3 +285,5 @@ alter table `stock` add column `destory_reason` blob NOT NULL DEFAULT '';
 alter table `stock_total` add column `storeroom_id` int(11) NOT NULL DEFAULT '1';
 alter table `stock` add column activite varchar(64) NOT NULL DEFAULT '';
 alter table `order_sign` add column `type` tinyint(4) NOT NULL DEFAULT '0';
+alter table `owner` add column `department` varchar(64) NOT NULL DEFAULT '';
+alter table stock add column active varchar(64) NOT NULL DEFAULT '';
