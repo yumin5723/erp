@@ -8,5 +8,8 @@ return [
 			'password' => '',
 			'charset' => 'utf8',
 		],
+		'request'=>[
+            'cookieValidationKey'=>"cnOOB2bIo8tIod1K3th3BETtjP112233",
+        ],	
 	],
 ];

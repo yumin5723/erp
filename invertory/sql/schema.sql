@@ -222,7 +222,6 @@ CREATE TABLE `order_channel` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-Logistics information
 
 DROP TABLE IF EXISTS `order_channel`;
 CREATE TABLE `order_channel` (

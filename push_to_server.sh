@@ -1,1 +1,1 @@
-rsync -av --exclude-from=./push_exclude invertory root@210.14.154.210:/data2/erp
+rsync -av --exclude-from=./push_exclude invertory root@157.7.73.134:/www/wwwroot
