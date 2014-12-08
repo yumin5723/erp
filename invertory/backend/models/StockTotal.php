@@ -65,12 +65,13 @@ class StockTotal extends BackendActiveRecord {
      * @param  [type] $storeroom_id [description]
      * @return [type]               [description]
      */
-    public function getExportDataByStoreroomId($storeroom_id){
+    public static function getExportDataByStoreroomId($storeroom_id){
         $results = StockTotal::find()->where(['storeroom_id'=>$storeroom_id])->orderby(['material_id'=>SORT_DESC])->all();
         foreach($results as $key=>$result){
             $ret[$key]['store'] = $result->storeroom->name;
             $ret[$key]['material'] = $result->material->name;
-            $ret[$key]['owner'] = Owner::findOne($result->material->owner_id)->english_name;
+            // $ret[$key]['owner'] = Owner::findOne($result->material->owner_id)->english_name;
+            $ret[$key]['owner'] = Stock::findOne(['material_id'=>$result->material_id])->owners->english_name;
             $ret[$key]['total'] = $result->total;
             $ret[$key]['last_income'] = Stock::find()->where(['material_id'=>$result->material_id,'increase'=>0,'storeroom_id'=>$storeroom_id])->orderby(['id'=>SORT_DESC])->one()->stock_time;
             $ret[$key]['last_output'] = Stock::find()->where(['material_id'=>$result->material_id,'increase'=>1,'destory_reason'=>"",'storeroom_id'=>$storeroom_id])->orderby(['id'=>SORT_DESC])->one()->stock_time;
