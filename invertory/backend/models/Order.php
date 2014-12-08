@@ -24,6 +24,8 @@ class Order extends BackendActiveRecord {
     public $goods_code;
     public $goods_quantity;
     public $file;
+
+    const BIGEST_STOREROOM_ID = 1;
     /**
      * function_description
      *

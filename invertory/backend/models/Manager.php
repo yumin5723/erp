@@ -127,6 +127,7 @@ class Manager extends ActiveRecord implements IdentityInterface
             ['email', 'exist', 'message' => 'There is no user with such email.', 'on' => 'requestPasswordResetToken'],
 
             ['password', 'required'],
+            ['storeroom_id', 'required'],
             ['password', 'string', 'min' => 6],
         ];
     }
@@ -134,7 +135,7 @@ class Manager extends ActiveRecord implements IdentityInterface
     public function scenarios()
     {
         return [
-            'signup' => ['username', 'email', 'password', '!status', '!role'],
+            'signup' => ['username', 'email','storeroom_id','password', '!status', '!role'],
             'update'=>['status'],
             'resetPassword' => ['username', 'email', 'password'],
             'resetPassword' => ['password'],
@@ -211,6 +212,25 @@ class Manager extends ActiveRecord implements IdentityInterface
             'email'=>'邮箱',
             'password'=>'密码',
             'create_time'=>'创建时间',
+            'storeroom_id'=>'所属库房',
         ];
+    }
+    /**
+     * [getCanUseStorerooms description]
+     * @return [type] [description]
+     */
+    public function getCanUseStorerooms(){
+        $rs = Storeroom::find()->all();
+        $arr = [];
+        if($rs){
+            foreach($rs as $key=>$v){
+                $arr[$v['id']]=$v['name'];
+            }
+
+        }
+        return $arr;
+    }
+    public function getStores(){
+        return $this->hasOne(Storeroom::className(),['id'=>'storeroom_id']); 
     }
 }

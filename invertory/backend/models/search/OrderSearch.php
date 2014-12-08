@@ -26,10 +26,12 @@ class OrderSearch extends Order
         return Model::scenarios();
     }
 
-    public function search($params)
+    public function search($params,$storeroom_id)
     {
         $query = Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL])->orderBy(['id'=>SORT_DESC]);
-
+        if($storeroom_id != self::BIGEST_STOREROOM_ID){
+            $query->andWhere(['storeroom_id'=>$storeroom_id]);
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -48,9 +50,11 @@ class OrderSearch extends Order
 
         return $dataProvider;
     }
-    public function searchByPost($orderid){
+    public function searchByPost($orderid,$storeroom_id){
         $query = Order::find()->where(['viewid'=>$orderid,'is_del'=>Order::ORDER_IS_NOT_DEL]);
-
+        if($storeroom_id != self::BIGEST_STOREROOM_ID){
+            $query->andWhere(['storeroom_id'=>$storeroom_id]);
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

@@ -53,6 +53,7 @@
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-8'} } }) %}     
                             {{ form.field(model,'username',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
+                            {{ form.field(model,'storeroom_id').dropDownList(model.getCanUseStorerooms()).label(null,{'class':'control-label col-lg-2'})|raw }} 
                             {{ form.field(model,'password',{inputOptions:{'class':'form-control'}}).passwordInput().label(null,{'class':'control-label col-lg-2'})|raw}}
                             {{ form.field(model,'email',{inputOptions:{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}
                             

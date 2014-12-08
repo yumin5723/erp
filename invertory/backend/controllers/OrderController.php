@@ -38,7 +38,7 @@ class OrderController extends BackendController {
      */
     public function actionList() {
         $searchModel = new OrderSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams(),Yii::$app->user->identity->storeroom_id);
 
         return $this->render('list', [
             'dataProvider' => $dataProvider,
@@ -55,7 +55,7 @@ class OrderController extends BackendController {
         $dataProvider = [];
         if(isset($_POST['orderid'])){
             $searchModel = new OrderSearch;
-            $dataProvider = $searchModel->searchByPost($_POST['orderid']);
+            $dataProvider = $searchModel->searchByPost($_POST['orderid'],Yii::$app->user->identity->storeroom_id);
         }
         return $this->render("search",['model'=>$model,'dataProvider'=>$dataProvider]);
     }

@@ -65,7 +65,7 @@ class UserInfo{
     	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'status'=>Order::NEW_ORDER])->count();
     }
     function getTotalorder(){
-    	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL])->count();
+    	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'storeroom_id'=>\Yii::$app->user->identity->storeroom_id])->count();
     }
     function getRefuseorder(){
     	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'status'=>Order::REFUSE_ORDER])->count();

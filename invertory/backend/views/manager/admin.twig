@@ -59,13 +59,17 @@
                   'attribute':'email',
                 },
                 3:{
+                  'attribute':'storeroom_id',
+                  'value':'return $model->stores->name;'|value_callback,
+                },
+                4:{
                     'attribute':'status',
                     'label':'用户状态',
                     'value':'if($model->status == 10){return "正常";}else{return "禁用";}'|value_callback,
                 },
-                4:'created',
-                5:'modified',
-                6:{
+                5:'created',
+                6:'modified',
+                7:{
                     'class':'\\common\\extensions\\Grid\\GridActionColumn',
                     'template':'{update}{delete}{assignment}',
                 },

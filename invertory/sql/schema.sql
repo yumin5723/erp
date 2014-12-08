@@ -287,3 +287,6 @@ alter table `order_sign` add column `type` tinyint(4) NOT NULL DEFAULT '0';
 alter table `owner` add column `department` varchar(64) NOT NULL DEFAULT '';
 alter table stock add column active varchar(64) NOT NULL DEFAULT '';
 alter table package change volume volume varchar(32) NOT NULL DEFAULT '';
+alter table manager add column storeroom_id int(11) NOT NULL DEFAULT '1';
+
+
