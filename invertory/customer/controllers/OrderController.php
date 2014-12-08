@@ -164,7 +164,9 @@ class OrderController extends CustomerController {
                                 $total = StockTotal::find(['storeroom_id'=>$storeroom_id,'material_id'=>$material_id])->one();
                                 if(!empty($total)){
                                     $total->total = $total->total + $detail->goods_quantity;
-                                    $total->update();
+                                    if(!$total->update()){
+                                        throw new \Exception("Error Processing Request", 1);
+                                    }
                                 }
                             }
                         }
