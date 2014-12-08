@@ -3,5 +3,9 @@ index-test.php
 *web/.htaccess
 *runtime/*
 *tests/*
+src/backend/config/main-local.php
+src/backend/config/params-local.php
+src/customer/config/main-local.php
+src/customer/config/params-local.php
 test.php
 src/vendor
