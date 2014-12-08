@@ -148,23 +148,33 @@ class OrderController extends CustomerController {
             $model = $this->loadModel($id);
             if($model->status == Order::REFUSE_ORDER){
                 $model->status = Order::REVOKE_ORDER;
-                if($model->save()){
-                    //Recovery inventory
-                    //delete stock about this order id the recovery stock total
-                    Stock::deleteAll(['order_id'=>$id]);
-                    $details = OrderDetail::find()->where(['order_id'=>$id])->all();
-                    if(!empty($details)){
-                        foreach($details as $detail){
-                            $storeroom_id = Order::findOne($id)->storeroom_id;
-                            $material_id = Material::find()->where(['code'=>$detail->goods_code])->one()->id;
-                            $total = StockTotal::find(['storeroom_id'=>$storeroom_id,'material_id'=>$material_id])->one();
-                            if(!empty($total)){
-                                $total->total = $total->total + $detail->goods_quantity;
-                                $total->update();
+                $db = Order::getDb();
+                $transaction = $db->beginTransaction();
+                try{
+                    // if($model->save()){
+                        $model->save();
+                        //Recovery inventory
+                        //delete stock about this order id the recovery stock total
+                        Stock::deleteAll(['order_id'=>$id]);
+                        $details = OrderDetail::find()->where(['order_id'=>$id])->all();
+                        if(!empty($details)){
+                            foreach($details as $detail){
+                                $storeroom_id = Order::findOne($id)->storeroom_id;
+                                $material_id = Material::find()->where(['code'=>$detail->goods_code])->one()->id;
+                                $total = StockTotal::find(['storeroom_id'=>$storeroom_id,'material_id'=>$material_id])->one();
+                                if(!empty($total)){
+                                    $total->total = $total->total + $detail->goods_quantity;
+                                    $total->update();
+                                }
                             }
                         }
-                    }
+                    // }
+                    $transaction->commit();
+                }catch (\Exception $e) {
+                    $transaction->rollback();
+                    throw new \Exception($e->getMessage(), $e->getCode());
                 }
+                
             }
         }
         return $this->redirect(Yii::$app->request->getReferrer());
