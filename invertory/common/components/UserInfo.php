@@ -62,9 +62,16 @@ class UserInfo{
         }
     }
     function getUnoptorder(){
-    	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'status'=>Order::NEW_ORDER])->count();
+        if(\Yii::$app->user->identity->storeroom_id == Order::BIGEST_STOREROOM_ID){
+            return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'status'=>Order::NEW_ORDER])->count();
+        }
+        return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'status'=>Order::NEW_ORDER,'storeroom_id'=>\Yii::$app->user->identity->storeroom_id])->count();
+    	
     }
     function getTotalorder(){
+        if(\Yii::$app->user->identity->storeroom_id == Order::BIGEST_STOREROOM_ID){
+            return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL])->count();
+        }
     	return Order::find()->where(['is_del'=>Order::ORDER_IS_NOT_DEL,'storeroom_id'=>\Yii::$app->user->identity->storeroom_id])->count();
     }
     function getRefuseorder(){
