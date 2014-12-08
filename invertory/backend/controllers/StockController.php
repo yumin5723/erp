@@ -51,11 +51,20 @@ class StockController extends BackendController {
         if (isset($_POST['Stock'])) {
             $model->load($_POST);
             if ($model->validate()) {
-                $model->save();
-                //create a data in stock total
-                StockTotal::updateTotal($model->storeroom_id,$model->material_id,$model->actual_quantity);
-                Yii::$app->session->setFlash('success', '新建成功！');
-                $this->redirect("/stock/list");
+                $db = Stock::getDb();
+                $transaction = $db->beginTransaction();
+                try{
+                    $model->save();
+                    //create a data in stock total
+                    StockTotal::updateTotal($model->storeroom_id,$model->material_id,$model->actual_quantity);
+                    $transaction->commit();
+
+                    Yii::$app->session->setFlash('success', '新建成功！');
+                    $this->redirect("/stock/list");
+                }catch (\Exception $e) {
+                    $transaction->rollback();
+                    throw new \Exception($e->getMessage(), $e->getCode());
+                }
             }
         }
         return $this->render('create', array(

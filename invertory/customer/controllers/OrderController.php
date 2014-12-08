@@ -93,13 +93,22 @@ class OrderController extends CustomerController {
         if(isset($_POST['confirm_end'])){
             $model->load($_POST);
             if ($model->validate()) {
-                $model->source = Order::ORDER_SOURCE_CUSTOMER;
-                $model->save();
-                $model->viewid = date('Ymd')."-".$model->id;
-                $model->update();
-                //create order detail 
-                $model->createOrderDetail($_POST['OrderDetail']);
-                $this->redirect("/order/list?OrderSearch[status]=0");
+                $db = Order::getDb();
+                $transaction = $db->beginTransaction();
+                try{
+                    $model->source = Order::ORDER_SOURCE_CUSTOMER;
+                    $model->save();
+                    $model->viewid = date('Ymd')."-".$model->id;
+                    $model->update();
+                    //create order detail 
+                    $model->createOrderDetail($_POST['OrderDetail']);
+                    $transaction->commit();
+                    $this->redirect("/order/list?OrderSearch[status]=0");
+                }catch (\Exception $e) {
+                    $transaction->rollback();
+                    throw new \Exception($e->getMessage(), $e->getCode());
+                }
+                
             }
         }
         if (isset($_POST['selection'])) {
