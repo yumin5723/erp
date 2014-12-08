@@ -50,14 +50,14 @@
                   </div>  
                   <div class="clearfix"></div>
                 </div>
-
+{# 'filterModel':searchModel, #}
                   <div class="widget-content">
 {{ widget('\\yii\\grid\\GridView', {
             'layout':'\n{items}\n{pager}',         
             'id':'app-grid', 
             'tableOptions':{'class':'table table-striped table-bordered table-hover'},
             'dataProvider':dataProvider,
-            'filterModel':searchModel,
+            
             'pager':{
                 'class':'\\common\\extensions\\Page\\CPageLink',
             },
