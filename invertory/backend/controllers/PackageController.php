@@ -48,7 +48,9 @@ class PackageController extends BackendController {
         $id = isset($_GET['id']) ? $_GET['id'] : "";
         if($id){
             $order = Order::findOne($id);
-            if ($order === null) throw new CHttpException(404, 'The requested page does not exist.');
+            if ($order === null || (Yii::$app->user->identity->storeroom_id != Order::BIGEST_STOREROOM_ID && $order->storeroom_id != Yii::$app->user->identity->storeroom_id)){
+                throw new \Exception("Error Processing Request", 404);
+            }
         }
         //todo if order status
         $model = new Package;

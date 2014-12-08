@@ -186,6 +186,11 @@ class OrderController extends BackendController {
     public function actionView($id)
     {   
         $order = Order::find()->where(['id'=>$id,'is_del'=>Order::ORDER_IS_NOT_DEL])->one();
+        if(Yii::$app->user->identity->storeroom_id != Order::BIGEST_STOREROOM_ID){
+            if($order->storeroom_id != Yii::$app->user->identity->storeroom_id){
+                throw new \Exception("Error Processing Request", 404);
+            }
+        }
         $order_package = OrderPackage::find()->where(['order_id'=>$id])->one();
         $detail = OrderDetail::find()->where(['order_id'=>$id])->all();
         $sign = OrderSign::findOne($id);
@@ -249,6 +254,11 @@ class OrderController extends BackendController {
         if($order->status != Order::SHIPPING_ORDER){
             throw new CHttpException(404, '数据错误，请检查一下订单是否是发货状态，不是发货状态的订单不能标记为签收');
         }
+        if(Yii::$app->user->identity->storeroom_id != Order::BIGEST_STOREROOM_ID){
+            if($order->storeroom_id != Yii::$app->user->identity->storeroom_id){
+                throw new \Exception("Error Processing Request", 404);
+            }
+        }
         $model = new OrderSign;
         $model->order_viewid = $order->viewid;
         if(Yii::$app->request->isPost){
@@ -268,6 +278,11 @@ class OrderController extends BackendController {
         $order = $this->loadModel($id);
         if($order->status != Order::SHIPPING_ORDER){
             throw new CHttpException(404, '数据错误，请检查一下订单是否是发货状态，不是发货状态的订单不能标记为签收');
+        }
+        if(Yii::$app->user->identity->storeroom_id != Order::BIGEST_STOREROOM_ID){
+            if($order->storeroom_id != Yii::$app->user->identity->storeroom_id){
+                throw new \Exception("Error Processing Request", 404);
+            }
         }
         $model = new OrderSign;
         $model->order_viewid = $order->viewid;
