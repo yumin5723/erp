@@ -3,9 +3,12 @@ index-test.php
 *web/.htaccess
 *runtime/*
 *tests/*
-src/backend/config/main-local.php
-src/backend/config/params-local.php
-src/customer/config/main-local.php
-src/customer/config/params-local.php
+invertory/backend/config/main-local.php
+invertory/backend/config/params-local.php
+invertory/customer/config/main-local.php
+invertory/customer/config/params-local.php
+invertory/common/config/params-local.php
+invertory/backend/web/index.php
+invertory/customer/web/index.php
 test.php
 src/vendor
