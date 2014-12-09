@@ -289,4 +289,13 @@ alter table stock add column active varchar(64) NOT NULL DEFAULT '';
 alter table package change volume volume varchar(32) NOT NULL DEFAULT '';
 alter table manager add column storeroom_id int(11) NOT NULL DEFAULT '1';
 
+CREATE TABLE `city` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(20) NOT NULL DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '0', 
+  PRIMARY KEY (`id`),
+  KEY `province_id` (`pid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
