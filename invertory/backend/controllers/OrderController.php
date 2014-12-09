@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Order;
+use backend\models\City;
 use backend\models\OrderSign;
 use backend\models\OrderPackage;
 use backend\models\OrderDetail;
@@ -141,12 +142,24 @@ class OrderController extends BackendController {
         if(isset($_POST['confirm_end'])){
             $model->load($_POST);
             if ($model->validate()) {
-                $model->save();
-                $model->viewid = date('Ymd')."-".$model->id;
-                $model->update();
-                //create order detail 
-                $model->createOrderDetail($_POST['OrderDetail']);
-                $this->redirect("/order/list?OrderSearch[status]=0");
+                $db = Order::getDb();
+                $transaction = $db->beginTransaction();
+                try{
+                    $model->to_province = City::findOne($_POST['Order']['to_province'])->name;
+                    $model->to_city = City::findOne($_POST['Order']['to_city'])->name;
+                    $model->source = Order::ORDER_SOURCE_CUSTOMER;
+                    $model->save();
+                    $model->viewid = date('Ymd')."-".$model->id;
+                    $model->update();
+                    //create order detail 
+                    $model->createOrderDetail($_POST['OrderDetail']);
+                    $transaction->commit();
+                    $this->redirect("/order/list?OrderSearch[status]=0");
+                }catch (\Exception $e) {
+                    $transaction->rollback();
+                    throw new \Exception($e->getMessage(), $e->getCode());
+                }
+                
             }
         }
         if (isset($_POST['selection'])) {
@@ -333,5 +346,42 @@ EOF;
 EOF;
             }
         }
+    }
+    public function actionCity(){
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                $param1 = null;
+                $param2 = null;
+                if (!empty($_POST['depdrop_params'])) {
+                    $params = $_POST['depdrop_params'];
+                    $param1 = $params[0]; // get the value of input-type-1
+                    $param2 = $params[1]; // get the value of input-type-2
+                }
+     
+                // $out = self::getSubCatList1($cat_id, $param1, $param2); 
+                // the getSubCatList1 function will query the database based on the
+                // cat_id, param1, param2 and return an array like below:
+                $out = City::getCityByPid($cat_id);
+                // var_dump($out);exit;
+                // var_dump($out);exit;
+                // $out = [
+                //        ['id'=>'20', 'name'=>'a'],
+                //        ['id'=>'21', 'name'=>'b'],
+                //        ['id'=>'22', 'name'=>'c'], 
+                //        ['id'=>'23', 'name'=>'d'],
+                // ];
+                
+                
+                // $selected = self::getDefaultSubCat($cat_id);
+                // the getDefaultSubCat function will query the database
+                // and return the default sub cat for the cat_id
+                echo json_encode(['output'=>$out, 'selected'=>$out[0]['id']]);
+                return;
+            }
+        }
+        echo json_encode(['output'=>'', 'selected'=>'']);
     }
 }

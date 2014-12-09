@@ -9,6 +9,7 @@ use backend\models\Stock;
 use backend\models\OrderChannel;
 
 class Order extends BackendActiveRecord {
+
     const NEW_ORDER = 0;
     const PACKAGE_ORDER = 1;
     const SHIPPING_ORDER = 2;
@@ -45,7 +46,7 @@ class Order extends BackendActiveRecord {
     public function rules() {
         return [
             [['owner_id','recipients','recipients_address','recipients_contact'],'required'],
-            [['goods_active','storeroom_id','to_city','info','limitday','status'],'safe'],
+            [['goods_active','storeroom_id','to_province','to_city','info','limitday','status'],'safe'],
             ['goods_quantity','integer'],
             ['goods_quantity','checkQuantity']
             // ['goods_quantity',]/
@@ -281,6 +282,7 @@ class Order extends BackendActiveRecord {
             'viewid'=>'订单号',
             'storeroom_id'=>'出库仓库',
             'to_city'=>'收货城市',
+            'to_province'=>'收货省份',
             'recipients'=>'收货人',
             'recipients_address'=>'收货地址',
             'recipients_contact'=>'收货人联系方式',
@@ -334,6 +336,21 @@ class Order extends BackendActiveRecord {
                 return "";
             }
         ';
+    }
+    /**
+     * [getCanChoseProvince description]
+     * @return [type] [description]
+     */
+    public function getCanChoseProvince(){
+        $province = City::find()->where(['pid'=>0])->all();
+        $ret = ['0'=>'请选择...'];
+        foreach($province as $pro){
+            $ret[$pro->id] = $pro->name;
+        }
+        return $ret;
+    }
+    public function getDefaultCity(){
+        return \yii\helpers\ArrayHelper::map(City::find()->where(['pid' => $this->to_province])->all(),'id','name');
     }
 
 }
