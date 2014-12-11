@@ -288,6 +288,7 @@ alter table `owner` add column `department` varchar(64) NOT NULL DEFAULT '';
 alter table stock add column active varchar(64) NOT NULL DEFAULT '';
 alter table package change volume volume varchar(32) NOT NULL DEFAULT '';
 alter table manager add column storeroom_id int(11) NOT NULL DEFAULT '1';
+alter table `order` add column to_province varchar(32) NOT NULL DEFAULT '';
 
 CREATE TABLE `city` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
