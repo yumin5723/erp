@@ -1,0 +1,76 @@
+{% set sidebar_name = "新建资讯" %}
+{% set menu_name = "news" %}
+<script charset="utf-8" src="/js/bootstrap.min.js"></script>
+<script charset="utf-8" src="/js/bootstrap-taginput.js"></script>
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css" type="text/css" />
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+<style type="text/css">
+#ke_demo{ width:700px; height:200px;}
+</style>
+<div class="content">
+{% block content %}
+<div class="container">
+    {% include "@gcommon/cms/views/layouts/notice.twig" %}
+    <div class="row-fluid">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            <!-- {{ form.errorSummary(model)|raw }} -->
+            {{ form.field(model,'object_name')|raw }}
+            {{ form.field(model,'object_list_name')|raw }}
+            {{ form.field(model,'template_id').dropDownList(templetes)|raw }}
+            {{ form.field(model,'object_content').widget('\\mihaildev\\ckeditor\\CKEditor',
+                    {'name':'object_content','editorOptions':{'preset':'base','inline':false,'filebrowserImageUploadUrl':'/cms/object/upload'}})|raw }}
+            {{ form.field(model,'object_author_name')|raw }}  
+            {{ form.field(model,'source')|raw }}
+            <div class="form-group field-object-tags">
+<label for="object-tags" class="control-label">标签</label>
+<input type="text" value="{% if isNew != true  %}{{ model.tags }}{% endif %}" name="Object[tags]" class="form-control" data-role="tagsinput" id="object-tags"  placeholder="Add tags">
+<p class="help-block"></p>
+</div>
+            {{ form.field(model,'object_excerpt').textArea({'row':2})|raw }}
+            {{ form.field(model,'object_date').widget('\\yii\\jui\\DatePicker',{'name' : 'object_date',
+                'attribute' : 'object_date', 
+                'model':model,
+                'options':{'class':'form-control'},
+                'dateFormat' : 'yyyy-MM-dd',
+                'clientOptions' : 
+                {
+                    'changeMonth':true,
+                    'changeYear':true,
+                    'yearRange':'-1:+25',   
+                },
+                })|raw
+            }}
+            <div class="content-box">
+                <label for="object-object_date" class="control-label">分类</label>
+            <div class="tab-content default-tab" style="display: block;">
+                {% for k,root in roots %}
+                    <input type="checkbox" name="Oterm[]" {% for se in selected_terms %}
+                           {% if se.term_id == k %} checked {% endif %} {% set check = "checked" %}
+                        {% endfor %} value="{{ k }}" /> {{ root }}<br />  
+                {% endfor %}  
+            </div>       
+            </div>
+            {{ form.field(model,'object_title')|raw }}
+            {{ form.field(model,'object_keywords')|raw }}
+            {{ form.field(model,'object_description').textArea({'row':2})|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交草稿' class='btn btn-large btn-primary' />
+                        <input type="hidden" name="ispublish" value="0" id="ispublish"/>
+                        <input type='button' onclick="apubish();" value='提交并发布' class='btn btn-large btn-primary' />  
+            </div>
+            {{ void(form.end()) }}
+
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    function apubish(){
+        $("#ispublish").val("1");
+        $("#create-form").submit();
+    }
+</script>
+{% endblock %}
+</div>

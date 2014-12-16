@@ -1,0 +1,57 @@
+<style>
+  textarea{width:600px;}
+</style>
+<div class="form">
+        {% set form = this.beginWidget('bootstrap.widgets.TbActiveForm', {
+        'id':'object-form',
+        'enableAjaxValidation':false,
+        }) %}
+        {{ form.errorSummary(block) }}
+        <div class="form-wrapper">
+            <div id="form-body" >
+                <div id="form-body-content">
+                  <div id="titlewrap">
+                    {{ form.textFieldRow(block, 'name', {
+                    'tabindex':'1',
+                    'id':'txt_object_name',
+                    })|raw }}
+                  </div>
+                  <div id="titlewrap">
+                    {{ form.textFieldRow(block, 'params[category_id]', {
+                    'tabindex':'1',
+                    'id':'txt_object_name',
+                    })|raw }}
+                  </div>
+                  {% if isNew == false %}
+                  <div id="titlewrap">
+                    {{ form.textArea(block, 'html', {
+                    'tabindex':'1',
+                    'id':'txt_object_name',
+                    'readonly':true,
+                    "rows":10,
+                    })|raw }}
+                  </div>
+                  {% endif %}
+                  <div id="bodywrap">
+                    {{ form.textArea(block, 'content', {
+                    'tabindex':'2','rows':10})|raw }}
+                  </div>
+                  <input type="hidden" value="{{ type }}" name="Block[type]" />
+                </div>
+            </div>
+                        
+        </div>
+        
+    <div class="control-group">
+      <div class="controls">
+        {{ void(this.widget('bootstrap.widgets.TbButton', {
+            'buttonType':'submit',
+            'type':'primary',
+            'label':'Save',
+            'htmlOptions': {'class':'btn-large'},
+        })) }}
+      </div>
+    </div>
+        <br class="clear" />
+        {{ void(this.endWidget()) }}
+      </div><!-- form -->

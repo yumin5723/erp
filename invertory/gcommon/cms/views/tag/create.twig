@@ -1,0 +1,28 @@
+{% set sidebar_name = "资讯标签" %}
+{% set menu_name = "news" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+<div class="content">
+{% block content %}
+<div class="container">
+    {% include "@gcommon/cms/views/layouts/notice.twig" %}
+    <div class="row-fluid">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+            <!-- {{ form.errorSummary(model)|raw }} -->
+            {{ form.field(model,'name')|raw }}
+            {{ form.field(model,'url')|raw }}
+            {{ form.field(model,'title')|raw }}
+            {{ form.field(model,'keywords')|raw }}
+            {{ form.field(model,'description')|raw }}
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+            {{ void(form.end()) }}
+
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+</div>

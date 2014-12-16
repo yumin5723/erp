@@ -1,0 +1,42 @@
+{% set menu_name="editor"%}
+{% set sidebar_name = "首页相关编辑" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+  {% block content %}
+<div class="content"> 
+  	<div class="container-fluid">
+    <div class="row-fluid">
+      {% include "@gcommon/cms/views/layouts/notice.twig" %}
+      {{ 
+
+        widget('\\yii\\grid\\GridView', {         
+            'id':'app-grid', 
+            'dataProvider':dataProvider,
+            'filterModel':searchModel,
+            'columns':{
+                0:'id',
+                1:'name',
+                2:{
+                  'attribute':'type',
+                  'value':searchModel.convertBlockType()|value_callback,
+                },
+                3:{
+                  'attribute':'生成内容',
+                  'format':'raw',
+                  'value':searchModel.getBuildLink()|value_callback,
+                },
+                4:{
+                  'attribute':'状态',
+                  'value':searchModel.getBlockStatus()|value_callback,
+                },
+                5:{
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{delete}',
+                },
+}})
+
+}}
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

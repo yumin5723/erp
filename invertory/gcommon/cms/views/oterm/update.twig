@@ -1,0 +1,29 @@
+{% set sidebar_name = "资讯分类" %}
+{% set menu_name = "news" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+<div class="content">
+   <h2>商品添加</h2>
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="form">
+            
+            {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal form-horizontal'}}) %}
+                {{ form.field(parent,'id').dropDownList(category)|raw }}
+                {{ form.field(model,'name')|raw }}
+                {{ form.field(model,'url')|raw }}
+                {{ form.field(model,'template_id').dropDownList(templates)|raw }}
+                {{ form.field(model,'short_name')|raw }}
+                {{ form.field(model,'description')|raw }}
+
+              <div class="control-group">
+                <div class="controls">
+                  <button type="submit" class="btn btn-large btn-primary">submit</button>
+                </div>
+              </div>
+            {{ void(form.end()) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

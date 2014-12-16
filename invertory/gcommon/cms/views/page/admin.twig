@@ -1,0 +1,54 @@
+{% set menu_name="page"%}
+{% set sidebar_name = "页面列表" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+  {% block content %}
+<div class="content"> 
+    <div class="container-fluid">
+    <div class="row-fluid">
+      {{ 
+
+        widget('\\yii\\grid\\GridView', {         
+            'id':'app-grid', 
+            'dataProvider':dataProvider,
+            'filterModel':searchModel,
+            'columns':{
+                0:{
+                  'attribute':'id',
+                },
+                1:{
+                  'attribute':"name",
+                },
+                2:{
+                  'attribute':'domain',
+                },
+                3:{
+                  "attribute":"path",
+                },
+                4:{
+                  "attribute":"status",
+                  "value":searchModel.convertPageStatus()|value_callback,
+                },
+                5:{
+                  "attribute":'',
+                  "format":"raw",
+                  "value":searchModel.getPreviewLink()|value_callback,
+                },
+                6:{
+                  "attribute":'',
+                  "format":"raw",
+                  "value":searchModel.getOperationLink()|value_callback,
+                },
+                7:
+                {
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}',
+                    'buttons':{},
+                }
+}})
+
+}}
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+.d2 {
+    position:absolute;
+    background:url(../img/delete.png) no-repeat 0px 1px;
+    color:#0066CC;
+}
+.reply {
+    position:absolute;
+    background:url(../img/pen.png) no-repeat 0px 1px;
+    top:5px
+}
+#about {
+    position:absolute;
+    background:url(../img/abc.png);
+    top:5px
+}

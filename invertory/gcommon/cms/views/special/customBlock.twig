@@ -1,0 +1,11 @@
+{% extends "@cms/block/index.twig" %}
+{% set menu_name = "特殊页面" %}
+{% set sidebar_name = page_id %}
+  {% block content %}
+    <div class="container-fluid">
+    <div class="row-fluid">
+     {% include "@cms/widget/customBlock/form.twig" %}
+    </div>
+</div>
+</div>
+{% endblock %}

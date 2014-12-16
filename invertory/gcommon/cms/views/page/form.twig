@@ -1,0 +1,40 @@
+{% include "@gcommon/cms/views/layouts/notice.twig" %}
+<div id="main-content-zone">
+  <div class="page-content"> 
+    <div id="inner" style="width:100%;float:left;">
+      <div class="form">
+       {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+        <div class="form-wrapper">
+            <div id="form-body" >
+                <div id="form-body-content">
+                    {{ form.field(model, 'name')|raw }}
+                    {{ form.field(model, 'title')|raw }}
+                    {{ form.field(model, 'keywords')|raw }}
+                    {{ form.field(model, 'description')|raw }}
+                    {{ form.field(model, 'domain').dropDownList(domains)|raw }}
+                    {{ form.field(model,'is_template').radioList({'0':'否','1':'是'})|raw}}
+                    {{ form.field(model, 'path')|raw }}
+                    {{ form.field(model, 'upload').fileInput()|raw }}
+                  {% if isNew == false %}
+                        <div id="titlewrap">
+                          {{ form.field(model,'content').textArea({'row':20,"id":"code"})|raw }}
+                        </div>
+                  {% endif %}
+                </div>
+            </div>
+                        
+        </div>
+        
+    <div class="control-group">
+      <div class="controls">
+        <div class="form-group">
+            <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+      </div>
+      </div>
+    </div>
+    {{ void(form.end()) }}
+        <br class="clear" />
+      </div><!-- form -->
+    </div>
+  </div>
+</div>

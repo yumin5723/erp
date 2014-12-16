@@ -225,6 +225,10 @@ class OrderController extends BackendController {
                 $order->status = $_POST['status'];
                 $order->save(false);
 
+                //create queue to send email
+                if($order->status == Order::SIGN_ORDER){
+                    //Yii::$app->gqueue->createJob('send_email','gcommon\components\gqueue\workers\SendEmail',["type"=>Order::SIGN_ORDER,'id'=>$order->id]);
+                }
                 // if($_POST['status'] == Order::CONFIRM_ORDER){
                 //     //send mail to customer
                 //     Yii::$app->mail->compose('confirm',['order'=>$order])
@@ -281,6 +285,8 @@ class OrderController extends BackendController {
                 if($model->save()){
                     $order->status = Order::SIGN_ORDER;
                     $order->save(false);
+                    //create queue to send email
+                    //Yii::$app->gqueue->createJob('send_email','gcommon\components\gqueue\workers\SendEmail',["type"=>Order::SIGN_ORDER,'id'=>$order->id]);
                 }
                 return $this->redirect("/order/list?OrderSearch[status]=3");
             }

@@ -1,0 +1,47 @@
+{% set menu_name="news"%}
+{% set sidebar_name = "新建模板" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+{% block content %}
+<div class="content">
+<div class="container-fluid">
+    <div class="row-fluid">
+      <div id="main-content-zone">
+  <div class="page-content"> 
+    {% include "../layouts/notice.twig" %}
+    <div id="inner" style="width:100%;float:left;">
+      <div class="form">
+        {% set form = activeform.begin({'id':'create-form','options':{'enctype':'multipart/form-data','class':'form-horizontal'}}) %}
+        <div class="form-wrapper">
+            <div id="form-body" >
+                <div id="form-body-content">
+                  <div id="titlewrap">
+                   {{ form.field(model, 'name')|raw }}
+                  </div>
+                  <div id="titlewrap">
+                    {{ form.field(model, 'type').dropDownList(model.templetetypes)|raw }}
+                  </div>
+                  <div id="titlewrap">
+                        {{ form.field(model, 'upload').fileInput()|raw }}
+                  </div>
+                </div>
+            </div>
+                        
+        </div>
+        
+    <div class="control-group">
+      <div class="controls">
+        <div class="form-group">
+            <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+      </div>
+      </div>
+    </div>
+        <br class="clear" />
+        {{ void(form.end()) }}
+      </div><!-- form -->
+    </div>
+  </div>
+</div>
+    </div>
+</div>
+</div>
+{% endblock %}

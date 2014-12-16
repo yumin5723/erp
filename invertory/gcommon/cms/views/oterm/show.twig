@@ -1,0 +1,43 @@
+{% set sidebar_name = "资讯分类" %}
+{% set menu_name = "news" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+<div class="content">
+{% block content %}
+<div class="nav">
+    <h5>当前位置：<a href="/cms/oterm/index">root管理</a>>>分类管理</h5>
+</div>
+  <h2>{% if root is not empty %}{{ root.name }}{% endif %}</h2>
+   {% if root is not empty %} <input type="button" class="btn btn-primary add_btn" value="新建分类" onclick="javascript:window.location.href='/cms/oterm/create?root={{root.root}}'" />{% endif %}
+   <span style="color:red">注：父级分类不可以被至于其子级分类下！</span>
+{{
+    widget('\\yii\\grid\\GridView', {            
+            'id':'app-grid', 
+            'dataProvider':model.getAllData(), 
+            'columns':{
+                0:'id',
+                1:{
+                    'attribute':'name',
+                    'value':model.cate_tree(),
+                },
+                2:'url',
+                3:'short_name',
+                4:{
+                  "attribute":'',
+                  "format":"raw",
+                  "value":model.getPreviewLink()|value_callback,
+                },
+                5:{
+                  'attribute':'发布',
+                  'format':'raw',
+                  'value':model.getBuildLink()|value_callback,
+                },
+                6:{'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}{view}',
+                    }
+    }})
+}}
+
+
+
+{% endblock %}
+</div>

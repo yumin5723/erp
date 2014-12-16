@@ -1,0 +1,115 @@
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+{% set menu_name="块管理"%}
+{% set sidebar_name = "新建模块" %}
+<style>
+  textarea{width:600px;}
+</style>
+{% include "@gcommon/cms/views/layouts/notice.twig" %}
+<div class="form">
+        {% set form = this.beginWidget('bootstrap.widgets.TbActiveForm', {
+        'id':'object-form',
+        'enableAjaxValidation':false,
+        }) %}
+        {{ form.errorSummary(block) }}
+        <div class="form-wrapper">
+            <div id="form-body" >
+                <div id="form-body-content">
+                  <div id="titlewrap">
+                    {{ form.textFieldRow(block, 'name', {
+                    'tabindex':'1',
+                    'id':'txt_object_name',
+                    })|raw }}
+                  </div>
+                  <a class="btn btn-success" onclick="return showUpload();">add-image</a>
+                  <div id="uploads">
+                      {% if isNew != true %}
+                          {% for key,value in block.params.picture %}
+                            <div class="picCount" id="pic_{{ loop.index }}"><a class="btn btn-danger" onclick="return deletePic('pic_{{ loop.index }}');">delete</a><br/>
+                              <div class="control-group ">
+                                  <label for="Game_url" class="control-label required">Url <span class="required">*</span></label>
+                                  <div class="controls">
+                                      标题:<input type="text" name="Block[params][picture][{{ loop.index }}][imgname]" value="{{ value.imgname }}" /><br/>
+                                      链接:<input type="text" name="Block[params][picture][{{ loop.index }}][imglink]" value="{{ value.imglink }}" /><br/>
+                                      时间:<input type="text" name="Block[params][picture][{{ loop.index }}][time]" value="{{ value.time }}" /><br/>
+                                      <!-- 介绍:<input type="text" name="Block[params][picture][{{ loop.index }}][desc]" value="{{ value.desc }}" /><br/> -->
+                                      介绍:<textarea name="Block[params][picture][{{ loop.index }}][desc]" />{{ value.desc }}</textarea><br/>
+                                      图片<input type="text" name="Block[params][picture][{{ loop.index }}][url]" class="img_image{{ loop.index }}" value="{{ value.url }}" />
+                                  <span>插入</span>      
+                                      <img valign="top" alt="Image" title="Image" onClick="insertFileToContent('image','img_image{{ loop.index }}');" src="{{ App.GcommonAssets.Url}}/images/insert_image.png" />
+                                  </div>
+                              </div>
+                              <div class="control-group ">
+                                      <div class="controls">
+                                          <img class="tag_image" src="{{ value.url }}" />
+                                      </div>
+                              </div>
+                            </div>
+                          {% endfor %}
+                      {% else %}
+                      {% endif %}
+                  </div>
+                  {% if isNew == false %}
+                  <div id="titlewrap">
+                    {{ form.textArea(block, 'html', {
+                    'tabindex':'1',
+                    'id':'txt_object_name',
+                    'readonly':true,
+                    "rows":10,
+                    "name":"",
+                    })|raw }}
+                  </div>
+                  {% endif %}
+                  <div id="bodywrap">
+                    {{ form.textArea(block, 'content', {
+                    'tabindex':'2','rows':10})|raw }}
+                  </div>
+                  <input type="hidden" value="{{ type }}" name="Block[type]" />
+                </div>
+            </div>
+                        
+        </div>
+        
+    <div class="control-group">
+      <div class="controls">
+        {{ void(this.widget('bootstrap.widgets.TbButton', {
+            'buttonType':'submit',
+            'type':'primary',
+            'label':'Save',
+            'htmlOptions': {'class':'btn-large'},
+        })) }}
+      </div>
+    </div>
+        <br class="clear" />
+        {{ void(this.endWidget()) }}
+        <script type="text/javascript">
+            function insertFileToContent(file_type,id){    
+                $.prettyPhoto.open('/cms/resource/createframe?&image_id='+ id +'&parent_call=true&ckeditor='+file_type+'&iframe=true&height=400','upload','');        
+            }
+            function afterUploadResourceWithGame(resource_path,image_id){
+                $("#"+image_id).val(resource_path);
+                $("."+image_id).val(resource_path);
+                $("."+image_id).attr("src",resource_path);
+                $.prettyPhoto.close();
+            }
+
+            var i=$(".picCount").length;
+            function showUpload(){
+              i++;
+              var str='<div class="picCount" id="pic_'+i+'"><a class="btn btn-danger" onclick="return deletePic(\'pic_'+i+'\');">delete</a><br/>';
+                str+='标题:'+i+'<input type="text" value="" name="Block[params][picture]['+i+'][imgname]" /><br>';
+                str+='链接:<input type="text" value="" name="Block[params][picture]['+i+'][imglink]" /><br>';
+                str+='时间:<input type="text" value="" name="Block[params][picture]['+i+'][time]" /><br>';
+                str+='介绍:<textarea name="Block[params][picture]['+i+'][desc]" /></textarea><br>';
+                str+='图片:<input type="text" value="" class="img_image'+i+'" name="Block[params][picture]['+i+'][url]" /><br>';
+                str+='<img valign="top" alt="Image" title="Image" onClick="insertFileToContent(\'image\',\'img_image'+i+'\');" src="{{ App.GcommonAssets.Url}}/images/insert_image.png" /><br>';
+                str+='<div class="control-group "><div class="controls"><img class="img_image'+i+'" src="" /></div></div><input type="hidden" id="img_image'+i+'" name="Block[params][picture]['+i+'][image]">';
+                str+='</div>';
+              $("#uploads").append(str);
+            }
+
+            function deletePic(id){
+                $("#"+id).html("");
+            }
+
+        </script>
+      </div><!-- form -->

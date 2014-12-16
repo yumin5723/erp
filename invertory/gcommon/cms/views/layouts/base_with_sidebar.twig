@@ -1,0 +1,16 @@
+{% extends "../layouts/base.twig" %}
+{% block mainbody %}
+<div id="sidebar-nav">
+  {% block sidebar %}
+        <ul id="dashboard-menu" class="nav nav-list">
+           {% for item in this.context.sidebars %}
+           <li class=" theme-mobile-hack {% if sidebar_name == item.name %}cur{% endif %}"><a href="{{ item.url }}"><i class="icon-{{ item.icon }}"></i> <span>{{ item.name }}</span></a></li>
+           {% endfor %}
+        </ul>
+    {% endblock %}
+</div>
+<div class="content">
+  {% block content %}
+  {% endblock %}
+</div>
+{% endblock %}

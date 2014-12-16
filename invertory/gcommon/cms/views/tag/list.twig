@@ -1,0 +1,42 @@
+{% set menu_name="news"%}
+{% set sidebar_name = "资讯标签" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+  {% block content %}
+<div class="content"> 
+    <div class="container-fluid">
+    <div class="row-fluid">
+      {{ 
+
+        widget('\\yii\\grid\\GridView', {         
+            'id':'app-grid', 
+            'dataProvider':dataProvider,
+            'filterModel':searchModel,
+            'columns':{
+                0:{
+                  'attribute':'id',
+                },
+                1:{
+                  'attribute':"name",
+                },
+                2:{
+                  'attribute':'url',
+                },
+                3:{
+                  "attribute":'',
+                  "format":"raw",
+                  "value":searchModel.getOperationLink()|value_callback,
+                },
+                7:
+                {
+                    'class':'\\common\\extensions\\Grid\\GridActionColumn',
+                    'template':'{update}',
+                    'buttons':{},
+                }
+}})
+
+}}
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

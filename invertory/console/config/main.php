@@ -13,6 +13,9 @@ return [
   'basePath' => dirname(__DIR__),
   'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
   'controllerNamespace' => 'console\controllers',
+  'controllerMap'=>[
+      'resque' => 'gcommon\components\gqueue\commands\ResqueController',
+  ],
   'modules'=>[
   ],
   'components' => [
@@ -32,7 +35,19 @@ return [
                   ],
               ],
           ],
-
+        'mail' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath'=>'@app/views/mail',
+            'htmlLayout'=>false,
+            'transport' => [
+              'class' => 'Swift_SmtpTransport',
+              'host' => 'smtp.163.com',
+              'username' => 'liuwanglei2001@163.com',
+              'password' => 'lwl7301294',
+              'port' => '25',
+              'encryption' => 'tls',
+            ],
+        ],  
   ],
   'params' => $params,
 ];

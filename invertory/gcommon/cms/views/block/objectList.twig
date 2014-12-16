@@ -1,0 +1,65 @@
+{% set menu_name="editor"%}
+{% set sidebar_name = "新建模块" %}
+{% include "@gcommon/cms/views/layouts/cmstop2.twig" %}
+{% block content %}
+<div class="content">
+<link rel="stylesheet" href="/js/codemirror/lib/codemirror.css">
+<script src="/js/codemirror/lib/codemirror.js"></script>
+<script src="/js/codemirror/mode/xml/xml.js"></script>
+<style type="text/css">
+  .CodeMirror {border-top: 1px solid #888; border-bottom: 1px solid #888;}
+</style>
+    <div class="container-fluid">
+    <div class="row-fluid">
+
+<div class="form">
+  {% include "../layouts/notice.twig" %}
+       {% set form = activeform.begin({'id':'create-form','options':{'class':'form-horizontal'}}) %}
+        <div class="form-wrapper">
+            <div id="form-body" >
+                <div id="form-body-content">
+                  <div id="titlewrap">
+                    {{ form.field(block, 'page_type').dropDownList(block.getBlockPageType())|raw }}
+                  </div>
+                  <div id="titlewrap">
+                    {{ form.field(block,'name')|raw }}
+                  </div>
+                  <div id="titlewrap">
+                    {{ form.field(block, 'params[category_id]')|raw }}
+                  </div>
+                  <div id="titlewrap">
+                    {{ form.field(block, 'params[count]')|raw }}
+                  </div>
+                  {% if isNew == false %}
+                  <div id="titlewrap">
+                    {{ form.field(block,'html').textArea({'row':20,"id":"Block_content"})|raw }}     
+                  </div>
+                  {% endif %}
+                  <div id="bodywrap">
+                    {{ form.field(block,'content').textArea({'row':20,"id":"code"})|raw }}     
+                  </div>
+                  <input type="hidden" value="{{ type }}" name="Block[type]" />
+                </div>
+            </div>
+                        
+        </div>
+        
+    <input type="hidden" name="Block[type]" value="{{ type }}" />
+            <div class="form-group">
+                        <input type='submit' value='提交' class='btn btn-large btn-primary' /> 
+            </div>
+        <br class="clear" />
+        {{ void(form.end()) }}
+    </div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var editor = CodeMirror.fromTextArea(document.getElementById("Block_content"), {
+            lineNumbers: true,
+            mode: "text/html",
+        });
+    });
+</script>
+{% endblock %}
