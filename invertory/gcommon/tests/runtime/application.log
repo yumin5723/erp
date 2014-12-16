@@ -1,8 +1,0 @@
-2013/06/05 14:53:46 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "site".' in /home/xiexx/x/src/gcommon/lib/yii/web/CWebApplication.php:286
-Stack trace:
-#0 /home/xiexx/x/src/gcommon/lib/yii/web/CWebApplication.php(141): CWebApplication->runController('')
-#1 /home/xiexx/x/src/gcommon/lib/yii/base/CApplication.php(169): CWebApplication->processRequest()
-#2 /home/xiexx/x/src/s17w78/i/www/index-test.php(10): CApplication->run()
-#3 {main}
-REQUEST_URI=/index-test.php
----
