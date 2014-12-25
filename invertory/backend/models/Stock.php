@@ -79,7 +79,7 @@ class Stock extends BackendActiveRecord {
      * @return [type] [description]
      */
     public function getCanUseProjects(){
-        $rs = Project::find()->all();
+        $rs = Project::find()->each();
         $arr = [];
         if($rs){
             foreach($rs as $key=>$v){
@@ -94,14 +94,14 @@ class Stock extends BackendActiveRecord {
      * @return [type] [description]
      */
     public function getCanUseMaterial(){
-        $rs = Material::find()->all();
+        $rs = Material::find()->batch();
         $arr = [];
-        if($rs){
-            foreach($rs as $key=>$v){
-                $arr[$v['id']]=$v['code']."  ".$v['name'];
+        foreach($rs as $v){
+            foreach($v as $v1){
+                $arr[$v1['id']]=$v1['code']."  ".$v1['name'];
             }
-
         }
+
         return $arr;
     }
     /**
