@@ -16,7 +16,7 @@ class ManagerSearch extends Manager
     {
         return [
             [['id'], 'integer'],
-            [['username', 'email'], 'safe'],
+            [['username', 'email','created'], 'safe'],
         ];
     }
 

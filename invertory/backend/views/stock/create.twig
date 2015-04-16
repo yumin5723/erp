@@ -46,7 +46,7 @@
                     <!-- Form starts.  -->
                      {% set form = activeform.begin({'id':'create-form','layout':'horizontal','fieldConfig':{'horizontalCssClasses':{'wrapper':'col-lg-5'} } }) %}
                           {{ form.field(model,'active',{'inputOptions':{'class':'form-control'}}).label(null,{'class':'control-label col-lg-2'})|raw}}     
-                          {{ form.field(model,'project_id').dropDownList(model.getCanUseProjects()).label(null,{'class':'control-label col-lg-2'})|raw }}  
+                          {{ form.field(model,'project_id').dropDownList(model.getCanUseTypes()).label(null,{'class':'control-label col-lg-2'})|raw }}  
                           {{ form.field(model,'storeroom_id').dropDownList(model.getCanUseStorerooms()).label(null,{'class':'control-label col-lg-2'})|raw }} 
                           <div class="form-group">
                               <label class="col-lg-2 control-label">物料</label>
