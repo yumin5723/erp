@@ -57,15 +57,21 @@
                 1:{
                   'attribute':"code",
                 },
-                2:{
-                  'attribute':'english_name',
-                },
                 3:{
                   'attribute':'name',
                 },
                 4:{
                   'attribute':'project_id',
                   'value':'return $model->projects->name;'|value_callback,
+                },
+                11:{
+                  'attribute':'property',
+                  'value':searchModel.getPropertyName(),
+                },
+                12:'channel',
+                13:{
+                  'attribute':'datasource',
+                  'value':searchModel.getDataSourceName(),
                 },
                 6:'created',
                 7:'modified',

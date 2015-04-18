@@ -48,6 +48,30 @@
                               <td>{{ material.name }}</td>
                             </tr>
                             <tr>
+                              <th>属性</th>
+                              <td>{{ material.getMyPropertyName() }}</td>
+                            </tr>
+                            <tr>
+                              <th>渠道</th>
+                              <td>{{ material.channel }}</td>
+                            </tr>
+                            <tr>
+                              <th>数据来源</th>
+                              <td>{{ material.getMyDataSourceName() }}</td>
+                            </tr>
+                            <tr>
+                              <th>尺寸</th>
+                              <td>{{ material.size }}</td>
+                            </tr>
+                            <tr>
+                              <th>单位重量(g)</th>
+                              <td>{{ material.weight }}</td>
+                            </tr>
+                            <tr>
+                              <th>材料</th>
+                              <td>{{ material.stuff }}</td>
+                            </tr>
+                            <tr>
                               <th>物料描述</th>
                               <td>{{ material.desc }}</td>
                             </tr>
